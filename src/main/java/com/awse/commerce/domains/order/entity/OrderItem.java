@@ -22,7 +22,7 @@ public class OrderItem extends BaseEntity {
     private int orderCount; // 주문수량
 
     @Column(nullable = false)
-    private int orderItemAmount; // 가격
+    private int orderItemAmount; // 주문총액
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")

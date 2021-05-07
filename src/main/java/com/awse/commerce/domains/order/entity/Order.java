@@ -7,6 +7,7 @@ import com.awse.commerce.domains.util.enums.OrderStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -32,12 +33,14 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member orderer; // 주문자가 누군지 Member 엔티티로 연관관계 설정.
 
-    @OneToOne(fetch = FetchType.LAZY)
+    // 배송상태는 주문들어갈떄 생성되므로 같이 상태변화전이가 필요하다?
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery deliveryInfo; // Delivery 엔티티로 연관관계 설정
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id") // 반대 테이블에서 외래키가 잡힌다.
-    private List<OrderItem> orderItemList; // OrderItem 엔티티로 연관관계 설정.
+    @Builder.Default // Builder 사용시 결과값 null 방지용으로 기본값을 선언
+    private List<OrderItem> orderItemList = new ArrayList<>(); // OrderItem 엔티티로 연관관계 설정.
 }
 
