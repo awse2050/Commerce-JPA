@@ -10,6 +10,7 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class Address {
 
     private String zipcode;
