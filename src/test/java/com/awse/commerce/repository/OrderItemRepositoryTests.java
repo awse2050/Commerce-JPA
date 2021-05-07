@@ -3,13 +3,17 @@ package com.awse.commerce.repository;
 import com.awse.commerce.domains.item.entity.Item;
 import com.awse.commerce.domains.order.entity.OrderItem;
 import com.awse.commerce.domains.order.repository.OrderItemRepository;
+import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
+
 @SpringBootTest
+@Log4j2
 public class OrderItemRepositoryTests {
 
     @Autowired
@@ -32,5 +36,24 @@ public class OrderItemRepositoryTests {
         orderItemRepository.save(orderItem);
 
         Assertions.assertThat(orderItemRepository.count()).isEqualTo(1);
+    }
+
+    @DisplayName("조회")
+    @Test
+    public void findTest() {
+        orderItemRepository.findAll().forEach(ol -> {
+            log.info(ol);
+            log.info(ol.getItem());
+        });
+    }
+
+    @Transactional
+    @DisplayName("join Fetch 테스트")
+    @Test
+    public void joinFetchTest() {
+        orderItemRepository.findAllJoinFetch().forEach(i -> {
+            log.info(i);
+            log.info(i.getItem());
+        });
     }
 }

@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
+@ToString
 @Getter
 @Entity
 public class Item extends BaseEntity {

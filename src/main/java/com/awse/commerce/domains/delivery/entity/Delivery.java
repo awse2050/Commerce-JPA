@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
+@ToString
 @Entity
 public class Delivery extends BaseEntity {
 
@@ -29,5 +30,10 @@ public class Delivery extends BaseEntity {
         Address addr = address;
 
         this.address = addr;
+    }
+
+    // 배송상태 변경
+    public void changeDeliveryStatus(DeliveryStatus deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
     }
 }

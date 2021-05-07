@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "orders")
+@ToString(exclude = {"orderer", "deliveryInfo", "orderItemList"})
 @Getter
 @Entity
 public class Order extends BaseEntity {
@@ -42,5 +43,9 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "order_id") // 반대 테이블에서 외래키가 잡힌다.
     @Builder.Default // Builder 사용시 결과값 null 방지용으로 기본값을 선언
     private List<OrderItem> orderItemList = new ArrayList<>(); // OrderItem 엔티티로 연관관계 설정.
+
+    public void changeOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 }
 

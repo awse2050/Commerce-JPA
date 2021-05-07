@@ -11,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "order_item")
 @Getter
+@ToString(exclude = "item")
 @Entity
 public class OrderItem extends BaseEntity {
 
