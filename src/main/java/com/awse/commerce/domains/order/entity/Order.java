@@ -44,8 +44,23 @@ public class Order extends BaseEntity {
     @Builder.Default // Builder 사용시 결과값 null 방지용으로 기본값을 선언
     private List<OrderItem> orderItemList = new ArrayList<>(); // OrderItem 엔티티로 연관관계 설정.
 
+    // 주문 만들기
+    public Order(Member orderer, Delivery deliveryInfo, List<OrderItem> orderItemList ) {
+        this.orderer = orderer;
+        this.deliveryInfo = deliveryInfo;
+        this.orderItemList = orderItemList;
+        this.orderStatus = OrderStatus.ORDERED;
+        //주문 총액 계산
+        this.calTotalAmount();
+   }
+
+    // 주문 총액 계산
+    private void calTotalAmount() {
+        this.totalAmount = this.orderItemList.stream()
+                .mapToInt(orderItem -> orderItem.getOrderItemAmount()).sum();
+    }
+
     public void changeOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 }
-

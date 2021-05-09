@@ -25,11 +25,10 @@ public class Delivery extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private DeliveryStatus deliveryStatus;
 
-    // 배송지를 변경할 수도 잇다.
-    public void changeAddress(Address address) {
-        Address addr = address;
-
-        this.address = addr;
+    // 첫 주문시 사용
+    public Delivery(Address address) {
+        this.address = address;
+        this.deliveryStatus = DeliveryStatus.READY;
     }
 
     // 배송상태 변경

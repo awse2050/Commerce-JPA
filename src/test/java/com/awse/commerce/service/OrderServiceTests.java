@@ -89,13 +89,12 @@ public class OrderServiceTests {
         List<OrderRequestDto> orderRequestDtoList = new ArrayList<>();
 
         orderRequestDtoList.add(new OrderRequestDto(3L, 1));
-        orderRequestDtoList.add(new OrderRequestDto(2L, 2));
 
         // when
-        orderService.order(6L, new OrderRequestDao(orderRequestDtoList));
+        orderService.order(7L, new OrderRequestDao(orderRequestDtoList));
 
         // then
-        Optional<Order> result = orderRepository.findById(7L);
+        Optional<Order> result = orderRepository.findById(8L);
         Order order = null;
 
         if(result.isPresent()){

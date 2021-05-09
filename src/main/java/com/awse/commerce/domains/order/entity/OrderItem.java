@@ -29,4 +29,20 @@ public class OrderItem extends BaseEntity {
     @JoinColumn(name = "item_id")
     private Item item; // item엔티티와 연결
 
+    // 주문상품 정보받기
+    public OrderItem(Item itemEntity, int orderCount) {
+        this.item = itemEntity;
+        this.orderCount = orderCount;
+
+        this.calOrderItemAmount(orderCount);
+    }
+
+    // 주문상품 총 금액 계산
+    private void calOrderItemAmount(int orderCount) {
+        this.orderItemAmount = this.item.getMoney() * orderCount;
+    }
+
+    // 재고계산
+
+    // 취소
 }

@@ -16,21 +16,6 @@ public class DeliveryRepositoryTests {
     @Autowired
     private DeliveryRepository deliveryRepository;
 
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @DisplayName("배송지 추가 및 확인")
-    @Test
-    public void update1() {
-        Delivery delivery = deliveryRepository.findById(1L).get();
-
-//        delivery.changeAddress(memberRepository.findById(1L).get().getAddress());
-
-//        deliveryRepository.save(delivery);
-
-        Assertions.assertThat(delivery.getAddress().getZipcode()).isNotNull();
-    }
-
     @DisplayName("배송지 변경")
     @Test
     public void deliveryChangeTest() {
