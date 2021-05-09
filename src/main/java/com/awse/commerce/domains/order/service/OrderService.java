@@ -30,29 +30,16 @@ public class OrderService {
         // 주문자를 찾는다.
         Member orderer = memberRepository.findById(ordererId).get();
         // 배송지를 지정한다.
-        Delivery delivery = Delivery.builder()
-                .deliveryStatus(DeliveryStatus.READY)
-                .address(orderer.getAddress())
-                .build();
+        Delivery delivery = new Delivery(orderer.getAddress());
         // 주문상품을 모은다.
         List<OrderItem> orderItemList = orderRequestDao.getOrderRequestDtoList().stream().map(item -> {
             Item itemEntity = itemRepository.findById(item.getItemId()).get();
 
-            return OrderItem.builder()
-                    .item(itemEntity)
-                    .orderItemAmount(itemEntity.getMoney() * item.getOrderCount())
-                    .orderCount(item.getOrderCount())
-                    .build();
+            return new OrderItem(itemEntity, item.getOrderCount());
 
         }).collect(Collectors.toList());
         // save
-        Order order = Order.builder()
-                .orderer(orderer)
-                .orderStatus(OrderStatus.ORDERED)
-                .deliveryInfo(delivery)
-                .totalAmount(orderItemList.stream().mapToInt(orderitem -> orderitem.getOrderItemAmount()).sum())
-                .orderItemList(orderItemList)
-                .build();
+        Order order = new Order(orderer, delivery, orderItemList);
 
         Long orderResult = orderRepository.save(order).getOrderId();
 
