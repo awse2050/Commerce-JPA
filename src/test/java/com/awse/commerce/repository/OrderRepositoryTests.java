@@ -25,6 +25,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @Log4j2
@@ -150,5 +151,12 @@ public class OrderRepositoryTests {
                 .build();
 
         orderRepository.save(order);
+    }
+
+    @Test
+    public void findByIdTest() {
+        Optional<Order> result = orderRepository.findById(5L);
+
+        Assertions.assertThat(result).isEmpty();
     }
 }
