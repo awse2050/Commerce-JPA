@@ -16,6 +16,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> getOrders();
 
     // 이름으로 주문조회
+    // myOrderService 에 사용
     @EntityGraph(attributePaths = {"orderer","deliveryInfo","orderItemList"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("select o from Order o where o.orderer.name = :name")
     List<Order> findAllByName(@Param("name")String name);
