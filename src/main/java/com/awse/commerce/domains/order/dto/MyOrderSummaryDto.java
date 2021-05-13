@@ -8,11 +8,11 @@ import java.util.List;
 @Setter
 @Getter
 public class MyOrderSummaryDto {
-    private List<MyOrderInfoDto> myOrderInfoDtoList;
+    private List<MyOrderDto> myOrderDtoList;
     private int total;
 
-    public MyOrderSummaryDto(List<MyOrderInfoDto> myOrderInfoDtoList, int total) {
-        this.myOrderInfoDtoList = myOrderInfoDtoList;
+    public MyOrderSummaryDto(List<MyOrderDto> myOrderDtoList, int total) {
+        this.myOrderDtoList = myOrderDtoList;
         this.total = total;
     }
 }
