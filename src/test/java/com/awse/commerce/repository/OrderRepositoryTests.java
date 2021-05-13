@@ -43,9 +43,6 @@ public class OrderRepositoryTests {
     @Autowired
     private ItemRepository itemRepository;
 
-    @Autowired
-    private DeliveryRepository deliveryRepository;
-
     @DisplayName("주문 테스트")
     @Test
     public void insertOrderTest() {

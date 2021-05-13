@@ -91,7 +91,7 @@ public class OrderServiceTests {
         orderRequestDtoList.add(new OrderRequestDto(3L, 1));
 
         // when
-        orderService.order(7L, new OrderRequestDao(orderRequestDtoList));
+        orderService.order(2L, new OrderRequestDao(orderRequestDtoList));
 
         // then
         Optional<Order> result = orderRepository.findById(8L);
