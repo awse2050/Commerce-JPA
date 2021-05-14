@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class OrderQueryRepository extends QuerydslRepositorySupport {
@@ -31,6 +32,7 @@ public class OrderQueryRepository extends QuerydslRepositorySupport {
         this.delivery = QDelivery.delivery;
     }
 
+    // 나의 전체 주문목록
     public Page<Order> getMyOrders(Long memberId, Pageable pageable) {
 
         QueryResults<Order> queryResults = queryFactory.select(order)
@@ -48,5 +50,18 @@ public class OrderQueryRepository extends QuerydslRepositorySupport {
         long total = queryResults.getTotal();
 
         return new PageImpl<>(orderList, pageable, total);
+    }
+
+    // 특정 주문의 정보(주문상품 등)
+    public Optional<Order> getMyOrderDetails(Long orderId) {
+        Order entity = queryFactory.select(order)
+                .from(order)
+                .leftJoin(order.orderer, member).fetchJoin()
+                .leftJoin(order.deliveryInfo, delivery).fetchJoin()
+                .where(order.orderId.eq(orderId))
+                .fetchOne();
+
+        return Optional.of(entity);
+
     }
 }
