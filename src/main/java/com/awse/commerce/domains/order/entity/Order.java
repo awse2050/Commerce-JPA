@@ -72,7 +72,7 @@ public class Order extends BaseEntity {
             throw new IllegalStateException("배송중이거나 완료된 주문은 취소할 수 없습니다.");
         }
         // 재고계산
-
+        this.orderItemList.stream().forEach(orderItem -> orderItem.cancel());
         // 주문 상태변경
         this.orderStatus = OrderStatus.CANCEL;
     }

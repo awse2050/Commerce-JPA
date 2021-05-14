@@ -9,8 +9,6 @@ import com.awse.commerce.domains.order.dao.OrderRequestDao;
 import com.awse.commerce.domains.order.entity.Order;
 import com.awse.commerce.domains.order.entity.OrderItem;
 import com.awse.commerce.domains.order.repository.OrderRepository;
-import com.awse.commerce.domains.util.enums.DeliveryStatus;
-import com.awse.commerce.domains.util.enums.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +36,11 @@ public class OrderService {
             return new OrderItem(itemEntity, item.getOrderCount());
 
         }).collect(Collectors.toList());
+
+        // 상품 재고를 계산한다.
+        orderItemList.stream()
+                .forEach(orderItem -> orderItem.removeStockQuantity());
+
         // save
         Order order = new Order(orderer, delivery, orderItemList);
 

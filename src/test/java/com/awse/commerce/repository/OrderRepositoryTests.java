@@ -1,7 +1,6 @@
 package com.awse.commerce.repository;
 
 import com.awse.commerce.domains.delivery.entity.Delivery;
-import com.awse.commerce.domains.delivery.repository.DeliveryRepository;
 import com.awse.commerce.domains.item.entity.Item;
 import com.awse.commerce.domains.item.repository.ItemRepository;
 import com.awse.commerce.domains.member.entity.Member;
@@ -13,7 +12,6 @@ import com.awse.commerce.domains.order.repository.OrderRepository;
 import com.awse.commerce.domains.util.enums.DeliveryStatus;
 import com.awse.commerce.domains.util.enums.OrderStatus;
 import lombok.extern.log4j.Log4j2;
-import org.aspectj.weaver.ast.Or;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +21,6 @@ import org.springframework.test.annotation.Commit;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,12 +70,12 @@ public class OrderRepositoryTests {
 
     @DisplayName("주문상태변경")
     @Test
+    @Transactional
+    @Commit
     public void changeOrderStatusTest() {
         Order order = orderRepository.findById(1L).get();
 
         order.changeOrderStatus(OrderStatus.ORDERED);
-
-        orderRepository.save(order);
 
         Assertions.assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.ORDERED);
     }

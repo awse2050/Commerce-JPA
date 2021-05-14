@@ -42,7 +42,13 @@ public class OrderItem extends BaseEntity {
         this.orderItemAmount = this.item.getMoney() * orderCount;
     }
 
-    // 재고계산
+    // 주문될 떄 발생
+    public void removeStockQuantity() {
+        this.item.removeStockQuantity(orderCount);
+    }
 
-    // 취소
+    // 주문취소시 발생 ( 취소 )
+    public void cancel() {
+        this.item.addStockQuantity(this.orderCount);
+    }
 }
