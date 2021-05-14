@@ -29,4 +29,19 @@ public class Item extends BaseEntity {
     @Column(nullable = false)
     private int stockQuantity; // 재고 수량
 
+    // 재고 빼기
+    public void removeStockQuantity(int orderQuantity) {
+        int restStockQuantity = this.stockQuantity - orderQuantity;
+        // 주문수량보다 재고가 없으면
+        if (restStockQuantity < 0) {
+            throw new IllegalStateException("재고가 부족합니다.");
+        }
+
+        this.stockQuantity = restStockQuantity;
+    }
+    // 재고 추가
+    public void addStockQuantity(int orderQuantity) {
+        this.stockQuantity += orderQuantity;
+    }
+
 }
