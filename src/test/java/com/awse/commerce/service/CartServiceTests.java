@@ -1,6 +1,7 @@
 package com.awse.commerce.service;
 
 import com.awse.commerce.domains.cart.dao.AddRequestItemDao;
+import com.awse.commerce.domains.cart.dao.ModifyRequestItemDao;
 import com.awse.commerce.domains.cart.service.CartService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -42,5 +43,14 @@ public class CartServiceTests {
     public void addToCartTest2() {
         cartService.addToCart(1L, new AddRequestItemDao(1L, 1));
     }
+
+    @DisplayName("장바구니에 있는 상품 수정하기")
+    @Test
+    @Transactional
+    @Commit
+    public void modifyItemInCartTest() {
+        cartService.modifyItemInCart(1L, new ModifyRequestItemDao(1L, 5));
+    }
+
 }
 

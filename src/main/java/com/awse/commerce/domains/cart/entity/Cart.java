@@ -50,8 +50,11 @@ public class Cart {
         }
     }
     // 상품 수정 ( 개수 수정 )
-    public void modifyItemCount() {
+    public void modifyItemCount(int targetStockQuantity, CartObject cartObject) {
+        // 재고량 확인
+        isEnoughStockQuantity(targetStockQuantity, cartObject.getOrderCount());
 
+        this.cartMap.replace(cartObject.getItemId(), cartObject);
     }
     // 상품 빼기
     public void removeInCart() {
