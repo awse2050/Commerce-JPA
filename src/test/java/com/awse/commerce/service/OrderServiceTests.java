@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
+@Transactional
 public class OrderServiceTests {
 
     @Autowired
@@ -47,7 +48,6 @@ public class OrderServiceTests {
     // TDD 형식으로 메서드이름을 똑같이 사용.
     @DisplayName("주문하기")
     @Test
-    @Transactional
     @Commit
     public void order() {
         // 2개의 파라미터 (사용자번호, 주문상품목록)
@@ -82,7 +82,6 @@ public class OrderServiceTests {
 
     @DisplayName("OrderService's order Method Tests")
     @Test
-    @Transactional
     @Commit
     public void orderTest() {
         // given
@@ -103,7 +102,14 @@ public class OrderServiceTests {
         }
 
         Assertions.assertThat(order).isNotNull();
-
     }
 
+    @DisplayName("주문 취소 테스트")
+    @Test
+    @Commit
+    public void orderCancelTest() {
+        orderService.orderCancel(1L);
+
+        Assertions.assertThat(orderRepository.findById(1L).get().getOrderStatus()).isEqualTo(OrderStatus.CANCEL);
+    }
 }

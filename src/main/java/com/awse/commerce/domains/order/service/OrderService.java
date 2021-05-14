@@ -45,4 +45,12 @@ public class OrderService {
 
         return orderResult;
     }
+
+    // 주문취소하기
+    public void orderCancel(Long orderId) {
+        // 주문찾기
+        Order order = orderRepository.findById(orderId).get();
+        // 주문 취소기능 사용
+        order.cancel();
+    }
 }
