@@ -11,6 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @SpringBootTest
 @Log4j2
 public class OrderQueryRepositoryTests {
@@ -20,7 +22,7 @@ public class OrderQueryRepositoryTests {
 
     @Transactional
     @Test
-    public void test1() {
+    public void getMyOrderListTest() {
         Page<Order> pageList =
                 orderQueryRepository.getMyOrders(2L, PageRequest.of(0,10, Sort.by("orderId").descending()));
 
@@ -30,7 +32,19 @@ public class OrderQueryRepositoryTests {
                 log.info(i.getOrderItemId());
             });
         });
-
-
     }
+
+    @Transactional
+    @Test
+    public void getMyOrderDetailsTest() {
+        Optional<Order> list = orderQueryRepository.getMyOrderDetails(7L);
+
+        if(list.isPresent()) {
+            log.info(list.get());
+            log.info(list.get().getOrderItemList().get(0).getOrderItemId());
+            log.info(list.get().getOrderItemList().get(1).getOrderItemId());
+            log.info(list.get().getOrderer().getEmail());
+        }
+    }
+
 }
