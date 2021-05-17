@@ -23,10 +23,10 @@ public class ItemServiceTests {
     @Commit
     public void itemSaveTest() {
         ItemRequestDto dto = ItemRequestDto.builder()
-                .itemAmount(3000)
+                .itemAmount(500)
                 .imgPath("none")
-                .itemName("볼펜")
-                .stockQuantity(15)
+                .itemName("지우개")
+                .stockQuantity(10)
                 .build();
 
         Long result = itemService.saveItem(dto);

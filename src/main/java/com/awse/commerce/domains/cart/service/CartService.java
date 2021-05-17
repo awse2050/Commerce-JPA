@@ -30,7 +30,7 @@ public class CartService {
     // 상품 담기
     public void addToCart(Long memberId, AddRequestItemDao requestItemDao) {
         // 장바구니가 있는 지 찾는다.
-        Cart cart = cartRepository.findById(memberId).get();
+        Cart cart = cartRepository.findByMemberId(memberId).get();
         // 장바구니에 넣을 상품객체를 조립
         CartObject cartObject = new CartObject(cart.getCartId(), requestItemDao.getItemId(), requestItemDao.getOrderCount());
         // 상품의 재고량 확인
