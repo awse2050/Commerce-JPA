@@ -3,6 +3,7 @@ package com.awse.commerce.domains.cart.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Table(name = "cart")
 @Entity
+@ToString
 public class Cart {
     // 장바구니 번호, 누구의 장바구니, 장바구니에 담을 컬렉션.
     @Id
