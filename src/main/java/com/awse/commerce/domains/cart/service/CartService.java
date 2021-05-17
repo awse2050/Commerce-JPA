@@ -39,7 +39,12 @@ public class CartService {
         cart.addToCart(targetStockQuantity, cartObject);
     }
     // 상품 빼기
-
+    public void removeItemInCart(Long memberId, Long itemId) {
+        // 해당 사용자의 장바구니찾기
+        Cart cart = cartRepository.findByMemberId(memberId).get();
+        // 장바구니에서 삭제할 상품의 id로 삭제하기기
+        cart.removeItemInCart(itemId);
+    }
     // 상품 수정
     public void modifyItemInCart(Long memberId, ModifyRequestItemDao requestItemDao) {
         // 장바구니를 찾는다.
