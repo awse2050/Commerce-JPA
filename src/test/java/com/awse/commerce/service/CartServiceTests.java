@@ -2,7 +2,9 @@ package com.awse.commerce.service;
 
 import com.awse.commerce.domains.cart.dao.AddRequestItemDao;
 import com.awse.commerce.domains.cart.dao.ModifyRequestItemDao;
+import com.awse.commerce.domains.cart.dto.CartListDto;
 import com.awse.commerce.domains.cart.service.CartService;
+import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Log4j2
 public class CartServiceTests {
 
     @Autowired
@@ -49,6 +52,17 @@ public class CartServiceTests {
     @Commit
     public void modifyItemInCartTest() {
         cartService.modifyItemInCart(1L, new ModifyRequestItemDao(1L, 5));
+    }
+
+    @DisplayName("장바구니 목록 변환")
+    @Test
+    @Transactional
+    public void getCartList() {
+
+       CartListDto dto = cartService.getListInCart(5L);
+
+       Assertions.assertThat(dto.getCartTotal()).isEqualTo(3);
+       Assertions.assertThat(dto.getCartItemDetailsDtoList().get(0)).isNotNull();
     }
 
 }
