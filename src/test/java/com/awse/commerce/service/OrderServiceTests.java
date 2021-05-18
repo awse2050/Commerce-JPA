@@ -1,5 +1,8 @@
 package com.awse.commerce.service;
 
+import com.awse.commerce.domains.cart.dto.CartListDto;
+import com.awse.commerce.domains.cart.repository.CartRepository;
+import com.awse.commerce.domains.cart.service.CartService;
 import com.awse.commerce.domains.item.repository.ItemRepository;
 import com.awse.commerce.domains.order.dao.OrderRequestDao;
 import com.awse.commerce.domains.order.dto.OrderRequestDto;
@@ -17,6 +20,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 @Transactional
@@ -30,6 +34,9 @@ public class OrderServiceTests {
 
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private CartService cartService;
 
     @DisplayName("OrderService's order Method Tests")
     @Test
@@ -74,4 +81,28 @@ public class OrderServiceTests {
 
         Assertions.assertThat(orderRepository.findById(1L).get().getOrderItemList().get(0).getItem().getStockQuantity()).isEqualTo(2);
     }
+
+    @DisplayName("주문 후 장바구니 목록 비우기 테스트")
+    @Test
+    @Commit
+    public void orderAndCartRemoveTest() {
+
+        CartListDto dto = cartService.getListInCart(1L);
+        List<OrderRequestDto> dtoList = dto.getCartItemDetailsDtoList().stream().map(
+                item -> {
+                    return OrderRequestDto.builder()
+                            .itemId(item.getItemId())
+                            .orderCount(item.getOrderCount())
+                            .build();
+                }).collect(Collectors.toList());
+
+        orderService.order(1L, new OrderRequestDao(dtoList));
+
+        CartListDto testDto = cartService.getListInCart(1L);
+
+        Assertions.assertThat(orderRepository.findAll().size()).isGreaterThan(0);
+        Assertions.assertThat(testDto.getCartTotal()).isEqualTo(0);
+
+    }
+
 }

@@ -25,8 +25,7 @@ public class CartService {
     
     private final CartRepository cartRepository;
     private final ItemRepository itemRepository;
-    // 조회 쿼리 주입
-    
+
     // 장바구니 생성
     public Long createCart(Long memberId) {
         Cart cart = new Cart(memberId);
@@ -54,6 +53,7 @@ public class CartService {
         // 장바구니에 넣기.
         cart.addToCart(targetStockQuantity, cartObject);
     }
+
     // 상품 빼기
     public void removeItemInCart(Long memberId, Long itemId) {
         // 해당 사용자의 장바구니찾기
@@ -61,6 +61,15 @@ public class CartService {
         // 장바구니에서 삭제할 상품의 id로 삭제하기기
         cart.removeItemInCart(itemId);
     }
+
+    // 상품 전체 비우기 (주문시 사용)
+    public void removeItemsInCart(Long memberId) {
+        // 해당 사용자의 장바구니찾기
+        Cart cart = cartRepository.findByMemberId(memberId).get();
+        // 장바구니 목록 지우기
+        cart.removeItemsInCart();
+    }
+
     // 상품 수정
     public void modifyItemInCart(Long memberId, ModifyRequestItemDao requestItemDao) {
         // 장바구니를 찾는다.
@@ -75,7 +84,6 @@ public class CartService {
 
     // bind
     private List<CartItemDetailsDto> bindToDto(Map<Long, CartObject> carMapList) {
-
         List<CartItemDetailsDto> bindingDto = carMapList.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
                 .map(cartMap -> {
@@ -94,5 +102,4 @@ public class CartService {
 
         return bindingDto;
     }
-
 }
