@@ -55,11 +55,6 @@ public class Order extends BaseEntity {
         this.calTotalAmount();
    }
 
-    // 주문 총액 계산
-    private void calTotalAmount() {
-        this.totalAmount = this.orderItemList.stream()
-                .mapToInt(orderItem -> orderItem.getOrderItemAmount()).sum();
-    }
     // 사용필요성 아직 x
     public void changeOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
@@ -75,5 +70,10 @@ public class Order extends BaseEntity {
         this.orderItemList.stream().forEach(orderItem -> orderItem.cancel());
         // 주문 상태변경
         this.orderStatus = OrderStatus.CANCEL;
+    }
+    // 주문 총액 계산
+    private void calTotalAmount() {
+        this.totalAmount = this.orderItemList.stream()
+                .mapToInt(orderItem -> orderItem.getOrderItemAmount()).sum();
     }
 }

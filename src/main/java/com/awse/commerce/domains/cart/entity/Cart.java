@@ -62,6 +62,10 @@ public class Cart {
     public void removeItemInCart(Long itemId) {
         this.cartMap.remove(itemId);
     }
+    // 상품 전체 비우기
+    public void removeItemsInCart() {
+        this.cartMap.clear();
+    }
     // 상품 재고량 계산
     private void isEnoughStockQuantity(int stockQuantity, int requestQuantity) {
         if (stockQuantity < requestQuantity) {
