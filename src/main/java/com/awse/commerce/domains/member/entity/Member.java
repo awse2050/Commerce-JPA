@@ -2,6 +2,7 @@ package com.awse.commerce.domains.member.entity;
 
 import com.awse.commerce.domains.util.embedded.Address;
 import com.awse.commerce.domains.util.entity.BaseEntity;
+import com.awse.commerce.domains.util.enums.MemberRole;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,4 +31,12 @@ public class Member extends BaseEntity {
 
     @Embedded
     private Address address;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberRole role;
+
+    public String getRoleKey() {
+        return this.role.getKey();
+    }
 }
