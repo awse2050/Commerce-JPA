@@ -22,11 +22,11 @@ public class SignUpRequest {
     @NotBlank
     private String name;
 
-    @Length(min = 8)
+    @Length(min = 8, message = "최소 8자 이상 입력해주세요.")
     @NotBlank
     private String password;
 
-    @Length(min = 8)
+    @Length(min = 8, message = "최소 8자 이상 입력해주세요.")
     @NotBlank
     private String confirmPassword;
 
