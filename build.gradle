@@ -39,6 +39,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.assertj/assertj-core
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
     implementation 'com.querydsl:querydsl-jpa'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.4.5'
+
 }
 
 test {
