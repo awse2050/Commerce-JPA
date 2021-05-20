@@ -1,6 +1,7 @@
 package com.awse.commerce.domains.item.dto;
 
 import com.awse.commerce.domains.item.entity.Item;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 
 @Setter
@@ -25,5 +26,15 @@ public class ItemDetailsDto {
         this.itemAmount = entity.getMoney();
         this.imgPath = entity.getImgPath();
         this.stockQuantity = entity.getStockQuantity();
+    }
+
+    // Querydsl
+    @QueryProjection
+    public ItemDetailsDto(Long itemId, String itemName, String imgPath, int itemAmount, int stockQuantity) {
+        this.itemId = itemId;
+        this.itemName = itemName;
+        this.imgPath = imgPath;
+        this.itemAmount = itemAmount;
+        this.stockQuantity = stockQuantity;
     }
 }
