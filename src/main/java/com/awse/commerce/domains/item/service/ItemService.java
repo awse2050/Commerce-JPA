@@ -24,7 +24,7 @@ public class ItemService {
     @Transactional // 조회성능이 아닌 일반 트랜잭션을 이용하게 한다.
     public Long saveItem(ItemRequestDto itemRequestDto) {
         // to Entity
-        Item item = bindToEntity(itemRequestDto);
+        Item item = ItemRequestDto.getItemEntity(itemRequestDto);
         // save
         Long result = itemRepository.save(item).getItemId();
 
@@ -46,15 +46,5 @@ public class ItemService {
         // 이후 해당 데이터를 PageResult로 반환
 
         return new PageResultDto<>(itemDetailsDtos);
-    }
-
-    // binding
-    private Item bindToEntity(ItemRequestDto dto) {
-        return Item.builder()
-                .name(dto.getItemName())
-                .imgPath(dto.getImgPath())
-                .money(dto.getItemAmount())
-                .stockQuantity(dto.getStockQuantity())
-                .build();
     }
 }

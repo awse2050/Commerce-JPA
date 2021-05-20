@@ -22,7 +22,7 @@ public class MyOrderDetailsItemDto {
 
     private String imgPath;
 
-    public static List<MyOrderDetailsItemDto> bindDtoList(List<OrderItem> list) {
+    public static List<MyOrderDetailsItemDto> from(List<OrderItem> list) {
         return list.stream()
                 .map(itemList -> {
                     Item item = itemList.getItem();

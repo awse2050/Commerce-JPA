@@ -1,5 +1,6 @@
 package com.awse.commerce.domains.item.dto;
 
+import com.awse.commerce.domains.item.entity.Item;
 import lombok.*;
 
 @Getter
@@ -13,4 +14,13 @@ public class ItemRequestDto {
     private String imgPath;
     private int itemAmount;
     private int stockQuantity;
+
+    public static Item getItemEntity(ItemRequestDto dto) {
+        return Item.builder()
+                .name(dto.getItemName())
+                .imgPath(dto.getImgPath())
+                .money(dto.getItemAmount())
+                .stockQuantity(dto.getStockQuantity())
+                .build();
+    }
 }

@@ -22,7 +22,7 @@ public class MyOrderDto {
     private int totalAmount;
     private String orderStatus;
 
-    public static List<MyOrderDto> bindMyOrderDtoList(Page<Order> list) {
+    public static List<MyOrderDto> from(Page<Order> list) {
         return list.stream()
                 .map(o -> MyOrderDto.builder()
                         .orderId(o.getOrderId())
