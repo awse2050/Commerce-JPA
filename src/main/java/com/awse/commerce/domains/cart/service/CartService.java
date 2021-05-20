@@ -83,8 +83,8 @@ public class CartService {
     }
 
     // bind
-    private List<CartItemDetailsDto> bindToDto(Map<Long, CartObject> carMapList) {
-        List<CartItemDetailsDto> bindingDto = carMapList.entrySet().stream()
+    private List<CartItemDetailsDto> bindToDto(Map<Long, CartObject> cartMapList) {
+        List<CartItemDetailsDto> bindingDto = cartMapList.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
                 .map(cartMap -> {
             CartObject cartObject = cartMap.getValue();

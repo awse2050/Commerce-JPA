@@ -1,6 +1,11 @@
 package com.awse.commerce.domains.order.dto;
 
+import com.awse.commerce.domains.item.entity.Item;
+import com.awse.commerce.domains.order.entity.OrderItem;
 import lombok.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -16,4 +21,12 @@ public class MyOrderDetailsItemDto {
     private int itemAmount;
 
     private String imgPath;
+
+    public static List<MyOrderDetailsItemDto> bindDtoList(List<OrderItem> list) {
+        return list.stream()
+                .map(itemList -> {
+                    Item item = itemList.getItem();
+                    return new MyOrderDetailsItemDto(item.getItemId(), item.getName(), item.getMoney(), item.getImgPath());
+                }).collect(Collectors.toList());
+    }
 }

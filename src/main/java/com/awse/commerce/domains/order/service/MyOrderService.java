@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -25,7 +23,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MyOrderService {
 
-    private final OrderRepository orderRepository;
     private final OrderQueryRepository orderQueryRepository;
 
     // 나의 주문목록
@@ -33,17 +30,8 @@ public class MyOrderService {
     public MyOrderSummaryDto getMyOrderList(Long memberId, Pageable pageable) {
         // 사용자를 검색한다.
         Page<Order> orderList = orderQueryRepository.getMyOrders(memberId,pageable);
-//                orderRepository.findAllByName("일반회원2");
 
-        List<MyOrderDto> myOrderDtoList = orderList.stream()
-                .map(o -> MyOrderDto.builder()
-                        .orderId(o.getOrderId())
-                        .orderStatus(o.getOrderStatus().name())
-                        .representativeImgPath(o.getOrderItemList().get(0).getItem().getImgPath())
-                        .representativeItemName(o.getOrderItemList().get(0).getItem().getName())
-                        .totalAmount(o.getTotalAmount())
-                        .build()
-                        ).collect(Collectors.toList());
+        List<MyOrderDto> myOrderDtoList = MyOrderDto.bindMyOrderDtoList(orderList);
 
         int total = myOrderDtoList.size();
 
@@ -58,11 +46,8 @@ public class MyOrderService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문번호입니다."));
         // 주문상품에 존재하는 상품목록 만들기
         List<MyOrderDetailsItemDto>  myOrderDetailsItemDtoList =
-                entity.getOrderItemList().stream()
-                        .map(itemList -> {
-                            Item item = itemList.getItem();
-                            return new MyOrderDetailsItemDto(item.getItemId(), item.getName(), item.getMoney(), item.getImgPath());
-                        }).collect(Collectors.toList());
+                MyOrderDetailsItemDto.bindDtoList(entity.getOrderItemList());
+
         // 변환할 주문에대한 정보 전달하기.
         // 주문번호, 주문상태, 주문날짜, 주문 상품의 목록들
         MyOrderDetailsDto myOrderDetailsDto = MyOrderDetailsDto.builder()
