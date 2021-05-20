@@ -7,8 +7,8 @@
 <body>
 <h3> index</h3>
 
-<li th:each="list : ${itemList}">
-    [[${list}]]
+<li th:each="item : ${pageResult.dtoList}">
+    [[${item.itemId}]]
 </li>
 
 </body>
