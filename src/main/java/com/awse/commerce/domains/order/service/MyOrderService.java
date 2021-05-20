@@ -31,7 +31,7 @@ public class MyOrderService {
         // 사용자를 검색한다.
         Page<Order> orderList = orderQueryRepository.getMyOrders(memberId,pageable);
 
-        List<MyOrderDto> myOrderDtoList = MyOrderDto.bindMyOrderDtoList(orderList);
+        List<MyOrderDto> myOrderDtoList = MyOrderDto.from(orderList);
 
         int total = myOrderDtoList.size();
 
@@ -45,8 +45,8 @@ public class MyOrderService {
         Order entity = orderQueryRepository.getMyOrderDetails(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문번호입니다."));
         // 주문상품에 존재하는 상품목록 만들기
-        List<MyOrderDetailsItemDto>  myOrderDetailsItemDtoList =
-                MyOrderDetailsItemDto.bindDtoList(entity.getOrderItemList());
+        List<MyOrderDetailsItemDto> myOrderDetailsItemDtoList =
+                MyOrderDetailsItemDto.from(entity.getOrderItemList());
 
         // 변환할 주문에대한 정보 전달하기.
         // 주문번호, 주문상태, 주문날짜, 주문 상품의 목록들
