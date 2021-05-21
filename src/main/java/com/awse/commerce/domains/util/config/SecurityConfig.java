@@ -18,8 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests().antMatchers("/index").permitAll();
         http.authorizeRequests().antMatchers("/").permitAll();
-        http.formLogin();
-        http.logout();
+        http.formLogin().loginPage("/login").usernameParameter("email").passwordParameter("password");
+        http.logout().logoutSuccessUrl("/");
     }
 
     // PasswordEncoder
