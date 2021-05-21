@@ -1,47 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th = "http://www.thymeleaf.org">
-<head th:replace="fragment/head.html :: head">
+<html lang="en"
+      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-</head>
-<body>
-<header th:replace="fragment/header.html :: header"></header>
+<th:block th:replace="~{/fragment/fragment :: setBody(~{ :: body})}">
+    <th:block th:fragment="body">
 
-<main class="site-main">
-    <section class="section-margin calc-60px">
-        <div class="container">
-            <div class="section-intro pb-60px">
-                <p>Popular Item in the market</p>
-                <h2>판매 중인 <span class="section-intro__style">상품</span></h2>
-            </div>
-            <div class="row">
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="card text-center card-product">
-                        <div class="card-product__img">
-                            <img class="card-img" src="img/product/product1.png" alt="">
-                            <ul class="card-product__imgOverlay">
-                                <li><button><i class="ti-search"></i></button></li>
-                                <li><button><i class="ti-shopping-cart"></i></button></li>
-                                <li><button><i class="ti-heart"></i></button></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <p>Accessories</p>
-                            <h4 class="card-product__title"><a href="single-product.html">Quartz Belt Watch</a></h4>
-                            <p class="card-product__price">$150.00</p>
+     <div sec:authorize="isAuthenticated()">
+         <div>
+             name : <span sec:authentication="principal.email"></span>
+             name : <span sec:authentication="principal.username"></span>
+         </div>
+     </div>
+
+    <main class="site-main">
+        <section class="section-margin calc-60px">
+            <div class="container">
+                <div class="section-intro pb-60px">
+                    <p>Popular Item in the market</p>
+                    <h2>판매 중인 <span class="section-intro__style">상품</span></h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="card text-center card-product">
+                            <div class="card-product__img">
+                                <img class="card-img" src="img/product/product1.png" alt="">
+                                <ul class="card-product__imgOverlay">
+                                    <li><button><i class="ti-search"></i></button></li>
+                                    <li><button><i class="ti-shopping-cart"></i></button></li>
+                                    <li><button><i class="ti-heart"></i></button></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <p>Accessories</p>
+                                <h4 class="card-product__title"><a href="single-product.html">Quartz Belt Watch</a></h4>
+                                <p class="card-product__price">$150.00</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
+    </main>
 
 
-<li th:each="item : ${pageResult.dtoList}">
-    [[${item.itemId}]]
-</li>
+    <li th:each="item : ${pageResult.dtoList}">
+        [[${item.itemId}]]
+    </li>
 
-<footer th:replace="fragment/footer.html :: footer"></footer>
+    </th:block>
+</th:block>
 
 </body>
 </html>
