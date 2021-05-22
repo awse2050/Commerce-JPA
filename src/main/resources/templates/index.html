@@ -44,7 +44,7 @@
 
 
     <li th:each="item : ${pageResult.dtoList}">
-        [[${item.itemId}]]
+        <a th:href="@{/item/{itemId}(itemId=${item.itemId})}">[[${item.itemId}]]</a>
     </li>
 
     </th:block>

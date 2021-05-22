@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<th:block th:replace="~{fragment/fragment.html :: setBody(~{ :: body})}">
+    <th:block th:fragment="body">
+
+
+        <main class="site-main">
+            <section class="section-margin calc-60px">
+                <div class="container">
+
+                    <div> [[${item.itemId}]]</div>
+                    <div> [[${item.itemName}]]</div>
+                    <div> [[${item.itemAmount}]]</div>
+                    <div> [[${item.imgPath}]]</div>
+                    <div> [[${item.stockQuantity}]]</div>
+
+                    <button>주문하기</button>
+                    <button>장바구니 담기</button>
+                </div>
+            </section>
+        </main>
+
+    </th:block>
+</th:block>
+
+</body>
+</html>
