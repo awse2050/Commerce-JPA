@@ -4,6 +4,11 @@
     <th:block th:fragment="body">
         <main class="site-main">
             <section class="section-margin calc-60px">
+
+                <div th:if="${memberId != null}">
+                    <a th:href="@{/cart/user/{memberId}(memberId=${memberId})}"><span>장바구니 조회</span></a>
+                </div>
+
                 <div>주문내역 조회</div>
                 <ul>
                     <li th:each="orderList : ${orderList}">
@@ -19,7 +24,6 @@
 
             </section>
         </main>
-
 
     </th:block>
 </th:block>
