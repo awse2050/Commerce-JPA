@@ -8,8 +8,7 @@
 
      <div sec:authorize="isAuthenticated()">
          <div>
-             name : <span sec:authentication="principal.email"></span>
-             name : <span sec:authentication="principal.username"></span>
+             name : <span sec:authentication="principal.member"></span>
          </div>
      </div>
 

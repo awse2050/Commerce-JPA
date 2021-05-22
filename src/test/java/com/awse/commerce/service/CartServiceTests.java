@@ -25,7 +25,7 @@ public class CartServiceTests {
     @Transactional
     @Commit
     public void createCartTest() {
-        Long result = cartService.createCart(3L);
+        Long result = cartService.createCart(1L);
 
 //        Assertions.assertThat(result).isEqualTo(1L);
     }
@@ -34,7 +34,7 @@ public class CartServiceTests {
     @Transactional
     @Commit
     public void addToCartTest1() {
-        cartService.addToCart(5L, new AddRequestItemDao(2L, 1));
+        cartService.addToCart(1L, new AddRequestItemDao(6L, 1));
 
     }
 
