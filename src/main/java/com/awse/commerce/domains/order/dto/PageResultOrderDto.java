@@ -1,6 +1,5 @@
-package com.awse.commerce.domains.util.pagination;
+package com.awse.commerce.domains.order.dto;
 
-import com.awse.commerce.domains.item.dto.ItemDetailsDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,7 +13,7 @@ import java.util.stream.IntStream;
 @Getter
 @Setter
 @ToString
-public class PageResultDto<DTO> {
+public class PageResultOrderDto<DTO, EN> {
 
     // 페이지에 뿌릴 목록
     private List<DTO> dtoList;
@@ -27,12 +26,12 @@ public class PageResultDto<DTO> {
 
     // 페이지 번호 나열용 목록
     private List<Integer> pageList;
-    //
-    public PageResultDto(Page<DTO> dtoPage) {
-        dtoList = dtoPage.toList();
 
-        totalPage = dtoPage.getTotalPages();
-        makePaging(dtoPage.getPageable());
+    public PageResultOrderDto(List<DTO> dtoList, Page<EN> entityPage) {
+        this.dtoList = dtoList;
+
+        totalPage = entityPage.getTotalPages();
+        makePaging(entityPage.getPageable());
     }
 
     public void makePaging(Pageable pageable) {
@@ -51,5 +50,4 @@ public class PageResultDto<DTO> {
 
         pageList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
     }
-
 }

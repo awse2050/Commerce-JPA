@@ -1,13 +1,9 @@
 package com.awse.commerce.domains.order.service;
 
-import com.awse.commerce.domains.item.entity.Item;
-import com.awse.commerce.domains.order.dto.MyOrderDetailsDto;
-import com.awse.commerce.domains.order.dto.MyOrderDetailsItemDto;
-import com.awse.commerce.domains.order.dto.MyOrderDto;
-import com.awse.commerce.domains.order.dto.MyOrderSummaryDto;
+import com.awse.commerce.domains.order.dto.*;
 import com.awse.commerce.domains.order.entity.Order;
 import com.awse.commerce.domains.order.repository.OrderQueryRepository;
-import com.awse.commerce.domains.order.repository.OrderRepository;
+import com.awse.commerce.domains.util.pagination.PageRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -26,7 +22,7 @@ public class MyOrderService {
     private final OrderQueryRepository orderQueryRepository;
 
     // 나의 주문목록
-    // 페이징 처리는 우선 뒷전
+    // 마이페이지에서 보여줄 목록
     public MyOrderSummaryDto getMyOrderList(Long memberId, Pageable pageable) {
         // 사용자를 검색한다.
         Page<Order> orderList = orderQueryRepository.getMyOrders(memberId,pageable);
@@ -59,5 +55,18 @@ public class MyOrderService {
 
         return myOrderDetailsDto;
     }
+
+    // 나의 주문목록 + 페이징
+    // 주문내역조회 페이지에서 보여줄 목록
+    public PageResultOrderDto<MyOrderDto, Order> getMyOrderWithPaging(Long memberId, PageRequestDto requestDto) {
+        // 사용자를 검색한다.
+        Page<Order> orderList = orderQueryRepository.getMyOrders(memberId, requestDto.getPageable("orderId"));
+
+        List<MyOrderDto> myOrderDtoList = MyOrderDto.from(orderList);
+
+        // 변환시킨 정보를 전달한다.
+        return new PageResultOrderDto<>(myOrderDtoList, orderList);
+    }
+
 
 }

@@ -2,9 +2,9 @@ package com.awse.commerce.service;
 
 import com.awse.commerce.domains.item.dto.ItemDetailsDto;
 import com.awse.commerce.domains.item.dto.ItemRequestDto;
+import com.awse.commerce.domains.item.dto.PageResultItemDto;
 import com.awse.commerce.domains.item.service.ItemService;
 import com.awse.commerce.domains.util.pagination.PageRequestDto;
-import com.awse.commerce.domains.util.pagination.PageResultDto;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -57,7 +57,7 @@ public class ItemServiceTests {
 
         PageRequestDto pageRequestDto = new PageRequestDto(2,10);
 
-        PageResultDto<ItemDetailsDto> list = itemService.findAll(pageRequestDto, null);
+        PageResultItemDto<ItemDetailsDto> list = itemService.findAll(pageRequestDto, null);
 
         Assertions.assertThat(list.getDtoList()).isNotNull();
         list.getDtoList().forEach(i -> log.info(i.getItemId()));
