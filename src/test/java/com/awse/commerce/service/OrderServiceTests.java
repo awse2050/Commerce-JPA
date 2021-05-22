@@ -45,13 +45,13 @@ public class OrderServiceTests {
         // given
         List<OrderRequestDto> orderRequestDtoList = new ArrayList<>();
 
-        orderRequestDtoList.add(new OrderRequestDto(20L, 1));
+        orderRequestDtoList.add(new OrderRequestDto(6L, 3));
 
         // when
-        orderService.order(9L, new OrderRequestDao(orderRequestDtoList));
+        orderService.order(1L, new OrderRequestDao(orderRequestDtoList));
 
         // then
-        Assertions.assertThat(itemRepository.findById(20L).get().getStockQuantity()).isEqualTo(20);
+       // Assertions.assertThat(itemRepository.findById(20L).get().getStockQuantity()).isEqualTo(20);
 
 //        Optional<Order> result = orderRepository.findById(8L);
 //        Order order = null;

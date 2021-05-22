@@ -26,7 +26,7 @@ public class MyOrderServiceTests {
     @Test
     public void getMyOrderListTest() {
         MyOrderSummaryDto summaryDto =
-                myOrderService.getMyOrderList(2L, PageRequest.of(0,10, Sort.by("order_id").descending()));
+                myOrderService.getMyOrderList(1L, PageRequest.of(0,10, Sort.by("orderId").descending()));
 
         summaryDto.getMyOrderDtoList().stream().forEach(i -> log.info( i.getOrderId()));
     }

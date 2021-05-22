@@ -15,26 +15,11 @@ import java.util.Arrays;
 @ToString
 public class MemberDto extends User implements Serializable {
 
-    private Long memberId;
-
-    private String username;
-
-    private String password;
-
-    private String email;
-
-    private String zipcode;
-    private String extraAddress;
-    private String detailsAddress;
+    private Member member;
 
     public MemberDto(Member member) {
         super(member.getEmail(), member.getPassword(), Arrays.asList(new SimpleGrantedAuthority(member.getRoleKey())));
-        this.memberId = member.getId();
-        this.email = member.getEmail();
-        this.password = member.getPassword();
-        this.username = member.getName();
-        this.zipcode = member.getAddress().getZipcode();
-        this.extraAddress = member.getAddress().getExtraAddress();
-        this.detailsAddress = member.getAddress().getDetailsAddress();
+        this.member = member;
+
     }
 }
