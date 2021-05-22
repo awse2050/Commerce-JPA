@@ -2,11 +2,11 @@ package com.awse.commerce.domains.item.service;
 
 import com.awse.commerce.domains.item.dto.ItemDetailsDto;
 import com.awse.commerce.domains.item.dto.ItemRequestDto;
+import com.awse.commerce.domains.item.dto.PageResultItemDto;
 import com.awse.commerce.domains.item.entity.Item;
 import com.awse.commerce.domains.item.repository.ItemQueryRepository;
 import com.awse.commerce.domains.item.repository.ItemRepository;
 import com.awse.commerce.domains.util.pagination.PageRequestDto;
-import com.awse.commerce.domains.util.pagination.PageResultDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -40,11 +40,11 @@ public class ItemService {
     }
 
     // 상품 전체 조회
-    public PageResultDto<ItemDetailsDto> findAll(PageRequestDto requestDto, String keyword) {
+    public PageResultItemDto<ItemDetailsDto> findAll(PageRequestDto requestDto, String keyword) {
         // Querydsl 로 조회한 데이터를 가져온다. 이때 PageRequestDto의 데이터로 Pageable을 구현시킴.
         Page<ItemDetailsDto> itemDetailsDtos = itemQueryRepository.findAll(keyword, requestDto.getPageable("itemId"));
         // 이후 해당 데이터를 PageResult로 반환
 
-        return new PageResultDto<>(itemDetailsDtos);
+        return new PageResultItemDto<>(itemDetailsDtos);
     }
 }
