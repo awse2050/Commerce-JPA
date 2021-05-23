@@ -23,7 +23,7 @@ public class CartController {
                            @CurrentUser Member currentMember,
                            Model model) {
         log.info("MemberId in Cart : "+ memberId);
-
+        log.warn(currentMember);
         if(currentMember != null) {
             model.addAttribute("cartList", cartService.getListInCart(memberId));
         } else {

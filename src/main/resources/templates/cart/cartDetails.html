@@ -4,17 +4,134 @@
     <th:block th:fragment="body">
 
         <main class="site-main">
-            <section class="section-margin calc-60px">
+            <section class="cart_area">
                 <div class="container">
-                    <div>장바구니</div>
-                    <div>[[${cartList}]]</div>
+                    <div class="cart_inner">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="cart : ${cartList.cartItemDetailsDtoList}">
+                                <tr>
+                                    <td>
+                                        <div class="media">
+                                            <div class="d-flex">
+                                                <img src="/img/noimage.jpg" width="150" height="100">
+                                            </div>
+                                            <div class="media-body">
+                                                <input type="hidden" id="itemId" name="itemId" th:value="${cart.itemId}">
+                                                <p name="itemName">[[${cart.itemName}]]</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5 name="itemAmount">[[${cart.itemAmount}]] 원</h5>
+                                    </td>
+                                    <td>
+                                        <div class="product_count">
+                                            <input type="text" id="orderCount" name="orderCount" maxlength="12" th:value="${cart.orderCount}" title="Quantity:"
+                                                   class="input-text qty">개
+                                            <button id="modCountBtn">수량변경</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5 name="calTotalCount">[[${cart.calTotalCount()}]] 원</h5>
+                                    </td>
+                                </tr>
+                                </th:block>
+                                <!-- ./ Cart List Table -->
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <h5>Subtotal</h5>
+                                    </td>
+                                    <td>
+                                        <h5 name="totalAmount">[[${cartList.totalAmount}]] 원</h5>
+                                    </td>
+                                </tr>
+                                <tr class="out_button_area">
+                                    <td class="d-none-l">
 
+                                    </td>
+                                    <td class="">
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        <div class="checkout_btn_inner d-flex align-items-center">
+                                            <a class="gray_btn" href="#">Continue Shopping</a>
+                                            <a class="primary-btn ml-2" href="#">Proceed to checkout</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </section>
+            <!--================End Cart Area =================-->
         </main>
 
     </th:block>
 </th:block>
+
+<script th:inline="javascript">
+
+    (function() {
+        var httpRequest;
+        document.getElementById("modCountBtn").addEventListener('click', makeRequest);
+
+        function makeRequest() {
+            httpRequest = new XMLHttpRequest();
+
+            // 데이터 수집
+            const data = {
+                itemId: document.getElementById("itemId").value,
+                orderCount: document.getElementById("orderCount").value,
+            }
+
+            if(!httpRequest) {
+                alert('XMLHTTP 인스턴스를 만들 수가 없어요 ㅠㅠ');
+                return false;
+            }
+            httpRequest.onreadystatechange = alertContents;
+            httpRequest.open('put', '/api/cart/'+data.itemId);
+            httpRequest.setRequestHeader("Content-Type", "application/json")
+            httpRequest.send(JSON.stringify(data));
+        }
+
+        function alertContents() {
+            try {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        window.location.href = "/cart/user/"+httpRequest.responseText;
+                    } else {
+                        alert('There was a problem with the request.');
+                    }
+                }
+            }
+            catch( e ) {
+                alert('Caught Exception: ' + e.description);
+            }
+        }
+
+    })();
+
+</script>
+
 
 </body>
 </html>
