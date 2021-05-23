@@ -17,14 +17,13 @@ public class CartController {
 
     private final CartService cartService;
 
-    // 로그인한 사용자의 장바구니 조회
-    @GetMapping("/cart/user/{memberId}")
-    public String findCart(@PathVariable("memberId") Long memberId,
-                           @CurrentUser Member currentMember,
-                           Model model) {
-        log.info("MemberId in Cart : "+ memberId);
-        log.warn(currentMember);
+    //  사용자의 장바구니 조회
+    @GetMapping("/mycart")
+    public String myCart(@CurrentUser Member currentMember,
+                         Model model) {
+
         if(currentMember != null) {
+            Long memberId = currentMember.getId();
             model.addAttribute("cartList", cartService.getListInCart(memberId));
         } else {
             model.addAttribute("cartList", null);
@@ -32,5 +31,4 @@ public class CartController {
 
         return "cart/cartDetails";
     }
-
 }

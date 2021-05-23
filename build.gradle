@@ -24,29 +24,30 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    testImplementation 'org.springframework.security:spring-security-test'
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'org.postgresql:postgresql'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // adpat Log4j2 in Test Code
-    testCompileOnly 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
-    // When use thymeleaf, Setting to Time format
-    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time'
-    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5'
-    // https://mvnrepository.com/artifact/org.assertj/assertj-core
-    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
     implementation 'com.querydsl:querydsl-jpa'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.4.5'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
-    testCompileOnly 'junit:junit:4.12'
-    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.1.0'
 
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'org.postgresql:postgresql'
 
+    annotationProcessor 'org.projectlombok:lombok'
+    // adpat Log4j2 in Test Code
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // When use thymeleaf, Setting to Time format
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time'
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5'
+    // swagger
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.5.0'
+
+    // https://mvnrepository.com/artifact/org.assertj/assertj-core
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 test {

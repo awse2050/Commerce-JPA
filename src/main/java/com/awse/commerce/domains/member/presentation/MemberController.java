@@ -39,7 +39,6 @@ public class MemberController {
         if(currentMember != null) {
             Long memberId = currentMember.getId();
 
-            model.addAttribute("memberId", memberId);
             model.addAttribute("cart", cartService.getListInCart(memberId));
             model.addAttribute("orderList", myOrderService.getMyOrderList(memberId, pageable));
         } else {

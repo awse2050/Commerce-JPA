@@ -27,6 +27,7 @@
                             <li class="nav-item"><a class="button button-header" href="/login">Login</a></li>
                         </th:block>
                         <th:block sec:authorize="isAuthenticated()">
+                            <li class="nav-item"><a href="/mycart"><i class="ti-shopping-cart"></i></a></li>
                             <li class="nav-item"><a class="button button-header" href="/mypage">MyPage</a></li>
                             <li class="nav-item"><a class="button button-header" href="/logout">Logout</a></li>
                         </th:block>
