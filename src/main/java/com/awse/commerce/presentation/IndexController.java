@@ -31,6 +31,7 @@ public class IndexController {
         log.warn(currentMember);
 
         model.addAttribute("pageResult", itemService.findAll(pageRequestDto, keyword));
+        model.addAttribute("keyword", keyword);
 
         return "index";
     }

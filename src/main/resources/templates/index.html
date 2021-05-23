@@ -20,32 +20,47 @@
                     <h2>판매 중인 <span class="section-intro__style">상품</span></h2>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="card text-center card-product">
-                            <div class="card-product__img">
-                                <img class="card-img" src="img/product/product1.png" alt="">
-                                <ul class="card-product__imgOverlay">
-                                    <li><button><i class="ti-search"></i></button></li>
-                                    <li><button><i class="ti-shopping-cart"></i></button></li>
-                                    <li><button><i class="ti-heart"></i></button></li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <p>Accessories</p>
-                                <h4 class="card-product__title"><a href="single-product.html">Quartz Belt Watch</a></h4>
-                                <p class="card-product__price">$150.00</p>
+                    <th:block th:each="item : ${pageResult.dtoList}">
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="card text-center card-product">
+                                <div class="card-product__img">
+                                    <img class="card-img" src="/img/noimage.jpg" width="350" height="300">
+                                    <ul class="card-product__imgOverlay">
+                                        <li><button><i class="ti-search"></i></button></li>
+                                        <li><button><i class="ti-shopping-cart"></i></button></li>
+                                        <li><button><i class="ti-heart"></i></button></li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-product__title"><a th:href="@{/item/{itemId}(itemId=${item.itemId})}">[[${item.itemName}]]</a></h4>
+                                    <p class="card-product__price">[[${item.itemAmount}]]</p>
+                                    <p class="card-product__price">재고 : [[${item.stockQuantity}]]</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </th:block>
+                </div>
+
+                <div class="text-center">
+                    <ul class="pagination">
+                        <li class="page-item" th:if="${pageResult.prev}">
+                            <a class="page-link" th:href="@{/(page=${pageResult.start - 1},
+                            size=${pageResult.size}, keyword=${keyword})}">Previous</a>
+                        </li>
+                        <li th:class=" 'page-item ' + ${pageResult.page == page ? 'active' : ''} " th:each="page: ${pageResult.pageList}">
+                            <a class="page-link" th:href="@{/(page = ${page},
+                            size=${pageResult.size} , keyword=${keyword})}">
+                                [[${page}]]
+                            </a>
+                        <li class="page-item" th:if="${pageResult.next}">
+                            <a class="page-link" th:href="@{/(page=${pageResult.end + 1},
+                            size=${pageResult.size}, keyword=${keyword})}">Next</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </section>
     </main>
-
-
-    <li th:each="item : ${pageResult.dtoList}">
-        <a th:href="@{/item/{itemId}(itemId=${item.itemId})}">[[${item.itemId}]]</a>
-    </li>
 
     </th:block>
 </th:block>
