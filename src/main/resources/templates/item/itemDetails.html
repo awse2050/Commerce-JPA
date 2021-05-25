@@ -4,24 +4,101 @@
     <th:block th:fragment="body">
 
 
-        <main class="site-main">
-            <section class="section-margin calc-60px">
+        <main class="site-main" style="margin-bottom: 100px;">
+            <div class="product_image_area">
                 <div class="container">
-
-                    <div> [[${item.itemId}]]</div>
-                    <div> [[${item.itemName}]]</div>
-                    <div> [[${item.itemAmount}]]</div>
-                    <div> [[${item.imgPath}]]</div>
-                    <div> [[${item.stockQuantity}]]</div>
-
-                    <button>주문하기</button>
-                    <button>장바구니 담기</button>
+                    <div class="row s_product_inner">
+                        <div class="col-lg-6">
+                            <div class="owl-carousel owl-theme s_Product_carousel">
+                                <div class="single-prd-item">
+                                    <img class="img-fluid" src="/img/cart.jpg" width="689" height="745">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 offset-lg-1">
+                            <div class="s_product_text">
+                                <oi>상품번호 : <span id="itemId">[[${item.itemId}]]</span></oi>
+                                <h3>[[${item.itemName}]]</h3>
+                                <h2>[[${item.itemAmount}]] 원</h2>
+                                <ul class="list">
+                                    <li><span>재고량</span> : [[${item.stockQuantity}]] 개</a></li>
+                                </ul>
+                                <p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
+                                    something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
+                                    during the winter.</p>
+                                <div class="product_count">
+                                    <label for="qty">Quantity:</label>
+                                    <input type="text" id="orderCount" th:maxlength="${item.stockQuantity}" value="1" class="input-text qty">
+                                    <button id="addToCart" style="display: inline-block;
+                                    border-radius: 30px;
+                                    border: 1px solid #384aeb;
+                                    font-weight: 500;
+                                    padding: 12px 50px;
+                                    color: #fff; transition: all .4s ease;
+                                    position: relative; background: #384aeb;"> Add To Cart </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </section>
+            </div>
         </main>
 
     </th:block>
 </th:block>
+
+<script th:inline="javascript">
+    window.onload = function() {
+
+        // Button
+        let addToCartBtn = document.getElementById("addToCart");
+
+        const itemId = [[${item.itemId}]]
+        var httpRequest;
+
+        addToCartBtn.addEventListener("click", addToCart);
+
+        function addToCart() {
+            httpRequest = new XMLHttpRequest();
+
+            var requestDao = getAddRequestDao();
+            console.log(requestDao);
+
+            httpRequest.onreadystatechange = executeResult;
+            httpRequest.open("POST", "/api/cart");
+            httpRequest.setRequestHeader("Content-Type", "application/json");
+            httpRequest.send(JSON.stringify(requestDao));
+
+        }
+
+        function getAddRequestDao() {
+            var dao = {
+                itemId: itemId,
+                orderCount: parseInt(document.getElementById("orderCount").value),
+            }
+
+            return dao;
+        }
+
+        function executeResult() {
+            try {
+                if(httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if(httpRequest.status === 200) {
+                        if(confirm("성공적으로 담았습니다. 장바구니로 이동하시겠습니까?")) {
+                            window.location.href = "/mycart";
+                        }
+                    } else {
+                        alert(httpRequest.responseText);
+                        return;
+                    }
+                }
+            } catch (e) {
+                alert("Caught : " + e.description);
+            }
+        }
+    }
+
+</script>
 
 </body>
 </html>
