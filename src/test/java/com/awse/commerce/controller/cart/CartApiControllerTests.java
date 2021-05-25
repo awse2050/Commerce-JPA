@@ -55,4 +55,18 @@ public class CartApiControllerTests {
 
     }
 
+    @DisplayName("장바구니 상품 한개 삭제하기(버튼식) - 성공")
+    @WithMockCustomUser
+    @Test
+    public void removeItemInCartSuccessTest() throws Exception {
+
+        Long itemId = 113L;
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/cart/"+itemId)
+                .contentType("application/json")
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+
+    }
 }
