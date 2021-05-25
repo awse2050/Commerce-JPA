@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<th:block th:replace="~{/fragment/fragment :: setBody(~{ :: body})}">
+    <th:block th:fragment="body">
+        <main class="site-main">
+            <section class="login_box_area section-margin">
+                <div class="container">
+                    <div class="row">
+                        <div style="position: relative; width: 100%; padding: 0 15px;">
+                            <div class="login_form_inner register_form_inner">
+                                <h3>Create an account</h3>
+                                <div class="row login_form" id="register_form">
+                                    <div class="col-md-12 form-group">
+                                        <input type="text" class="form-control" id="username"  placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <input type="text" class="form-control" id="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <input type="password" class="form-control" id="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
+                                    </div>
+                                    <div class="col-md-12 form-group" style="text-align: left;">
+                                        <button id="setPost" class="button button-register" style="width: 30%; font-size: 12px;">우편번호 찾기</button>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <input type="text" class="form-control" id="postCode" readonly placeholder="우편번호를 검색하세요.">
+                                        <input type="text" class="form-control" id="extraAddress" readonly placeholder="우편번호를 검색하세요.">
+                                        <input type="text" class="form-control" id="detailsAddress" placeholder="상세 주소를 입력하세요.">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <button id="signup" class="button w-100">Register</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </th:block>
+</th:block>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<script th:inline="javascript">
+    window.onload = function() {
+
+        // Button Selector
+        const signupBtn = document.getElementById("signup");
+        const setPostBtn = document.getElementById("setPost");
+
+        // Tag Selector
+        let postCode = document.getElementById("postCode");
+        let extraAddress = document.getElementById("extraAddress");
+
+        let httpRequest;
+
+        // add Event to Button
+        setPostBtn.addEventListener("click", openAddressSearchWindow);
+        signupBtn.addEventListener("click", signupRequest);
+
+        // functions
+
+        // API Submit
+        function signupRequest() {
+            httpRequest = new XMLHttpRequest();
+
+            var signupRequestData = getSignUpRequestDto();
+            console.log(signupRequestData);
+
+            httpRequest.onreadystatechange = executeResult;
+            httpRequest.open("POST", "/api/member");
+            httpRequest.setRequestHeader("Content-Type", "application/json");
+            httpRequest.send(JSON.stringify(signupRequestData));
+        }
+
+        // SignupRequest Data
+        function getSignUpRequestDto() {
+            var signupRequest =  {
+                name : document.getElementById("username").value,
+                email : document.getElementById("email").value,
+                password : document.getElementById("password").value,
+                confirmPassword : document.getElementById("confirmPassword").value,
+                zipcode : document.getElementById("postCode").value,
+                extraAddress : document.getElementById("extraAddress").value,
+                detailsAddress : document.getElementById("detailsAddress").value,
+            }
+
+            return signupRequest;
+        }
+
+        function executeResult() {
+            try {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        alert(httpRequest.responseText);
+                        window.location.href = "/index"
+                    } else {
+                        alert(httpRequest.responseText);
+                        return;
+                    }
+                }
+            }
+            catch( e ) {
+                alert('Caught Exception: ' + e.description);
+            }
+        }
+
+        // PostCode API
+        function openAddressSearchWindow() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+
+                    var roadAddr = data.roadAddress; // 도로명 주소 변수
+                    var extraRoadAddr = ''; // 참고 항목 변수
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraRoadAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraRoadAddr !== ''){
+                        extraRoadAddr = ' (' + extraRoadAddr + ')';
+                    }
+
+                    // 우편 주소와 해당 필드 넣기
+                    postCode.value = data.zonecode;
+                    extraAddress.value = roadAddr+" "+extraRoadAddr;
+                }
+            }).open();
+        }
+    }
+</script>
+
+</body>
+</html>
