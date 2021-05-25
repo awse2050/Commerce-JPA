@@ -28,6 +28,14 @@ public class MemberController {
         return "login";
     }
 
+    // 회원가입 페이지
+    @GetMapping({"/signup", "/signUp"})
+    public String signup() {
+        log.info("get Signup Page");
+
+        return "signup";
+    }
+
     // 마이페이지
     // 주문조회내역, 장바구니, 찜리스트 모든 데이터를 전달한다.
     @GetMapping("/mypage")

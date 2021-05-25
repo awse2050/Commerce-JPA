@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 
 @Setter
 @Getter
@@ -30,13 +27,13 @@ public class SignUpRequest {
     @NotBlank
     private String confirmPassword;
 
-    @NotEmpty
+    @NotEmpty(message = "우편번호를 검색하세요.")
     private String zipcode;
 
-    @NotEmpty
+    @NotEmpty(message = "우편번호를 검색하세요.")
     private String extraAddress;
 
-    @NotEmpty
+    @NotEmpty(message = "상세주소를 입력하세요.")
     private String detailsAddress;
 
     private boolean verifyPassword;

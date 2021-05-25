@@ -30,6 +30,14 @@ public class MemberControllerTests {
 
     }
 
+    @DisplayName("회원가입 페이지")
+    @Test
+    public void getSignUp() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/signup"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
     @DisplayName("마이페이지")
     @WithMockCustomUser
     @Test
