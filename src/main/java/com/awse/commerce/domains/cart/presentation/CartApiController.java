@@ -51,4 +51,21 @@ public class CartApiController {
             return new ResponseEntity<>("success", HttpStatus.OK);
         }
     }
+
+    // 장바구니에서 상품하나 삭제하기
+    @DeleteMapping(API_URI+"/{itemId}")
+    public ResponseEntity<String> removeItemInCart(@PathVariable("itemId") Long itemId,
+                                    @CurrentUser Member currentMember) {
+        log.warn("remove itemId : "+ itemId);
+        if(currentMember == null) {
+            log.info(currentMember);
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.",HttpStatus.BAD_REQUEST);
+        } else {
+            Long memberId = currentMember.getId();
+
+            cartService.removeItemInCart(memberId, itemId);
+
+            return new ResponseEntity<>("remove", HttpStatus.OK);
+        }
+    }
 }

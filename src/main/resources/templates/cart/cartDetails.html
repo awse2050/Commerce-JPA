@@ -15,6 +15,7 @@
                                     <th scope="col">Price</th>
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Total</th>
+                                    <th scope="col">options</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -26,7 +27,6 @@
                                                 <img src="/img/noimage.jpg" width="150" height="100">
                                             </div>
                                             <div class="media-body">
-                                                <input type="hidden" id="itemId" name="itemId" th:value="${cart.itemId}">
                                                 <p name="itemName">[[${cart.itemName}]]</p>
                                             </div>
                                         </div>
@@ -44,10 +44,20 @@
                                     <td>
                                         <h5 name="calTotalCount">[[${cart.calTotalCount()}]] 원</h5>
                                     </td>
+                                    <td>
+                                        <button name="remove" th:value="${cart.itemId}" style="border: 1px solid #dddddd;
+                                        background: #fff;
+                                        color: #000;
+                                        font-weight: bold;
+                                        font-size: 14px;">삭제</button>
+                                    </td>
+                                    <input type="hidden" id="itemId" name="itemId" th:value="${cart.itemId}">
                                 </tr>
                                 </th:block>
                                 <!-- ./ Cart List Table -->
                                 <tr>
+                                    <td>
+                                    </td>
                                     <td>
                                     </td>
                                     <td>
@@ -94,6 +104,35 @@
         var httpRequest;
         document.getElementById("modCountBtn").addEventListener('click', makeRequest);
 
+        console.log(document.getElementsByName("remove"));
+        document.getElementsByName("remove").forEach( list => {
+            list.addEventListener('click', removeRequest);
+        })
+
+        function removeRequest() {
+            if(!confirmRemove()) {
+                console.log("삭제취소");
+                return;
+            }
+            var itemId = this.value;
+
+            httpRequest = new XMLHttpRequest();
+
+            httpRequest.onreadystatechange = alertContents;
+            httpRequest.open('DELETE', '/api/cart/'+itemId);
+            httpRequest.setRequestHeader("Content-Type", "application/json")
+            httpRequest.send();
+
+        }
+
+        function confirmRemove() {
+            if(confirm("장바구니에서 삭제하시겠습니까?")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         function makeRequest() {
             httpRequest = new XMLHttpRequest();
 
@@ -117,7 +156,7 @@
             try {
                 if (httpRequest.readyState === XMLHttpRequest.DONE) {
                     if (httpRequest.status === 200) {
-                        window.location.href = "/cart/user/"+httpRequest.responseText;
+                        window.location.href = "/mycart";
                     } else {
                         alert('There was a problem with the request.');
                     }
