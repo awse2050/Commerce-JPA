@@ -2,6 +2,7 @@ package com.awse.commerce.service;
 
 import com.awse.commerce.domains.cart.dao.AddRequestItemDao;
 import com.awse.commerce.domains.cart.dao.ModifyRequestItemDao;
+import com.awse.commerce.domains.cart.dao.RemoveItemDao;
 import com.awse.commerce.domains.cart.dto.CartListDto;
 import com.awse.commerce.domains.cart.service.CartService;
 import lombok.extern.log4j.Log4j2;
@@ -65,5 +66,19 @@ public class CartServiceTests {
        Assertions.assertThat(dto.getCartItemDetailsDtoList().get(0)).isNotNull();
     }
 
+    @DisplayName("선택삭제 테스트")
+    @Test
+    @Transactional
+    @Commit
+    public void selectRemoveTest() {
+        RemoveItemDao dao = new RemoveItemDao();
+        dao.getItemIdList().add(6L);
+        dao.getItemIdList().add(8L);
+
+        cartService.selectRemoveItemsInCart(1L, dao);
+
+        Assertions.assertThat(dao.getItemIdList().size()).isEqualTo(2);
+        Assertions.assertThat(cartService.getListInCart(1L).getCartItemDetailsDtoList().size()).isEqualTo(4);
+    }
 }
 
