@@ -88,4 +88,15 @@ public class CartApiControllerTests {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+    @DisplayName("전체삭제 테스트 - 성공")
+    @WithMockCustomUser
+    @Test
+    public void allRemoveItemTest() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/cart/all")
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
 }

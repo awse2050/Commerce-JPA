@@ -87,6 +87,21 @@ public class CartApiController {
 
             return new ResponseEntity<>("remove", HttpStatus.OK);
         }
+    }
 
+    // 장바구니 아이템 전체 삭제
+    @DeleteMapping(API_URI+"/all")
+    public ResponseEntity<String> allRemoveItemsInCart(@CurrentUser Member currentMember) {
+
+        if(currentMember == null) {
+            log.info(currentMember);
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.",HttpStatus.BAD_REQUEST);
+        } else {
+            Long memberId = currentMember.getId();
+
+            cartService.removeItemsInCart(memberId);
+
+            return new ResponseEntity<>("remove", HttpStatus.OK);
+        }
     }
 }
