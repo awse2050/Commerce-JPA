@@ -2,6 +2,7 @@ package com.awse.commerce.domains.cart.presentation;
 
 import com.awse.commerce.domains.cart.dao.AddRequestItemDao;
 import com.awse.commerce.domains.cart.dao.ModifyRequestItemDao;
+import com.awse.commerce.domains.cart.dao.RemoveItemDao;
 import com.awse.commerce.domains.cart.service.CartService;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.util.config.CurrentUser;
@@ -67,5 +68,25 @@ public class CartApiController {
 
             return new ResponseEntity<>("remove", HttpStatus.OK);
         }
+    }
+
+    // 장바구니 선택 및 전체삭제
+    @DeleteMapping(API_URI)
+    public ResponseEntity<String> selectRemoveItemsInCart(@RequestBody RemoveItemDao dao,
+                                                          @CurrentUser Member currentMember) {
+
+        log.warn("삭제할 아이템 개수 : " + dao.getItemIdList().size());
+
+        if(currentMember == null) {
+            log.info(currentMember);
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.",HttpStatus.BAD_REQUEST);
+        } else {
+            Long memberId = currentMember.getId();
+
+            cartService.selectRemoveItemsInCart(memberId, dao);
+
+            return new ResponseEntity<>("remove", HttpStatus.OK);
+        }
+
     }
 }

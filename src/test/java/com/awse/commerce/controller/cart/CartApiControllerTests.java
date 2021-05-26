@@ -2,6 +2,7 @@ package com.awse.commerce.controller.cart;
 
 import com.awse.commerce.controller.member.WithMockCustomUser;
 import com.awse.commerce.domains.cart.dao.AddRequestItemDao;
+import com.awse.commerce.domains.cart.dao.RemoveItemDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -69,4 +70,22 @@ public class CartApiControllerTests {
                 .andDo(MockMvcResultHandlers.print());
 
     }
+
+    @DisplayName("선택삭제 테스트 - 성공")
+    @WithMockCustomUser
+    @Test
+    public void selectRemoveItemTest() throws Exception {
+
+        RemoveItemDao dao = new RemoveItemDao();
+        dao.getItemIdList().add(114L);
+        dao.getItemIdList().add(112L);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/cart")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(dao))
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
 }

@@ -2,6 +2,7 @@ package com.awse.commerce.domains.cart.service;
 
 import com.awse.commerce.domains.cart.dao.AddRequestItemDao;
 import com.awse.commerce.domains.cart.dao.ModifyRequestItemDao;
+import com.awse.commerce.domains.cart.dao.RemoveItemDao;
 import com.awse.commerce.domains.cart.dto.CartItemDetailsDto;
 import com.awse.commerce.domains.cart.dto.CartListDto;
 import com.awse.commerce.domains.cart.entity.Cart;
@@ -60,6 +61,15 @@ public class CartService {
         Cart cart = cartRepository.findByMemberId(memberId).get();
         // 장바구니에서 삭제할 상품의 id로 삭제하기기
         cart.removeItemInCart(itemId);
+    }
+
+    // 상품 선택 삭제
+    public void selectRemoveItemsInCart(Long memberId, RemoveItemDao dao) {
+        Cart cart = cartRepository.findByMemberId(memberId).get();
+
+        dao.getItemIdList().forEach(itemId -> {
+            cart.removeItemInCart(itemId);
+        });
     }
 
     // 상품 전체 비우기 (주문시 사용)
