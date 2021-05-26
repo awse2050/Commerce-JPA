@@ -111,6 +111,7 @@
 
 <script th:inline="javascript">
 
+    // NOTE : 아무것도 없을떄 버튼들 분기처리 필요
     (function() {
         var httpRequest;
         // 체크박스 체크여부
@@ -119,10 +120,25 @@
         document.getElementById("modCountBtn").addEventListener('click', makeRequest);
         document.getElementById("allCheck").addEventListener('click', isBoxChecked);
         document.getElementById("selRemove").addEventListener('click', selectRemoveRequest);
+        document.getElementById("allRemove").addEventListener('click', allRemoveRequest);
 
         document.getElementsByName("remove").forEach( list => {
             list.addEventListener('click', removeRequest);
         })
+
+        function allRemoveRequest() {
+
+            if(!confirmRemove("장바구니를 비우시겠습니까?")) {
+                console.log("삭제취소");
+                return;
+            }
+
+            httpRequest = new XMLHttpRequest();
+
+            httpRequest.onreadystatechange = alertContents;
+            httpRequest.open('DELETE', '/api/cart/all');
+            httpRequest.send();
+        }
 
         function selectRemoveRequest() {
             const checkBoxElem = document.getElementsByName("itemCheck");
@@ -141,7 +157,7 @@
 
             console.log(itemIdArray);
 
-            if(!confirmRemove()) {
+            if(!confirmRemove("장바구니에서 삭제하시겠습니까?")) {
                 console.log("삭제취소");
                 return;
             }
@@ -184,8 +200,8 @@
             isAllChecked = false;
         }
 
-        function confirmRemove() {
-            if(confirm("장바구니에서 삭제하시겠습니까?")) {
+        function confirmRemove(msg) {
+            if(confirm(msg)) {
                 return true;
             } else {
                 return false;

@@ -80,5 +80,18 @@ public class CartServiceTests {
         Assertions.assertThat(dao.getItemIdList().size()).isEqualTo(2);
         Assertions.assertThat(cartService.getListInCart(1L).getCartItemDetailsDtoList().size()).isEqualTo(4);
     }
+
+    @DisplayName("전체 삭제 테스트")
+    @Test
+    @Transactional
+    @Commit
+    public void removeAllItemTest() {
+
+        Long memberId = 1L;
+
+        cartService.removeItemsInCart(1L);
+        Assertions.assertThat(cartService.getListInCart(1L).getCartItemDetailsDtoList().size()).isEqualTo(0);
+
+    }
 }
 
