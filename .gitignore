@@ -8,6 +8,9 @@ build/
 ## querydsl ##
 generated
 
+## bootPay ##
+application-pay.properties
+
 ### STS ###
 .apt_generated
 .classpath
