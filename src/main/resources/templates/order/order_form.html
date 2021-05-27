@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<th:block th:replace="~{fragment/fragment.html :: setBody(~{ :: body})}">
+    <th:block th:fragment="body">
+
+        <main class="site-main">
+            <section>
+                <div class="container">
+                    <div style="margin: 50px 0px;">
+                        <div style="position: relative; padding: 18px 20px; border: 1px solid #dddddd;">
+                            <h2 style="letter-spacing: -1px; line-height: 20px; font-size: 24px; height: 17px; font-weight: normal; display: inline-block;">
+                                Order / Payment
+                                <span>주문 / 결제</span>
+                            </h2>
+                        </div>
+                        <!--주문자 관련 정보-->
+                        <div style="clear: both; position: relative; padding: 20px; border: 1px solid #ddd;">
+                            <div style="padding-bottom: 18px; display: table; width: 100%;">
+                                <div style="display: table-cell; box-sizing: border-box;">
+                                    <h3 style="font-size: 18px; height: 12px; line-height: 12px; font-weight: 300; display: inline-block;">
+                                        Recipent Info
+                                        <span style="line-height: 15px; margin-left: 5px; color: #b2b2b2; font-size: 12px;"> 수령자 정보 </span>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 10px; display: table; width: 100%;">
+                                <div style="border-left: 1px solid #ddd; border-top: 1px solid #ddd; display: table-cell; box-sizing: border-box;">
+                                    <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
+                                        <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">배송지 선택</li>
+                                        <li style="color: #000; display: table-cell; padding: 10px 10px 10px 0;">누구누구집</li>
+                                    </ul>
+                                    <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
+                                        <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">수령인</li>
+                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;"></li>
+                                    </ul>
+                                    <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
+                                        <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">전화번호</li>
+                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;"></li>
+                                    </ul>
+                                    <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
+                                        <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">배송지 주소</li>
+                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;"></li>
+                                    </ul>
+                                    <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
+                                        <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">배송 메모</li>
+                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 상품 정보 테이블-->
+                        <div style="position: relative; padding: 15px 20px 20px 20px; border: 1px solid #ddd;">
+                            <h3 style="font-size: 18px; padding-bottom: 14px; color: #000;">
+                                Product Info
+                                <span>상품 정보</span>
+                            </h3>
+                            <table style="min-width: 0px; clear: both; width: 100%; text-align: center; background: #fff;">
+                                <thead>
+                                    <tr style="border: 1px solid #ddd;">
+                                        <th style="font-weight: bold; border: 1px solid #ddd; padding: 14px 0px 13px; vertical-align: middle">상품 정보</th>
+                                        <th style="border: 1px solid #ddd; font-weight: normal; padding: 14px 0 13px; vertical-align: middle;">수량</th>
+                                        <th style="border: 1px solid #ddd; font-weight: normal; padding: 14px 0 13px; vertical-align: middle;">적립금</th>
+                                        <th style="border: 1px solid #ddd; font-weight: normal; padding: 14px 0 13px; vertical-align: middle;">상품 할인</th>
+                                        <th style="border: 1px solid #ddd; font-weight: normal; padding: 14px 0 13px; vertical-align: middle;">주문 금액</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border: 1px solid #ddd;">
+                                        <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
+                                            <div class="connect_img" style="width: 62px; overflow: hidden; position: relative; float: left">
+                                                <a href="#">img</a>
+                                            </div>
+                                            <div style="position: relative; width: auto; margin-left: 70px; text-align: left;">
+                                                <div style="padding-bottom: 8px; text-align: left;">
+                                                    <strong>브랜드명</strong>
+                                                    <span style="color: #000; line-height: 16px; text-overflow: ellipsis; max-height: 30px; overflow: hidden;">
+                                                        <a href="#">상품명..</a>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                        <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
+                                            <strong>1개</strong>
+                                        </td>
+                                        <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
+                                            <strong>1,500원</strong>
+                                        </td>
+                                        <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
+                                            <strong>-0원</strong>
+                                        </td>
+                                        <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
+                                            <strong>10000원</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 할인 및 결제 총 금액 합산-->
+                        <div style="clear: both; position: relative; padding: 20px; border: 1px solid #ddd;">
+                            <div style="padding-bottom: 18px; display: table; width: 100%;">
+                                <div style="display: table-cell; box-sizing: border-box;">
+                                    <h3 style="font-size: 18px; height: 12px; line-height: 12px; font-weight: 300; display: inline-block;">
+                                        Coupon / Discount
+                                        <span style="line-height: 15px; margin-left: 5px; color: #b2b2b2; font-size: 12px;"> 쿠폰/할인 및 결제금액 </span>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 10px; display: table; width: 100%;">
+                                <div style="border-left: 1px solid #ddd; border-top: 1px solid #ddd; display: table-cell; box-sizing: border-box;">
+                                    <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
+                                        <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">상품금액</li>
+                                        <li style="color: #000; display: table-cell; padding: 10px 10px 10px 0;">10000원</li>
+                                    </ul>
+                                    <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
+                                        <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">상품할인</li>
+                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">-0원</li>
+                                    </ul>
+                                    <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
+                                        <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">할인 합계</li>
+                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">-0원</li>
+                                    </ul>
+                                    <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
+                                        <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">총 적립금</li>
+                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">0원</li>
+                                    </ul>
+                                    <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
+                                        <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">최종 결제 금액</li>
+                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">10000원</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--================End Cart Area =================-->
+        </main>
+
+    </th:block>
+</th:block>
