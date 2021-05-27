@@ -35,4 +35,9 @@ public class IndexController {
 
         return "index";
     }
+
+    @GetMapping("/bootpay")
+    public String testPage() {
+        return "bootpay";
+    }
 }
