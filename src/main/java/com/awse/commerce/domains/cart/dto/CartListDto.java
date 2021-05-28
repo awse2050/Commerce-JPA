@@ -22,7 +22,7 @@ public class CartListDto {
 
     // 총합 계산
     private int calTotalAmount() {
-       int totalAmount = this.cartItemDetailsDtoList.stream().mapToInt(itemDetails -> itemDetails.calTotalCount()).sum();
+       int totalAmount = this.cartItemDetailsDtoList.stream().mapToInt(itemDetails -> itemDetails.calTotalAmount()).sum();
        return totalAmount;
     }
 }

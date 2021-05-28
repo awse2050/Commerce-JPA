@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Log4j2
 public class OrderController {
 
-    private final MemberService memberService;
     private final CartService cartService;
 
     private static CheckoutDaoListDto daoList;
@@ -53,6 +52,7 @@ public class OrderController {
         // 체크아웃 상품목록
         CheckoutItemListDto checkoutItemList = cartService.getCheckoutItems(currentMember.getId(), daoList);
 
+        model.addAttribute("member", currentMember);
         model.addAttribute("checkoutItemList", checkoutItemList);
 
         return "order/order_form";

@@ -27,19 +27,25 @@
                                 <div style="border-left: 1px solid #ddd; border-top: 1px solid #ddd; display: table-cell; box-sizing: border-box;">
                                     <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
                                         <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">배송지 선택</li>
-                                        <li style="color: #000; display: table-cell; padding: 10px 10px 10px 0;">누구누구집</li>
+                                        <li style="color: #000; display: table-cell; padding: 10px 10px 10px 0;"></li>
                                     </ul>
                                     <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
                                         <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">수령인</li>
-                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;"></li>
+                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">
+                                            [[${member.name}]]
+                                        </li>
                                     </ul>
                                     <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
                                         <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">전화번호</li>
-                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;"></li>
+                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">
+
+                                        </li>
                                     </ul>
                                     <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
                                         <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">배송지 주소</li>
-                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;"></li>
+                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">
+                                            ([[${member.address.zipcode}]]) [[${member.address.extraAddress}]] [[${member.address.detailsAddress}]]
+                                        </li>
                                     </ul>
                                     <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
                                         <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">배송 메모</li>
@@ -65,34 +71,36 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <th:block th:each="item : ${checkoutItemList.checkoutList}">
                                     <tr style="border: 1px solid #ddd;">
                                         <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
                                             <div class="connect_img" style="width: 62px; overflow: hidden; position: relative; float: left">
-                                                <a href="#">img</a>
+                                                <a href="#">[[${item.imgPath}]]</a>
                                             </div>
                                             <div style="position: relative; width: auto; margin-left: 70px; text-align: left;">
                                                 <div style="padding-bottom: 8px; text-align: left;">
-                                                    <strong>브랜드명</strong>
+                                                    <strong>(브랜드명)</strong>
                                                     <span style="color: #000; line-height: 16px; text-overflow: ellipsis; max-height: 30px; overflow: hidden;">
-                                                        <a href="#">상품명..</a>
+                                                        <a href="#">[[${item.itemName}]]</a>
                                                     </span>
                                                 </div>
 
                                             </div>
                                         </td>
                                         <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
-                                            <strong>1개</strong>
+                                            <strong>[[${item.orderCount}]]</strong>
                                         </td>
                                         <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
-                                            <strong>1,500원</strong>
+                                            <strong>0원</strong>
                                         </td>
                                         <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
                                             <strong>-0원</strong>
                                         </td>
                                         <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
-                                            <strong>10000원</strong>
+                                            <strong>[[${item.calTotalAmount()}]]원</strong>
                                         </td>
                                     </tr>
+                                </th:block>
                                 </tbody>
                             </table>
                         </div>
@@ -110,7 +118,9 @@
                                 <div style="border-left: 1px solid #ddd; border-top: 1px solid #ddd; display: table-cell; box-sizing: border-box;">
                                     <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
                                         <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">상품금액</li>
-                                        <li style="color: #000; display: table-cell; padding: 10px 10px 10px 0;">10000원</li>
+                                        <li style="color: #000; display: table-cell; padding: 10px 10px 10px 0;">
+                                            [[${checkoutItemList.totalAmount}]] 원
+                                        </li>
                                     </ul>
                                     <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
                                         <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">상품할인</li>
@@ -126,7 +136,9 @@
                                     </ul>
                                     <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
                                         <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">최종 결제 금액</li>
-                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">10000원</li>
+                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">
+                                            [[${checkoutItemList.totalAmount}]] 원
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -143,7 +155,6 @@
 <script th:inline="javascript">
 
     console.log([[${checkoutItemList}]])
-
 </script>
 
 </body>

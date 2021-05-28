@@ -17,7 +17,7 @@ public class CartItemDetailsDto {
     private int orderCount;
     private int itemAmount;
 
-    public int calTotalCount() {
+    public int calTotalAmount() {
         return this.itemAmount * this.orderCount;
     }
 }
