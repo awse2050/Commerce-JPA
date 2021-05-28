@@ -11,6 +11,10 @@ public class OrderController {
     // 체크아웃
     @GetMapping("/checkout")
     public String orderFormPage() {
+        // 화면에서 주문하려고 선택한 데이터를 받아온다.
+
+        // 해당 데이터를 변환시켜서 모델로 전송시킨다.
+
 
         return "order/order_form";
     }

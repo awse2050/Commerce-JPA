@@ -1,10 +1,12 @@
 package com.awse.commerce.domains.cart.service;
 
 import com.awse.commerce.domains.cart.dao.AddRequestItemDao;
+import com.awse.commerce.domains.cart.dao.CheckoutDao;
 import com.awse.commerce.domains.cart.dao.ModifyRequestItemDao;
 import com.awse.commerce.domains.cart.dao.RemoveItemDao;
 import com.awse.commerce.domains.cart.dto.CartItemDetailsDto;
 import com.awse.commerce.domains.cart.dto.CartListDto;
+import com.awse.commerce.domains.cart.dto.CheckoutItemListDto;
 import com.awse.commerce.domains.cart.entity.Cart;
 import com.awse.commerce.domains.cart.entity.CartObject;
 import com.awse.commerce.domains.cart.repository.CartRepository;
@@ -41,6 +43,16 @@ public class CartService {
         List<CartItemDetailsDto> cartItemList = bindToDto(cart.getCartMap());
 
         return new CartListDto(cartItemList, cartItemList.size());
+    }
+
+    // 주문할 상품 장바구니에서 조회
+    public CheckoutItemListDto getCheckoutItems(Long memberId, List<CheckoutDao> daoList) {
+        // 사용자 아이디와,
+        Cart cart = cartRepository.findByMemberId(memberId).get();
+        // 주문할 상품들이 담긴 목록 받기
+        List<CartItemDetailsDto> itemDetailsDtoList = bindToCheckoutDto(daoList);
+
+        return new CheckoutItemListDto(itemDetailsDtoList);
     }
     
     // 상품 담기
@@ -92,7 +104,7 @@ public class CartService {
         cart.modifyItemCount(targetStockQuantity, cartObject);
     }
 
-    // bind
+    // 장바구니 목록 전체 조회 변환
     private List<CartItemDetailsDto> bindToDto(Map<Long, CartObject> cartMapList) {
         List<CartItemDetailsDto> bindingDto = cartMapList.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
@@ -112,4 +124,26 @@ public class CartService {
 
         return bindingDto;
     }
+
+    // 주문할 상품 목록 변환
+    // NOTE : 현재 장바구니의 상품이 있는지 체크하고 있지 않다.
+    // elementCollection으로 인해서 테이블을 순회할 방법이 딱히 없다
+    // map형태를 순회하려하니 성능상 문제가 발생할것이라 판단하여
+    // 미봉책으로 검사를 안하게 함.
+    private List<CartItemDetailsDto> bindToCheckoutDto(List<CheckoutDao> daoList) {
+        List<CartItemDetailsDto> dtoList = daoList.stream().map(dao -> {
+            Item item = itemRepository.findById(dao.getItemId()).get();
+
+            return CartItemDetailsDto.builder()
+                    .itemId(dao.getItemId())
+                    .itemAmount(item.getMoney() * dao.getOrderCount())
+                    .imgPath(item.getImgPath())
+                    .itemName(item.getName())
+                    .orderCount(dao.getOrderCount())
+                    .build();
+        }).collect(Collectors.toList());
+
+        return dtoList;
+    }
+
 }
