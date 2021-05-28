@@ -23,9 +23,9 @@
                                 </thead>
                                 <tbody>
                                 <th:block th:each="cart : ${cartList.cartItemDetailsDtoList}">
-                                <tr>
+                                <tr th:value="${cart.itemId}">
                                     <td>
-                                        <input type="checkbox" name="itemCheck" th:value="${cart.itemId}" checked="checked">
+                                        <input type="checkbox" name="itemCheck" checked="checked">
                                     </td>
                                     <td>
                                         <div class="media">
@@ -43,21 +43,20 @@
                                     <td>
                                         <div class="product_count">
                                             <input type="text" id="orderCount" name="orderCount" maxlength="12" th:value="${cart.orderCount}" title="Quantity:"
-                                                   class="input-text qty">개
-                                            <button id="modCountBtn">수량변경</button>
+                                                   class="input-text qty"/>개
+                                            <button name="modCountBtn">수량변경</button>
                                         </div>
                                     </td>
                                     <td>
                                         <h5 name="calTotalCount">[[${cart.calTotalCount()}]] 원</h5>
                                     </td>
                                     <td>
-                                        <button name="remove" th:value="${cart.itemId}" style="border: 1px solid #dddddd;
+                                        <button name="remove" style="border: 1px solid #dddddd;
                                         background: #fff;
                                         color: #000;
                                         font-weight: bold;
                                         font-size: 14px;">삭제</button>
                                     </td>
-                                    <input type="hidden" id="itemId" name="itemId" th:value="${cart.itemId}">
                                 </tr>
                                 </th:block>
                                 <!-- ./ Cart List Table -->
@@ -92,7 +91,7 @@
                                     <td>
                                         <div class="checkout_btn_inner d-flex align-items-center">
                                             <a class="gray_btn" href="/">Continue Shopping</a>
-                                            <a class="primary-btn ml-2" href="/checkout">Proceed to checkout</a>
+                                            <button id="checkout" style="margin: 0 1px; border: 1px solid #000000; background-color: #000000; min-width: 290px; height: 60px; line-height: 54px; padding-top: 4px; font-size: 20px; color: #ffffff;">주문하기</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -113,10 +112,13 @@
     // NOTE : 아무것도 없을떄 버튼들 분기처리 필요
     (function() {
         var httpRequest;
-        // 수량변경버튼
-        document.getElementById("modCountBtn").addEventListener('click', makeRequest);
+
         document.getElementById("allCheck").addEventListener('click', isBoxChecked);
         document.getElementById("selRemove").addEventListener('click', selectRemoveRequest);
+        document.getElementsByName("modCountBtn").forEach(btn => {
+            btn.addEventListener('click', orderCountModifyRequest);
+        })
+
         document.getElementsByName("itemCheck").forEach(checkbox => {
             checkbox.addEventListener('change', checkState);
         })
@@ -124,43 +126,6 @@
         document.getElementsByName("remove").forEach( list => {
             list.addEventListener('click', removeRequest);
         })
-
-        // 선택삭제
-        function selectRemoveRequest() {
-            const checkBoxElem = document.getElementsByName("itemCheck");
-            // 빈 배열 생성
-            var itemIdArray = {
-                itemIdList: [],
-            };
-            // 노드를 하나씩 집어넣고
-            // 만든 배열로 하나씩 빼면서 check된것을 확인해서 그 값의 value를 뽑아낸다.
-            console.log(checkBoxElem);
-            checkBoxElem.forEach(elem => {
-                if(elem.checked == true) {
-                    itemIdArray.itemIdList.push(parseInt(elem.value));
-                }
-            })
-
-            console.log(itemIdArray);
-
-            if(!confirmRemove("장바구니에서 삭제하시겠습니까?")) {
-                console.log("삭제취소");
-                return;
-            }
-
-            if(itemIdArray.itemIdList.length === 0) {
-                console.log("미선택");
-                alert("삭제할 상품을 선택하세요.");
-                return;
-            }
-
-            httpRequest = new XMLHttpRequest();
-
-            httpRequest.onreadystatechange = alertContents;
-            httpRequest.open('DELETE', '/api/cart');
-            httpRequest.setRequestHeader("Content-Type", "application/json")
-            httpRequest.send(JSON.stringify(itemIdArray));
-        }
 
         function isBoxChecked() {
             const checkBoxElem = document.getElementsByName("itemCheck");
@@ -210,14 +175,51 @@
             }
         }
 
-        function removeRequest() {
-            if(!confirmRemove()) {
+        // 선택삭제
+        function selectRemoveRequest() {
+            const checkBoxElem = document.getElementsByName("itemCheck");
+            // 빈 배열 생성
+            var itemIdArray = {
+                itemIdList: [],
+            };
+            // 노드를 하나씩 집어넣고
+            // 만든 배열로 하나씩 빼면서 check된것을 확인해서 그 값의 value를 뽑아낸다.
+            console.log(checkBoxElem);
+            checkBoxElem.forEach(elem => {
+                if(elem.checked == true) {
+                    itemIdArray.itemIdList.push(parseInt(elem.closest("tr").attributes[0].value));
+                }
+            })
+
+            console.log(itemIdArray);
+
+            if(!confirmRemove("장바구니에서 삭제하시겠습니까?")) {
                 console.log("삭제취소");
                 return;
             }
-            var itemId = this.value;
 
-            httpRequest = new XMLHttpRequest();
+            if(itemIdArray.itemIdList.length === 0) {
+                console.log("미선택");
+                alert("삭제할 상품을 선택하세요.");
+                return;
+            }
+
+            httpRequest = getHttpInstance();
+
+            httpRequest.onreadystatechange = alertContents;
+            httpRequest.open('DELETE', '/api/cart');
+            httpRequest.setRequestHeader("Content-Type", "application/json")
+            httpRequest.send(JSON.stringify(itemIdArray));
+        }
+
+        function removeRequest() {
+            if(!confirmRemove("삭제하시겠습니까?")) {
+                console.log("삭제취소");
+                return;
+            }
+            var itemId = parseInt(this.closest("tr").attributes[0].value);
+
+            httpRequest = getHttpInstance();
 
             httpRequest.onreadystatechange = alertContents;
             httpRequest.open('DELETE', '/api/cart/'+itemId);
@@ -226,14 +228,15 @@
 
         }
 
-        function makeRequest() {
-            httpRequest = new XMLHttpRequest();
+        function orderCountModifyRequest() {
+            httpRequest = getHttpInstance();
 
             // 데이터 수집
             const data = {
-                itemId: document.getElementById("itemId").value,
-                orderCount: document.getElementById("orderCount").value,
+                itemId: parseInt(this.closest("tr").attributes[0].value),
+                orderCount: parseInt(this.previousElementSibling.value),
             }
+            console.log(data);
 
             if(!httpRequest) {
                 alert('XMLHTTP 인스턴스를 만들 수가 없어요 ㅠㅠ');
@@ -243,6 +246,14 @@
             httpRequest.open('put', '/api/cart/'+data.itemId);
             httpRequest.setRequestHeader("Content-Type", "application/json")
             httpRequest.send(JSON.stringify(data));
+        }
+
+        function getHttpInstance() {
+            if(!httpRequest) {
+                httpRequest = new XMLHttpRequest();
+            }
+
+            return httpRequest;
         }
 
         function alertContents() {
