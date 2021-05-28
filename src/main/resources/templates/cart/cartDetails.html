@@ -12,7 +12,7 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">
-                                        <input type="checkbox" id="allCheck">
+                                        <input type="checkbox" id="allCheck" checked="checked">
                                     </th>
                                     <th scope="col">Product</th>
                                     <th scope="col">Price</th>
@@ -25,7 +25,7 @@
                                 <th:block th:each="cart : ${cartList.cartItemDetailsDtoList}">
                                 <tr>
                                     <td>
-                                        <input type="checkbox" name="itemCheck" th:value="${cart.itemId}">
+                                        <input type="checkbox" name="itemCheck" th:value="${cart.itemId}" checked="checked">
                                     </td>
                                     <td>
                                         <div class="media">
@@ -81,7 +81,6 @@
                                     <td class="d-none-l">
                                     </td>
                                     <td class="">
-                                        <button id="allRemove">전체삭제</button>
                                         <button id="selRemove">선택삭제</button>
                                     </td>
                                     <td>
@@ -92,8 +91,8 @@
                                     </td>
                                     <td>
                                         <div class="checkout_btn_inner d-flex align-items-center">
-                                            <a class="gray_btn" href="#">Continue Shopping</a>
-                                            <a class="primary-btn ml-2" href="#">Proceed to checkout</a>
+                                            <a class="gray_btn" href="/">Continue Shopping</a>
+                                            <a class="primary-btn ml-2" href="/checkout">Proceed to checkout</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -114,32 +113,19 @@
     // NOTE : 아무것도 없을떄 버튼들 분기처리 필요
     (function() {
         var httpRequest;
-        // 체크박스 체크여부
-        var isAllChecked = false;
         // 수량변경버튼
         document.getElementById("modCountBtn").addEventListener('click', makeRequest);
         document.getElementById("allCheck").addEventListener('click', isBoxChecked);
         document.getElementById("selRemove").addEventListener('click', selectRemoveRequest);
-        document.getElementById("allRemove").addEventListener('click', allRemoveRequest);
+        document.getElementsByName("itemCheck").forEach(checkbox => {
+            checkbox.addEventListener('change', checkState);
+        })
 
         document.getElementsByName("remove").forEach( list => {
             list.addEventListener('click', removeRequest);
         })
 
-        function allRemoveRequest() {
-
-            if(!confirmRemove("장바구니를 비우시겠습니까?")) {
-                console.log("삭제취소");
-                return;
-            }
-
-            httpRequest = new XMLHttpRequest();
-
-            httpRequest.onreadystatechange = alertContents;
-            httpRequest.open('DELETE', '/api/cart/all');
-            httpRequest.send();
-        }
-
+        // 선택삭제
         function selectRemoveRequest() {
             const checkBoxElem = document.getElementsByName("itemCheck");
             // 빈 배열 생성
@@ -179,10 +165,28 @@
         function isBoxChecked() {
             const checkBoxElem = document.getElementsByName("itemCheck");
 
-            if(!isAllChecked) {
+            if(this.checked) {
                 checkAll(checkBoxElem);
             } else {
                 nonCheckAll(checkBoxElem);
+            }
+        }
+
+        function checkState() {
+
+            const allCheckBtn = document.getElementById("allCheck");
+            const checkBoxElem = document.getElementsByName("itemCheck");
+
+            let checkArray = [];
+
+            checkBoxElem.forEach(elem => {
+                checkArray.push(elem.checked);
+            })
+
+            if(checkArray.includes(false)) {
+                allCheckBtn.checked = false;
+            } else {
+                allCheckBtn.checked = true;
             }
         }
 
@@ -190,14 +194,12 @@
             elem.forEach( box => {
                 box.checked = true;
             })
-            isAllChecked = true;
         }
 
         function nonCheckAll(elem) {
             elem.forEach( box => {
                 box.checked = false;
             })
-            isAllChecked = false;
         }
 
         function confirmRemove(msg) {

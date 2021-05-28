@@ -1,9 +1,11 @@
 package com.awse.commerce.service;
 
 import com.awse.commerce.domains.cart.dao.AddRequestItemDao;
+import com.awse.commerce.domains.cart.dao.CheckoutDao;
 import com.awse.commerce.domains.cart.dao.ModifyRequestItemDao;
 import com.awse.commerce.domains.cart.dao.RemoveItemDao;
 import com.awse.commerce.domains.cart.dto.CartListDto;
+import com.awse.commerce.domains.cart.dto.CheckoutItemListDto;
 import com.awse.commerce.domains.cart.service.CartService;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
@@ -13,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 @Log4j2
@@ -91,6 +96,25 @@ public class CartServiceTests {
 
         cartService.removeItemsInCart(1L);
         Assertions.assertThat(cartService.getListInCart(1L).getCartItemDetailsDtoList().size()).isEqualTo(0);
+
+    }
+
+    @DisplayName("장바구니 체크아웃 상품 목록 확인 테스트")
+    @Test
+    public void checkoutItemListConfirmTest() {
+
+        Long memberId = 1L;
+
+        List<CheckoutDao> daoList = new ArrayList<>();
+
+        daoList.add(new CheckoutDao(2L, 2));
+        daoList.add(new CheckoutDao(8L, 1));
+
+        CheckoutItemListDto dtoList = cartService.getCheckoutItems(memberId, daoList);
+
+        dtoList.getCheckoutList().forEach(i -> log.info(i));
+
+        Assertions.assertThat(dtoList.getCheckoutList().size()).isEqualTo(2);
 
     }
 }
