@@ -6,6 +6,7 @@ import com.awse.commerce.domains.cart.dao.ModifyRequestItemDao;
 import com.awse.commerce.domains.cart.dao.RemoveItemDao;
 import com.awse.commerce.domains.cart.dto.CartItemDetailsDto;
 import com.awse.commerce.domains.cart.dto.CartListDto;
+import com.awse.commerce.domains.cart.dto.CheckoutDaoListDto;
 import com.awse.commerce.domains.cart.dto.CheckoutItemListDto;
 import com.awse.commerce.domains.cart.entity.Cart;
 import com.awse.commerce.domains.cart.entity.CartObject;
@@ -46,11 +47,11 @@ public class CartService {
     }
 
     // 주문할 상품 장바구니에서 조회
-    public CheckoutItemListDto getCheckoutItems(Long memberId, List<CheckoutDao> daoList) {
+    public CheckoutItemListDto getCheckoutItems(Long memberId, CheckoutDaoListDto dtoListDto) {
         // 사용자 아이디와,
         Cart cart = cartRepository.findByMemberId(memberId).get();
         // 주문할 상품들이 담긴 목록 받기
-        List<CartItemDetailsDto> itemDetailsDtoList = bindToCheckoutDto(daoList);
+        List<CartItemDetailsDto> itemDetailsDtoList = bindToCheckoutDto(dtoListDto.getDaoList());
 
         return new CheckoutItemListDto(itemDetailsDtoList);
     }

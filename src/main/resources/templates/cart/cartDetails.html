@@ -42,7 +42,7 @@
                                     </td>
                                     <td>
                                         <div class="product_count">
-                                            <input type="text" id="orderCount" name="orderCount" maxlength="12" th:value="${cart.orderCount}" title="Quantity:"
+                                            <input type="text" name="orderCount" th:value="${cart.orderCount}"
                                                    class="input-text qty"/>개
                                             <button name="modCountBtn">수량변경</button>
                                         </div>
@@ -113,6 +113,7 @@
     (function() {
         var httpRequest;
 
+        document.getElementById("checkout").addEventListener('click', checkoutRequest);
         document.getElementById("allCheck").addEventListener('click', isBoxChecked);
         document.getElementById("selRemove").addEventListener('click', selectRemoveRequest);
         document.getElementsByName("modCountBtn").forEach(btn => {
@@ -168,11 +169,42 @@
         }
 
         function confirmRemove(msg) {
-            if(confirm(msg)) {
+            if (confirm(msg)) {
                 return true;
             } else {
                 return false;
             }
+        }
+
+        function checkoutRequest() {
+            // 체크박스가 선택된 tr을 찾는다.
+            let targetArray = {
+                daoList: [],
+            };
+            // 객체로 변환시킨다.
+            document.getElementsByName("itemCheck").forEach(box => {
+                if(box.checked) {
+
+                    let targetTr = box.closest("tr");
+                    console.log(targetTr);
+                    targetArray.daoList.push(
+                        {
+                            itemId: parseInt(targetTr.attributes[0].value),
+                            orderCount: parseInt(targetTr.querySelector("input[name='orderCount']").value),
+                        }
+                    )
+                }
+            })
+
+            console.log(targetArray);
+
+            // 서버로 데이터를 보낸다.
+            httpRequest = getHttpInstance();
+
+            httpRequest.onreadystatechange = checkoutLogic;
+            httpRequest.open('POST', '/checkout');
+            httpRequest.setRequestHeader("Content-Type", "application/json")
+            httpRequest.send(JSON.stringify(targetArray));
         }
 
         // 선택삭제
@@ -231,10 +263,12 @@
         function orderCountModifyRequest() {
             httpRequest = getHttpInstance();
 
+            let targetTr = this.closest("tr");
+
             // 데이터 수집
             const data = {
-                itemId: parseInt(this.closest("tr").attributes[0].value),
-                orderCount: parseInt(this.previousElementSibling.value),
+                itemId: parseInt(targetTr.attributes[0].value),
+                orderCount: parseInt(targetTr.querySelector("input[name='orderCount']").value),
             }
             console.log(data);
 
@@ -263,6 +297,22 @@
                         window.location.href = "/mycart";
                     } else {
                         alert('There was a problem with the request.');
+                    }
+                }
+            }
+            catch( e ) {
+                alert('Caught Exception: ' + e.description);
+            }
+        }
+
+        function checkoutLogic() {
+            try {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        window.location.href = httpRequest.responseText;
+                    } else {
+                        alert(httpRequest.responseText);
+                        return;
                     }
                 }
             }

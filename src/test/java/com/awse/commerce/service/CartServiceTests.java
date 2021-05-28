@@ -5,6 +5,7 @@ import com.awse.commerce.domains.cart.dao.CheckoutDao;
 import com.awse.commerce.domains.cart.dao.ModifyRequestItemDao;
 import com.awse.commerce.domains.cart.dao.RemoveItemDao;
 import com.awse.commerce.domains.cart.dto.CartListDto;
+import com.awse.commerce.domains.cart.dto.CheckoutDaoListDto;
 import com.awse.commerce.domains.cart.dto.CheckoutItemListDto;
 import com.awse.commerce.domains.cart.service.CartService;
 import lombok.extern.log4j.Log4j2;
@@ -107,10 +108,12 @@ public class CartServiceTests {
 
         List<CheckoutDao> daoList = new ArrayList<>();
 
-        daoList.add(new CheckoutDao(2L, 2));
+        daoList.add(new CheckoutDao(121L, 2));
         daoList.add(new CheckoutDao(8L, 1));
 
-        CheckoutItemListDto dtoList = cartService.getCheckoutItems(memberId, daoList);
+        CheckoutDaoListDto dtoList1 = new CheckoutDaoListDto(daoList);
+
+        CheckoutItemListDto dtoList = cartService.getCheckoutItems(memberId, dtoList1);
 
         dtoList.getCheckoutList().forEach(i -> log.info(i));
 

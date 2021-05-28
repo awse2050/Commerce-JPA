@@ -1,14 +1,12 @@
 package com.awse.commerce.domains.cart.dao;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class CheckoutDao {
     // 상품번호
     private Long itemId;
