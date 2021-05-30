@@ -70,7 +70,6 @@
                 }
             }).close(function (data) {
                 // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)
-                console.log(data);
             }).done(function (data) {
                 //결제가 정상적으로 완료되면 수행됩니다
                 //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
@@ -78,7 +77,7 @@
                 var receipt_id = data.receipt_id;
 
                 httpRequest.onreadystatechange = executeResult;
-                httpRequest.open("GET", "/receipt/"+receipt_id)
+                httpRequest.open("GET", "/receipt/"+receipt_id+"/price/"+1000)
                 httpRequest.setRequestHeader("Content-Type", "application/json")
                 httpRequest.send();
 
@@ -90,8 +89,10 @@
             try {
                 if(httpRequest.readyState === XMLHttpRequest.DONE) {
                     if(httpRequest.status === 200) {
+                        //  NOTE : 결제 완료페이지로 이동
                         console.log(httpRequest.responseText);
                     } else {
+                        // NOTE: 결제 실패페이지로 이동
                         alert(httpRequest.responseText);
                         return;
                     }
