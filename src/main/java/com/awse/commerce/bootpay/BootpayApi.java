@@ -18,7 +18,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import java.net.URI;
 import java.util.List;
 
-@Log4j2
 public class BootpayApi {
     private final String BASE_URL = "https://api.bootpay.co.kr/";
     private final String URL_ACCESS_TOKEN = BASE_URL + "request/token.json";
@@ -46,10 +45,6 @@ public class BootpayApi {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public String getToken() {
-        return this.token;
     }
 
     private HttpGet getGet(String url) throws Exception {
@@ -100,8 +95,6 @@ public class BootpayApi {
         HttpResponse res = client.execute(post);
         String str = IOUtils.toString(res.getEntity().getContent(), "UTF-8");
         ResToken resToken = new Gson().fromJson(str, ResToken.class);
-        log.info(resToken.status);
-        log.info(resToken.data);
 
         if(resToken.status == 200)
             this.token = resToken.data.token;
