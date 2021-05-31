@@ -38,7 +38,6 @@ public class BootPayApiController {
         bootpayApi.getAccessToken();
 
         String result = "NO";
-
         try {
             HttpResponse res = bootpayApi.verify(receiptId);
             String resJson = IOUtils.toString(res.getEntity().getContent(), "UTF-8");
@@ -57,7 +56,6 @@ public class BootPayApiController {
                 // 결제된 금액 ?== 결제할 가격
                result = (bootPayMoney == price) && (bootStatusRes == 1) ? "OK" : "NO";
              }
-
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
