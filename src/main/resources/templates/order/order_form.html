@@ -65,30 +65,34 @@
                                     <tr style="border: 1px solid #ddd;">
                                         <th style="font-weight: bold; border: 1px solid #ddd; padding: 14px 0px 13px; vertical-align: middle">상품 정보</th>
                                         <th style="border: 1px solid #ddd; font-weight: normal; padding: 14px 0 13px; vertical-align: middle;">수량</th>
+                                        <th style="border: 1px solid #ddd; font-weight: normal; padding: 14px 0 13px; vertical-align: middle;">가격</th>
                                         <th style="border: 1px solid #ddd; font-weight: normal; padding: 14px 0 13px; vertical-align: middle;">적립금</th>
                                         <th style="border: 1px solid #ddd; font-weight: normal; padding: 14px 0 13px; vertical-align: middle;">상품 할인</th>
-                                        <th style="border: 1px solid #ddd; font-weight: normal; padding: 14px 0 13px; vertical-align: middle;">주문 금액</th>
+                                        <th style="border: 1px solid #ddd; font-weight: normal; padding: 14px 0 13px; vertical-align: middle;">상품 총 금액</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <th:block th:each="item : ${checkoutItemList.checkoutList}">
-                                    <tr style="border: 1px solid #ddd;">
+                                    <tr th:value="${item.itemId}" style="border: 1px solid #ddd;">
                                         <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
                                             <div class="connect_img" style="width: 62px; overflow: hidden; position: relative; float: left">
-                                                <a href="#">[[${item.imgPath}]]</a>
+                                                <a href="#" name="imgPath">[[${item.imgPath}]]</a>
                                             </div>
                                             <div style="position: relative; width: auto; margin-left: 70px; text-align: left;">
                                                 <div style="padding-bottom: 8px; text-align: left;">
                                                     <strong>(브랜드명)</strong>
                                                     <span style="color: #000; line-height: 16px; text-overflow: ellipsis; max-height: 30px; overflow: hidden;">
-                                                        <a href="#">[[${item.itemName}]]</a>
+                                                        <a href="#" name="itemName">[[${item.itemName}]]</a>
                                                     </span>
                                                 </div>
 
                                             </div>
                                         </td>
                                         <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
-                                            <strong>[[${item.orderCount}]]</strong>
+                                            <strong name="orderCount">[[${item.orderCount}]]</strong>
+                                        </td>
+                                        <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
+                                            <strong>[[${item.itemAmount}]] 원</strong>
                                         </td>
                                         <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
                                             <strong>0원</strong>
@@ -136,12 +140,16 @@
                                     </ul>
                                     <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
                                         <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">최종 결제 금액</li>
-                                        <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">
+                                        <li id="paymentPrice" style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">
                                             [[${checkoutItemList.totalAmount}]] 원
                                         </li>
                                     </ul>
                                 </div>
                             </div>
+                        </div>
+                        <div>
+                            <button id="back">돌아가기</button>
+                            <button id="payment">결제하기</button>
                         </div>
                     </div>
                 </div>
@@ -152,9 +160,137 @@
     </th:block>
 </th:block>
 
+<script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.2.min.js" type="application/javascript"></script>
+
 <script th:inline="javascript">
 
     console.log([[${checkoutItemList}]])
+
+    window.onload = function() {
+        const backBtn = document.getElementById("back").addEventListener('click', backRequest);
+        const paymentBtn = document.getElementById("payment").addEventListener('click', paymentRequest);
+        const paymentPrice = parseInt(document.getElementById("paymentPrice").innerText); // 실제 결제해야 할 금액
+
+        const applicationId = [[${applicationId}]]
+        var httpRequest;
+
+        let dtoList = [[${checkoutItemList.checkoutList}]] // DB 데이터
+
+        const member = [[${member}]];
+        let memberAddress = member.address.zipcode+" "+ member.address.extraAddress+" "+ member.address.detailsAddress;
+        let itemsArray = []; // 통계용 데이터
+
+        for (let i = 0; i < dtoList.length; i++) {
+            var obj= {
+                item_name: dtoList[i].itemName,
+                qty: dtoList[i].orderCount,
+                unique: dtoList[i].itemId.toString(),
+                price: dtoList[i].itemAmount,
+            }
+            itemsArray.push(obj);
+        }
+
+        function backRequest() {
+            window.location.href = "/mycart";
+        }
+
+        // 서버에 보낼 주문 목록
+        function makeOrderRequestData(dtoList, receiptId, price) {
+            const dao = {
+                orderRequestDtoList: dtoList,
+                receiptId: receiptId,
+                price: price,
+            }
+
+            return dao;
+        }
+
+        // 결제 API
+        function paymentRequest() {
+
+            BootPay.request({
+                price: paymentPrice, //실제 결제되는 가격
+                application_id: applicationId,
+                name: itemsArray[0].item_name +"외 "+(itemsArray.length-1)+"건", //결제창에서 보여질 이름
+                pg: 'nicepay',
+                method: 'card', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
+                show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
+                items: itemsArray,
+                user_info: {
+                    username: member.name,
+                    email: member.email,
+                    addr: memberAddress,
+                    phone: '010-1234-4567'
+                },
+                order_id: '고유order_id_1234', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
+            }).error(function (data) {
+                //결제 진행시 에러가 발생하면 수행됩니다.
+                console.log(data);
+                // error 2420
+                /*
+                {code: -2420,
+                msg: "요청한 application id와 device type이 일차하지 않습니다. 관리자에서 application id를 확인 후 재 시도해주세요.",
+                action: "BootpayError"}
+                 */
+                alert("관리자에게 문의주세요.");
+            }).cancel(function (data) {
+                //결제가 취소되면 수행됩니다.
+                console.log(data);
+            }).confirm(function (data) {
+                //결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
+                //주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.
+                console.log(data);
+                var enable = true; // 재고 수량 관리 로직 혹은 다른 처리
+                if (enable) {
+                    BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
+                } else {
+                    BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
+                }
+            }).close(function (data) {
+                // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)
+            }).done(function (data) {
+                //결제가 정상적으로 완료되면 수행됩니다
+                //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
+                const dao = makeOrderRequestData(dtoList, data.receipt_id, paymentPrice);
+
+                httpRequest = getXMLHttpRequest();
+
+                httpRequest.onreadystatechange = executeResult;
+                httpRequest.open("POST", "/api/order")
+                httpRequest.setRequestHeader("Content-Type", "application/json")
+                httpRequest.send(JSON.stringify(dao));
+
+                console.log(data);
+            });
+        }
+
+        function executeResult() {
+            try {
+                if(httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if(httpRequest.status === 200) {
+                        //  NOTE : 결제 완료페이지로 이동
+                        console.log(httpRequest.responseText);
+                        window.location.href = "/pay-result/"+httpRequest.responseText;
+                    } else {
+                        // NOTE: 결제 실패페이지로 이동
+                        alert(httpRequest.responseText);
+                        console.log(httpRequest.responseText);
+                        return;
+                    }
+                }
+            } catch (e) {
+                alert("Caught : " + e.description);
+            }
+        }
+
+        function getXMLHttpRequest() {
+            if(!httpRequest) {
+                httpRequest = new XMLHttpRequest();
+            }
+
+            return httpRequest;
+        }
+    }
 </script>
 
 </body>

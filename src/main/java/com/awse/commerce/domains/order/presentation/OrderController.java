@@ -8,6 +8,8 @@ import com.awse.commerce.domains.member.service.MemberService;
 import com.awse.commerce.domains.util.config.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,11 +22,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequiredArgsConstructor
 @Log4j2
+@PropertySource("classpath:application-pay.properties")
 public class OrderController {
 
     private final CartService cartService;
 
     private static CheckoutDaoListDto daoList;
+
+    @Value("${bootpay.application.id}")
+    private String application_id;
 
     // 체크아웃
     @PostMapping("/checkout")
@@ -54,6 +60,7 @@ public class OrderController {
 
         model.addAttribute("member", currentMember);
         model.addAttribute("checkoutItemList", checkoutItemList);
+        model.addAttribute("applicationId", application_id);
 
         return "order/order_form";
     }

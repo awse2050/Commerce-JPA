@@ -2,8 +2,10 @@ package com.awse.commerce.domains.order.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class OrderRequestDto {
 
     private Long itemId;

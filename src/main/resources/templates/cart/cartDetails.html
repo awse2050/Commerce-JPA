@@ -128,6 +128,7 @@
             list.addEventListener('click', removeRequest);
         })
 
+        //선택박스가 다 체크됐거나 하나라도 미체크되어 있는 경우
         function isBoxChecked() {
             const checkBoxElem = document.getElementsByName("itemCheck");
 
@@ -138,6 +139,8 @@
             }
         }
 
+        // 선택박스 상태 변경시
+        // NOTE : subtotal 값 변경하기
         function checkState() {
 
             const allCheckBtn = document.getElementById("allCheck");

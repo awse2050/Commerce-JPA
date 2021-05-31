@@ -137,7 +137,7 @@ public class CartService {
 
             return CartItemDetailsDto.builder()
                     .itemId(dao.getItemId())
-                    .itemAmount(item.getMoney() * dao.getOrderCount())
+                    .itemAmount(item.getMoney())
                     .imgPath(item.getImgPath())
                     .itemName(item.getName())
                     .orderCount(dao.getOrderCount())
