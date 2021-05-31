@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<th:block th:replace="~{/fragment/fragment :: setBody(~{ :: body})}">
+    <th:block th:fragment="body">
+
+        <!-- NOTE : must be CSS -->
+        <th:block th:if="${result} == 'OK'">
+            <div>결제를 성공하였습니다.</div>
+        </th:block>
+        <th:block th:unless="${result} == 'OK'">
+            <div>결제를 실패하였습니다.</div>
+        </th:block>
+
+    </th:block>
+</th:block>
+
+</body>
+</html>

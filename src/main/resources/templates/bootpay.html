@@ -91,6 +91,7 @@
                     if(httpRequest.status === 200) {
                         //  NOTE : 결제 완료페이지로 이동
                         console.log(httpRequest.responseText);
+                        window.location.href = "/pay-result/"+httpRequest.responseText;
                     } else {
                         // NOTE: 결제 실패페이지로 이동
                         alert(httpRequest.responseText);
