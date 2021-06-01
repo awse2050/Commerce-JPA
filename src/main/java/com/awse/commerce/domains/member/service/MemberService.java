@@ -38,7 +38,7 @@ public class MemberService {
                 .name(dto.getName())
                 .password(encode(dto.getPassword()))
                 .role(MemberRole.USER)
-                .address(new Address(dto.getZipcode(), dto.getExtraAddress(), dto.getDetailsAddress()))
+                .address(new Address(dto))
                 .build();
     }
 

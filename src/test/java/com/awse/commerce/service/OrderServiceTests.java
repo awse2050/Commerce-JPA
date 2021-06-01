@@ -45,7 +45,8 @@ public class OrderServiceTests {
         // given
         List<OrderRequestDto> orderRequestDtoList = new ArrayList<>();
 
-        orderRequestDtoList.add(new OrderRequestDto(6L, 3));
+        orderRequestDtoList.add(new OrderRequestDto(120L, 1));
+        orderRequestDtoList.add(new OrderRequestDto(119L, 1));
 
         // when
         orderService.order(1L, new OrderRequestDao(orderRequestDtoList));

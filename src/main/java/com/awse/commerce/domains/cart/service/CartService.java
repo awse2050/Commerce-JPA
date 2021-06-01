@@ -128,9 +128,6 @@ public class CartService {
 
     // 주문할 상품 목록 변환
     // NOTE : 현재 장바구니의 상품이 있는지 체크하고 있지 않다.
-    // elementCollection으로 인해서 테이블을 순회할 방법이 딱히 없다
-    // map형태를 순회하려하니 성능상 문제가 발생할것이라 판단하여
-    // 미봉책으로 검사를 안하게 함.
     private List<CartItemDetailsDto> bindToCheckoutDto(List<CheckoutDao> daoList) {
         List<CartItemDetailsDto> dtoList = daoList.stream().map(dao -> {
             Item item = itemRepository.findById(dao.getItemId()).get();

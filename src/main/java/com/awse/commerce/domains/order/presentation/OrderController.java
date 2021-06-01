@@ -4,7 +4,6 @@ import com.awse.commerce.domains.cart.dto.CheckoutDaoListDto;
 import com.awse.commerce.domains.cart.dto.CheckoutItemListDto;
 import com.awse.commerce.domains.cart.service.CartService;
 import com.awse.commerce.domains.member.entity.Member;
-import com.awse.commerce.domains.member.service.MemberService;
 import com.awse.commerce.domains.util.config.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -53,8 +52,6 @@ public class OrderController {
     @GetMapping("/order/order_form")
     public String orderFormPage(@CurrentUser Member currentMember ,Model model) {
         log.warn(daoList);
-        // 로그인 사용자 정보
-
         // 체크아웃 상품목록
         CheckoutItemListDto checkoutItemList = cartService.getCheckoutItems(currentMember.getId(), daoList);
 

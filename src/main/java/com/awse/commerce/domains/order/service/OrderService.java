@@ -7,6 +7,7 @@ import com.awse.commerce.domains.item.repository.ItemRepository;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.repository.MemberRepository;
 import com.awse.commerce.domains.order.dao.OrderRequestDao;
+import com.awse.commerce.domains.order.dto.OrderRequestDto;
 import com.awse.commerce.domains.order.entity.Order;
 import com.awse.commerce.domains.order.entity.OrderItem;
 import com.awse.commerce.domains.order.repository.OrderRepository;
@@ -36,7 +37,9 @@ public class OrderService {
         // 배송지를 지정한다.
         Delivery delivery = new Delivery(orderer.getAddress());
         // 주문상품을 모은다.
-        List<OrderItem> orderItemList = orderRequestDao.getOrderRequestDtoList().stream().map(item -> {
+        List<OrderRequestDto> orderRequestDtoList = orderRequestDao.getOrderRequestDtoList();
+
+        List<OrderItem> orderItemList = orderRequestDtoList.stream().map(item -> {
             Item itemEntity = itemRepository.findById(item.getItemId()).get();
 
             return new OrderItem(itemEntity, item.getOrderCount());
@@ -52,7 +55,9 @@ public class OrderService {
 
         Long orderResult = orderRepository.save(order).getOrderId();
         // 장바구니 비우기
-        cartService.removeItemsInCart(ordererId);
+        orderRequestDtoList.forEach(item -> {
+            cartService.removeItemInCart(ordererId, item.getItemId());
+        });
 
         return orderResult;
     }
