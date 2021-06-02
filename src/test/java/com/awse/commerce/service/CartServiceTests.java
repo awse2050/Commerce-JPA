@@ -42,6 +42,7 @@ public class CartServiceTests {
     @Commit
     public void addToCartTest1() {
         cartService.addToCart(1L, new AddRequestItemDao(6L, 1));
+        cartService.addToCart(1L, new AddRequestItemDao(8L, 1));
 
     }
 

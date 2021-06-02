@@ -8,6 +8,8 @@ import com.awse.commerce.domains.item.repository.ItemQueryRepository;
 import com.awse.commerce.domains.item.repository.ItemRepository;
 import com.awse.commerce.domains.util.pagination.PageRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ public class ItemService {
     private final ItemQueryRepository itemQueryRepository;
 
     // 상품 등록
+    @CacheEvict(value = "findEntityCache")
     @Transactional // 조회성능이 아닌 일반 트랜잭션을 이용하게 한다.
     public Long saveItem(ItemRequestDto itemRequestDto) {
         // to Entity
@@ -40,6 +43,7 @@ public class ItemService {
     }
 
     // 상품 전체 조회
+    @Cacheable(value = "findEntityCache")
     public PageResultItemDto<ItemDetailsDto> findAll(PageRequestDto requestDto, String keyword) {
         // Querydsl 로 조회한 데이터를 가져온다. 이때 PageRequestDto의 데이터로 Pageable을 구현시킴.
         Page<ItemDetailsDto> itemDetailsDtos = itemQueryRepository.findAll(keyword, requestDto.getPageable("itemId"));

@@ -88,7 +88,7 @@ public class OrderRepositoryTests {
         List<Order> list = orderRepository.getOrders();
 
         list.stream().forEach( order -> {
-            log.info(order.getOrderer());
+            log.info(order);
         });
     }
 
@@ -101,7 +101,6 @@ public class OrderRepositoryTests {
 
         list.stream().forEach( order -> {
             log.info(order);
-            log.info(order.getOrderItemList());
         });
     }
 
