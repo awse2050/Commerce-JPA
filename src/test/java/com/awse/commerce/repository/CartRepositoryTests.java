@@ -31,11 +31,11 @@ public class CartRepositoryTests {
     @Transactional
     @Test
     public void findByMemberIdTest() {
-        Optional<Cart> result = cartRepository.findByMemberId(5L);
+        Optional<Cart> result = cartRepository.findByMemberId(1L);
 
         log.info(result.get());
-        log.info(result.get().getCartMap().get(1L).getItemId());
-        log.info(result.get().getCartMap().get(2L).getItemId());
+//        log.info(result.get().getCartMap().get(1L).getItemId());
+//        log.info(result.get().getCartMap().get(2L).getItemId());
 
     }
 
