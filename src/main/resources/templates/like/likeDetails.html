@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<th:block th:replace="~{/fragment/fragment :: setBody(~{ :: body})}">
+    <th:block th:fragment="body">
+        <main class="site-main">
+            <section class="section-margin calc-60px">
+
+                <div>주문내역 조회</div>
+                <ul>
+                    <li th:each="likeList : ${pageResult.dtoList}">
+                        [[${likeList}]]
+                    </li>
+                </ul>
+
+            </section>
+        </main>
+
+    </th:block>
+</th:block>
+
+</body>
+</html>

@@ -3,6 +3,7 @@ package com.awse.commerce.service;
 import com.awse.commerce.domains.like.service.LikeService;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.repository.MemberRepository;
+import com.awse.commerce.domains.util.pagination.PageRequestDto;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,5 +41,12 @@ public class LikeServiceTests {
         Member member = memberRepository.findById(1L).get();
 
         likeService.cancelLike(member, 3L);
+    }
+
+    @Test
+    @DisplayName("페이징 + 찜 목록 조회 테스트")
+    public void findTest() {
+
+        log.info(likeService.getMyLikeList(new PageRequestDto(), 1L).getDtoList());
     }
 }
