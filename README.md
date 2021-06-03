@@ -15,6 +15,7 @@
 + Spring Data JPA
 + Querydsl
 + Postgresql
++ Swagger
 
 1. 회원 
   + 회원 등록 (검증에 대한 로직처리 필요)
@@ -46,8 +47,13 @@
 + 5.27일 기준 간단하게 동작이 되게 해놓은 상태
 + BootPay API
 
+6. 찜 목록 구현 (6.3)
++ 추가 및 삭제 API(6.3)
++ API + 프론트 연동
+
 ---
 ## To-Do
 + Security 적용 ( 5.19 )
 + 컨트롤러단 제작
 + 화면단 제작
+

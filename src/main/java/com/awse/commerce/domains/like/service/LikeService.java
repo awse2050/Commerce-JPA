@@ -7,12 +7,9 @@ import com.awse.commerce.domains.like.repository.LikeRepository;
 import com.awse.commerce.domains.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class LikeService {
 
     private final LikeRepository likeRepository;
