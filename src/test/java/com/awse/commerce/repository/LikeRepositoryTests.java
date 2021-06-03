@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @SpringBootTest
 @Log4j2
 public class LikeRepositoryTests {
@@ -55,10 +57,9 @@ public class LikeRepositoryTests {
         // 아이템 하나 찾고
         Item item = itemRepository.findById(2L).get();
 
-        Like like = likeRepository.findByMemberAndItem(member, item).get();
+        Optional<Like> like = likeRepository.findByMemberAndItem(member, item);
 
-        log.info(like);
-//        log.info(like.getMember());
+        log.info(like.isPresent());
         Assertions.assertThat(like).isNotNull();
     }
 
