@@ -2,13 +2,16 @@ package com.awse.commerce.repository;
 
 import com.awse.commerce.domains.item.entity.Item;
 import com.awse.commerce.domains.item.repository.ItemRepository;
+import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Log4j2
 public class ItemRepositoryTests {
 
     @Autowired
@@ -31,5 +34,16 @@ public class ItemRepositoryTests {
         }
 
         Assertions.assertThat(itemRepository.count()).isEqualTo(20);
+    }
+
+    @DisplayName("상품 조회 및 좋아요 확인")
+    @Transactional
+    @Test
+    public void findTests() {
+        Item item = itemRepository.findById(2L).get();
+        log.info(item);
+
+        item.getLikes().forEach(i -> log.info(i));
+
     }
 }
