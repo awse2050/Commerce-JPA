@@ -1,5 +1,7 @@
 package com.awse.commerce.controller.member;
 
+import com.awse.commerce.domains.cart.entity.Cart;
+import com.awse.commerce.domains.cart.repository.CartRepository;
 import com.awse.commerce.domains.member.dto.SignUpRequest;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.repository.MemberRepository;
@@ -32,6 +34,9 @@ public class MemberApiControllerTests {
     private MemberRepository memberRepository;
 
     @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     private final static String API_URI = "/api/member";
@@ -56,9 +61,12 @@ public class MemberApiControllerTests {
             )
                 .andExpect(status().isOk());
 
-        Optional<Member> list = memberRepository.findByEmail("aaa33@naver.com");
+        Optional<Member> list = memberRepository.findByEmail("aaa334@naver.com");
+
+        Cart cart = cartRepository.findByMemberId(list.get().getId()).get();
 
         Assertions.assertThat(list.isPresent()).isEqualTo(true);
+        Assertions.assertThat(cart).isNotNull();
     }
 
     @DisplayName("회원가입하기 - 실패(비밀번호 불일치)")
@@ -95,7 +103,7 @@ public class MemberApiControllerTests {
 
     private SignUpRequest getSignUpRequest() {
         return SignUpRequest.builder()
-                .email("aaa33@naver.com")
+                .email("aaa334@naver.com")
                 .name("김모씨")
                 .password("111111111")
                 .confirmPassword("111111111")
