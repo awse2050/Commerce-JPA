@@ -2,18 +2,27 @@ package com.awse.commerce.domains.like.service;
 
 import com.awse.commerce.domains.item.entity.Item;
 import com.awse.commerce.domains.item.repository.ItemRepository;
+import com.awse.commerce.domains.like.dto.LikedItemDetails;
+import com.awse.commerce.domains.like.dto.PageResultLikedItemDto;
 import com.awse.commerce.domains.like.entity.Like;
+import com.awse.commerce.domains.like.repository.LikeQueryRepository;
 import com.awse.commerce.domains.like.repository.LikeRepository;
 import com.awse.commerce.domains.member.entity.Member;
+import com.awse.commerce.domains.util.pagination.PageRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class LikeService {
 
     private final LikeRepository likeRepository;
     private final ItemRepository itemRepository;
+
+    private final LikeQueryRepository likeQueryRepository;
 
     // 좋아요 추가하기
     public boolean addLike(Member member, Long itemId) {
@@ -41,6 +50,13 @@ public class LikeService {
         likeRepository.delete(like);
     }
 
+    // 찜목록 전체 조회
+    public PageResultLikedItemDto<LikedItemDetails> getMyLikeList(PageRequestDto requestDto, Long memberId) {
+
+        Page<LikedItemDetails> pageList = likeQueryRepository.getLikeList(memberId, requestDto.getPageable("id"));
+
+        return new PageResultLikedItemDto<>(pageList);
+    }
 
     // 이미 추가했는지 확인
     private boolean isAlreadyLike(Member member, Item item) {
