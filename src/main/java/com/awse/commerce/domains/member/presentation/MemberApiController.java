@@ -1,5 +1,6 @@
 package com.awse.commerce.domains.member.presentation;
 
+import com.awse.commerce.domains.cart.service.CartService;
 import com.awse.commerce.domains.member.dto.SignUpRequest;
 import com.awse.commerce.domains.member.service.MemberService;
 import com.awse.commerce.domains.member.validator.SignUpValidator;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpServerErrorException;
 
 import javax.validation.Valid;
 
@@ -22,6 +22,7 @@ import javax.validation.Valid;
 @Log4j2
 public class MemberApiController {
 
+    private final CartService cartService;
     private final MemberService memberService;
     private final SignUpValidator signUpValidator;
 
@@ -41,8 +42,9 @@ public class MemberApiController {
         }
 
         // 회원가입 진행
-        // save 반환타입 추후 변경
         Long memberId =  memberService.signUp(signup);
+        log.info("Signup Member ID : " +memberId);
+        cartService.createCart(memberId);
         
        return new ResponseEntity<>("success", HttpStatus.OK);
     }
