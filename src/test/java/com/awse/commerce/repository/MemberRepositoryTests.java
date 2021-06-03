@@ -39,6 +39,7 @@ public class MemberRepositoryTests {
                     .email("user"+i+"@aaa.com")
                     .name("일반회원"+i)
                     .password(pwEncoder.encode("pw"+i))
+                    .phone("010324533"+i)
                     .address(address)
                     .role(MemberRole.USER)
                     .build();

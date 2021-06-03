@@ -11,7 +11,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
-@ToString
+@ToString(exclude = "likes")
 @Getter
 @Entity
 public class Item extends BaseEntity {

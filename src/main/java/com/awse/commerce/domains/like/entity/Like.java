@@ -8,8 +8,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@ToString
+@ToString(exclude = {"member", "item"})
 @Table(name = "likes")
 @Entity
 public class Like {
@@ -25,5 +24,10 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "itemId")
     private Item item;
+
+    public Like(Member member, Item item) {
+        this.member = member;
+        this.item = item;
+    }
 
 }
