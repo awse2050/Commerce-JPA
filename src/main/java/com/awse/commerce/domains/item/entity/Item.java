@@ -1,9 +1,12 @@
 package com.awse.commerce.domains.item.entity;
 
+import com.awse.commerce.domains.like.entity.Like;
 import com.awse.commerce.domains.util.entity.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -28,6 +31,11 @@ public class Item extends BaseEntity {
 
     @Column(nullable = false)
     private int stockQuantity; // 재고 수량
+
+    // 좋아요 개수 파악용
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @Builder.Default
+    private Set<Like> likes = new HashSet<>();
 
     // 재고 빼기
     public void removeStockQuantity(int orderQuantity) {
