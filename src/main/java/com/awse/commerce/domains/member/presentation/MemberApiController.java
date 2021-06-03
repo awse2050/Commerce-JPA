@@ -46,7 +46,7 @@ public class MemberApiController {
         log.info("Signup Member ID : " +memberId);
         cartService.createCart(memberId);
         
-       return new ResponseEntity<>("success", HttpStatus.OK);
+       return new ResponseEntity<>("회원가입이 정상적으로 완료되었습니다.", HttpStatus.OK);
     }
 
 }

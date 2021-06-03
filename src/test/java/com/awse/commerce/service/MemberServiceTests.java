@@ -29,6 +29,7 @@ public class MemberServiceTests {
                 .name("김윤환")
                 .password("11111111")
                 .confirmPassword("11111112")
+                .phone("01031943287")
                 .zipcode("14954")
                 .extraAddress("경기도 시흥시 은계남로 11")
                 .detailsAddress("904-1006")

@@ -37,6 +37,7 @@ public class MemberService {
                 .email(dto.getEmail())
                 .name(dto.getName())
                 .password(encode(dto.getPassword()))
+                .phone(dto.getPhone())
                 .role(MemberRole.USER)
                 .address(new Address(dto))
                 .build();
