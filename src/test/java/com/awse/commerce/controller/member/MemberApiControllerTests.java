@@ -107,6 +107,7 @@ public class MemberApiControllerTests {
                 .name("김모씨")
                 .password("111111111")
                 .confirmPassword("111111111")
+                .phone("01033229483")
                 .zipcode("14954")
                 .extraAddress("경기도 시흥시 은계남로 11")
                 .detailsAddress("904-1006")

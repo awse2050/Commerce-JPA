@@ -27,7 +27,7 @@ public class ItemServiceTests {
     @Commit
     public void itemSaveTest() {
 
-        for(int i=16; i < 120; i++) {
+        for(int i=0; i < 101; i++) {
 
         ItemRequestDto dto = ItemRequestDto.builder()
                 .itemAmount(50+i)

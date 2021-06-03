@@ -22,6 +22,9 @@
                                     <div class="col-md-12 form-group">
                                         <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
                                     </div>
+                                    <div class="col-md-12 form-group">
+                                        <input type="text" class="form-control" id="phone" placeholder="Phone" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone'">
+                                    </div>
                                     <div class="col-md-12 form-group" style="text-align: left;">
                                         <button id="setPost" class="button button-register" style="width: 30%; font-size: 12px;">우편번호 찾기</button>
                                     </div>
@@ -84,6 +87,7 @@
                 email : document.getElementById("email").value,
                 password : document.getElementById("password").value,
                 confirmPassword : document.getElementById("confirmPassword").value,
+                phone : document.getElementById("phone").value,
                 zipcode : document.getElementById("postCode").value,
                 extraAddress : document.getElementById("extraAddress").value,
                 detailsAddress : document.getElementById("detailsAddress").value,
