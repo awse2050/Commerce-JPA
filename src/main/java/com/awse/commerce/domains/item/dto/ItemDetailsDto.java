@@ -19,6 +19,7 @@ public class ItemDetailsDto {
     private String imgPath;
 
     private int stockQuantity;
+    private int likeCount;
 
     public ItemDetailsDto(Item entity) {
         this.itemId = entity.getItemId();
@@ -26,15 +27,17 @@ public class ItemDetailsDto {
         this.itemAmount = entity.getMoney();
         this.imgPath = entity.getImgPath();
         this.stockQuantity = entity.getStockQuantity();
+        this.likeCount = entity.getLikes().size();
     }
 
     // Querydsl
     @QueryProjection
-    public ItemDetailsDto(Long itemId, String itemName, String imgPath, int itemAmount, int stockQuantity) {
+    public ItemDetailsDto(Long itemId, String itemName, String imgPath, int itemAmount, int stockQuantity, int likeCount) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.imgPath = imgPath;
         this.itemAmount = itemAmount;
         this.stockQuantity = stockQuantity;
+        this.likeCount = likeCount;
     }
 }

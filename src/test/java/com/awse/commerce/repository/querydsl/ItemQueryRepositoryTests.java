@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 @SpringBootTest
+@Log4j2
 public class ItemQueryRepositoryTests {
 
     @Autowired
@@ -27,8 +28,9 @@ public class ItemQueryRepositoryTests {
 
         Pageable pageable = PageRequest.of(0, 10, Sort.by("itemId").descending());
 
-        Page<ItemDetailsDto> pageList = itemQueryRepository.findAll("개", pageable);
+        Page<ItemDetailsDto> pageList = itemQueryRepository.findAll(null, pageable);
 
+        pageList.getContent().forEach(i -> log.info(i.getLikeCount()));
         Assertions.assertThat(pageList.getContent()).isNotNull();
         Assertions.assertThat(pageList.getContent().size()).isEqualTo(2);
 
