@@ -38,7 +38,7 @@ public class LikeRepositoryTests {
         // 사용자 하나 찾고
         Member member = memberRepository.findById(2L).get();
         // 아이템 하나 찾고
-        Item item = itemRepository.findById(2L).get();
+        Item item = itemRepository.findById(464L).get();
         // 추가하기
         Like like = new Like(member,item);
 

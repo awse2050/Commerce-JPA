@@ -37,7 +37,8 @@ public class ItemQueryRepository extends QuerydslRepositorySupport {
                 item.name,
                 item.imgPath,
                 item.money,
-                item.stockQuantity
+                item.stockQuantity,
+                item.likes.size()
                 )).from(item)
                         .where(searchExpression(keyword))
                 .offset(pageable.getOffset())

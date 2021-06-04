@@ -35,6 +35,7 @@
                                     <h4 class="card-product__title"><a th:href="@{/item/{itemId}(itemId=${item.itemId})}">[[${item.itemName}]]</a></h4>
                                     <p class="card-product__price">[[${item.itemAmount}]]</p>
                                     <p class="card-product__price">재고 : [[${item.stockQuantity}]]</p>
+                                    <p class="card-product__price">좋아요 [[${item.likeCount}]]</p>
                                 </div>
                             </div>
                         </div>
