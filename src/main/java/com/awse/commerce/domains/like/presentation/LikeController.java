@@ -22,8 +22,10 @@ public class LikeController {
                      @CurrentUser Member currentMember,
                      Model model) {
 
+        Long memberId = currentMember.getId();
+
         PageResultLikedItemDto<LikedItemDetails> pageList
-                = likeService.getMyLikeList(pageRequestDto, currentMember.getId());
+                = likeService.getMyLikeList(memberId, pageRequestDto);
 
         model.addAttribute("pageResult", pageList);
 

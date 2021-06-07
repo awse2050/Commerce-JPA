@@ -18,6 +18,12 @@
                     </li>
                 </ul>
 
+                <div>찜목록</div>
+                <ul>
+                    <li th:each="like : ${like.dtoList}">
+                        [[${like}]]
+                    </li>
+                </ul>
             </section>
         </main>
 

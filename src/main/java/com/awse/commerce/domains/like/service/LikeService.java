@@ -51,7 +51,7 @@ public class LikeService {
     }
 
     // 찜목록 전체 조회
-    public PageResultLikedItemDto<LikedItemDetails> getMyLikeList(PageRequestDto requestDto, Long memberId) {
+    public PageResultLikedItemDto<LikedItemDetails> getMyLikeList(Long memberId, PageRequestDto requestDto) {
 
         Page<LikedItemDetails> pageList = likeQueryRepository.getLikeList(memberId, requestDto.getPageable("id"));
 

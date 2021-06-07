@@ -47,6 +47,6 @@ public class LikeServiceTests {
     @DisplayName("페이징 + 찜 목록 조회 테스트")
     public void findTest() {
 
-        log.info(likeService.getMyLikeList(new PageRequestDto(), 1L).getDtoList());
+        log.info(likeService.getMyLikeList( 1L, new PageRequestDto()).getDtoList());
     }
 }

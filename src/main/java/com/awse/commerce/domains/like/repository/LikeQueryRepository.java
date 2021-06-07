@@ -40,6 +40,7 @@ public class LikeQueryRepository extends QuerydslRepositorySupport {
                 .select(new QLikedItemDetails(
                         item.itemId,
                         item.name,
+                        item.imgPath,
                         item.money,
                         item.likes.size()
                 )).from(like)
