@@ -27,7 +27,7 @@ public class LikeApiControllerTests {
     @WithMockCustomUser
     public void addLikeAPITest() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/like/7")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/like/15")
         )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
