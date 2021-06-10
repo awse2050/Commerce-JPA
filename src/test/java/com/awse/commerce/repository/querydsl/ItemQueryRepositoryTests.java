@@ -30,9 +30,6 @@ public class ItemQueryRepositoryTests {
 
         Page<ItemDetailsDto> pageList = itemQueryRepository.findAll(null, pageable);
 
-        pageList.getContent().forEach(i -> log.info(i.getLikeCount()));
         Assertions.assertThat(pageList.getContent()).isNotNull();
-        Assertions.assertThat(pageList.getContent().size()).isEqualTo(2);
-
     }
 }

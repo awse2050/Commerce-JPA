@@ -41,13 +41,6 @@ public class MemberApiControllerTests {
 
     private final static String API_URI = "/api/member";
 
-    @Test
-    @Commit
-    @Transactional
-    public void delete() {
-        memberRepository.deleteByEmail("aaa33@naver.com");
-    }
-
     @DisplayName("회원가입하기 - 성공")
     @Test
     public void signUpTest() throws Exception{
@@ -67,22 +60,6 @@ public class MemberApiControllerTests {
 
         Assertions.assertThat(list.isPresent()).isEqualTo(true);
         Assertions.assertThat(cart).isNotNull();
-    }
-
-    @DisplayName("회원가입하기 - 실패(비밀번호 불일치)")
-    @Test
-    public void signUpTestFail() throws Exception {
-        SignUpRequest dto = getSignUpRequest();
-
-        mockMvc.perform(
-                MockMvcRequestBuilders
-                        .post(API_URI)
-                        .content(objectMapper.writeValueAsString(dto))
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-        )
-                .andExpect(status().isBadRequest()) // 테스트시 원하는 기대값
-                .andDo(MockMvcResultHandlers.print()); // 테스트 이후 실행
-
     }
 
     @DisplayName("회원가입하기 - 실패(이메일 중복)")

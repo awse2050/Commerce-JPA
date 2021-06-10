@@ -1,6 +1,7 @@
 package com.awse.commerce.controller.member;
 
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class MemberControllerTests {
     @DisplayName("마이페이지")
     @WithMockCustomUser
     @Test
+    @Disabled
     public void getMyPage() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/mypage")

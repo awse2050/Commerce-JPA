@@ -28,7 +28,7 @@ public class IndexControllerTests {
                 MockMvcRequestBuilders
                 .get("/")
                 )
-                .andExpect(MockMvcResultMatchers.model().attributeExists("itemList"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("pageResult"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }

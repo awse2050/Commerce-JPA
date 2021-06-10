@@ -10,6 +10,7 @@ import com.awse.commerce.domains.order.repository.OrderRepository;
 import com.awse.commerce.domains.order.service.OrderService;
 import com.awse.commerce.domains.util.enums.OrderStatus;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 @SpringBootTest
 @Transactional
+@Disabled
 public class OrderServiceTests {
 
     @Autowired

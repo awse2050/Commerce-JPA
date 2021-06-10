@@ -26,8 +26,6 @@ public class LikeQueryRepositoryTests {
        Page<LikedItemDetails> pageList =
                likeQueryRepository.getLikeList(1L, PageRequest.of(0, 10, Sort.by("id").descending()));
 
-       log.info(pageList);
-
        pageList.getContent().forEach(i -> {
            log.info(i);
        });

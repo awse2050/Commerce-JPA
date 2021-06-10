@@ -3,6 +3,7 @@ package com.awse.commerce.repository.querydsl;
 import com.awse.commerce.domains.order.entity.Order;
 import com.awse.commerce.domains.order.repository.OrderQueryRepository;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @Log4j2
+@Disabled
 public class OrderQueryRepositoryTests {
 
     @Autowired

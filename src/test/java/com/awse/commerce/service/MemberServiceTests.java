@@ -23,32 +23,12 @@ public class MemberServiceTests {
     @DisplayName("회원가입 테스트")
     @Test
     @Commit
-    public void signUpTest() {
-
-        SignUpRequest dto = SignUpRequest.builder()
-                .email("kyh3964@naver.com")
-                .name("김윤환")
-                .password("11111111")
-                .confirmPassword("11111111")
-                .phone("01031943287")
-                .zipcode("14954")
-                .extraAddress("경기도 시흥시 은계남로 11")
-                .detailsAddress("904-1006")
-                .build();
-
-       Long result = memberService.signUp(dto);
-       Assertions.assertThat(result).isNotNull();
-    }
-
-    @DisplayName("회원가입 테스트")
-    @Test
-    @Commit
     public void signUpTest2() {
         Long result = null;
         for(int i=1; i < 30; i++) {
 
             SignUpRequest dto = SignUpRequest.builder()
-                    .email("user"+i+"@naver.com")
+                    .email("user"+i+"@aaa.com")
                     .name("사용자"+i)
                     .password("11111111")
                     .confirmPassword("11111111")

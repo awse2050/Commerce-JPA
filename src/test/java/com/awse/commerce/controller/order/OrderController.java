@@ -3,6 +3,7 @@ package com.awse.commerce.controller.order;
 import com.awse.commerce.domains.cart.dao.CheckoutDao;
 import com.awse.commerce.domains.cart.dto.CheckoutDaoListDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Disabled
 public class OrderController {
 
     @Autowired

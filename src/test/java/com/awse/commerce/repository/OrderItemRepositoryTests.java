@@ -5,6 +5,7 @@ import com.awse.commerce.domains.order.entity.OrderItem;
 import com.awse.commerce.domains.order.repository.OrderItemRepository;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import javax.transaction.Transactional;
 
 @SpringBootTest
 @Log4j2
+@Disabled
 public class OrderItemRepositoryTests {
 
     @Autowired

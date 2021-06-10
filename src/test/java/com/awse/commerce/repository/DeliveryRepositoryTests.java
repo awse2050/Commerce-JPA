@@ -5,12 +5,14 @@ import com.awse.commerce.domains.delivery.repository.DeliveryRepository;
 import com.awse.commerce.domains.member.repository.MemberRepository;
 import com.awse.commerce.domains.util.enums.DeliveryStatus;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
+@Disabled
 public class DeliveryRepositoryTests {
 
     @Autowired

@@ -1,6 +1,7 @@
 package com.awse.commerce.controller.like;
 
 import com.awse.commerce.controller.member.WithMockCustomUser;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Disabled
 public class LikeControllerTests {
 
     @Autowired

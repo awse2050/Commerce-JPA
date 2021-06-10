@@ -13,6 +13,7 @@ import com.awse.commerce.domains.util.enums.DeliveryStatus;
 import com.awse.commerce.domains.util.enums.OrderStatus;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @Log4j2
+@Disabled
 public class OrderRepositoryTests {
 
     @Autowired

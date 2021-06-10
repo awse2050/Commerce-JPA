@@ -8,6 +8,7 @@ import com.awse.commerce.domains.cart.repository.CartRepository;
 import com.awse.commerce.domains.item.entity.Item;
 import com.awse.commerce.domains.item.repository.ItemRepository;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 @SpringBootTest
 @Log4j2
+@Disabled
 public class CartRepositoryTests {
 
     @Autowired
