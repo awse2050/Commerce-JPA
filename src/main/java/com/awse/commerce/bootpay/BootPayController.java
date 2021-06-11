@@ -17,7 +17,7 @@ public class BootPayController {
        log.info("resMsg : " + resMsg);
 
        model.addAttribute("result", resMsg);
-        return "/pay-result";
+        return "pay-result";
     }
 
 }
