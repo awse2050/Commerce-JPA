@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<th:block th:replace="~{/fragment/fragment :: setBody(~{ :: body})}">
+<th:block th:replace="~{fragment/fragment :: setBody(~{ :: body})}">
     <th:block th:fragment="body">
 
      <div sec:authorize="isAuthenticated()">
