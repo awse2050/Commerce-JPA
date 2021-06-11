@@ -7,6 +7,7 @@ import com.awse.commerce.domains.item.service.ItemService;
 import com.awse.commerce.domains.util.pagination.PageRequestDto;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class ItemServiceTests {
     @Test
     @Transactional
     @Commit
+    @Disabled
     public void itemSaveTest() {
 
         for(int i=0; i < 101; i++) {
