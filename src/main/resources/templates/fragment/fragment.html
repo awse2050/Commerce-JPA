@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th = "http://www.thymeleaf.org">
 <!-- 해당 태그들을 조각으로 던진다.-->
 <th:block th:fragment="setBody(body)">
-    <head th:replace="fragment/head.html :: head">
+    <head th:replace="/fragment/head.html :: head">
 
     </head>
     <body>
-    <header th:replace="fragment/header.html :: header"></header>
+    <header th:replace="/fragment/header.html :: header"></header>
 
     <th:block th:replace="${body}">
 
 
     </th:block>
 
-    <footer th:replace="fragment/footer.html :: footer"></footer>
+    <footer th:replace="/fragment/footer.html :: footer"></footer>
 
     </body>
 </th:block>

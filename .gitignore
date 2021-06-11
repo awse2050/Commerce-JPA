@@ -11,6 +11,7 @@ generated
 ## bootPay ##
 application-pay.properties
 application-oauth.properties
+application-real-db.properties
 
 ### STS ###
 .apt_generated
