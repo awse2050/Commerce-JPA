@@ -18,6 +18,7 @@ script: "./gradlew clean build"
 before_install:
   - chmod +x ./gradlew
 
+# test
 after_script:
   - "ls /home/travis/build/awse2050/Commerce-JPA/src/main/resources"
 
