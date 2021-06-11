@@ -7,6 +7,7 @@ import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class MemberApiControllerTests {
 
     @DisplayName("회원가입하기 - 성공")
     @Test
+    @Disabled
     public void signUpTest() throws Exception{
         SignUpRequest dto = getSignUpRequest();
 
