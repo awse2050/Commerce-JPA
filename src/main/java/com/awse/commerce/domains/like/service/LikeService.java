@@ -57,6 +57,13 @@ public class LikeService {
 
         return new PageResultLikedItemDto<>(pageList);
     }
+    // NOTE : use other Controller
+    public boolean isEnabledLike(Member member, Long itemId) {
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품 입니다."));
+
+        return likeRepository.findByMemberAndItem(member, item).isPresent();
+    }
 
     // 이미 추가했는지 확인
     private boolean isAlreadyLike(Member member, Item item) {
