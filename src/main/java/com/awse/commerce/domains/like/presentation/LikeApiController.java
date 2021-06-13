@@ -32,7 +32,8 @@ public class LikeApiController {
 
         boolean isAddLike = likeService.addLike(currentMember, itemId);
 
-        return isAddLike ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return isAddLike ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>("이미 추가된 상품입니다.", HttpStatus.BAD_REQUEST);
     }
 
     // 찜 삭제
