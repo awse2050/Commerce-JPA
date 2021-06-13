@@ -8,6 +8,8 @@
  
 > Travis CI 사용 중 문제가 생겨 우선은 수동배포로 진행.
 
+> [사이트 바로가기](http://www.commerce-jpa.com)
+
 ### 개발환경
 + Spring Boot '2.4.5'
 + Java 8
