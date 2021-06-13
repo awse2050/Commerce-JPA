@@ -22,7 +22,7 @@
                                 <h2>[[${item.itemAmount}]] 원</h2>
                                 <ul class="list">
                                     <li><span>재고량</span> :  [[${item.stockQuantity}]] 개</a></li>
-                                    <li><span>좋아요</span> :  <i class="fab fa-gratipay"></i> [[${item.likeCount}]] 개</a></li>
+                                    <li><span>좋아요</span> :  <i class="fab fa-gratipay"></i> <span id="likeCount">[[${item.likeCount}]]</span> 개</a></li>
                                 </ul>
                                 <div class="product_count" style="margin-top: 24px;">
                                     <label for="qty">수량:</label>
@@ -36,9 +36,9 @@
                                     padding: 12px 20px;
                                     color: #fff; transition: all .4s ease;
                                     position: relative; background: #384aeb;" title="장바구니"> 장바구니 담기 </button>
-                                    <button title="좋아요" style="border: 1px solid #e8e8e8; background: white; padding: 5px; position: relative; border-radius: 10px;">
+                                    <button id="likeBtn" title="좋아요" style="border: 1px solid #e8e8e8; background: white; padding: 5px; position: relative; border-radius: 10px;">
                                         <a href="#">
-                                            <i class="fab fa-gratipay" style="vertical-align: middle; font-size: 40px; color: gray;">
+                                            <i class="fab fa-gratipay" id="likeIcon" style="vertical-align: middle; font-size: 40px; color: gray;">
                                             </i>
                                         </a>
                                     </button>
@@ -58,11 +58,30 @@
 
         // Button
         let addToCartBtn = document.getElementById("addToCart");
+        let likeBtn = document.getElementById("likeBtn");
 
         const itemId = [[${item.itemId}]]
+        let likeIcon = null;
+        let likeCount = document.getElementById("likeCount");
         var httpRequest;
 
         addToCartBtn.addEventListener("click", addToCart);
+        likeBtn.addEventListener("click", clickLike)
+
+        // ========= Event Generate ==========
+        function clickLike(e) {
+            e.preventDefault();
+            // 색상으로 구분?
+            likeIcon = document.getElementById("likeIcon");
+
+            if(likeIcon.style.color === "gray") {
+            // 색상이 회색이라면 ? 찜추가를 요청
+                requestActiveLike(addLikeResult, "POST");
+            } else if(likeIcon.style.color === "red") {
+            // 색상이 빨간색이라면? 찜삭제를 요청
+                requestActiveLike(deleteLikeResult, "DELETE");
+            }
+        }
 
         function addToCart() {
             httpRequest = new XMLHttpRequest();
@@ -70,11 +89,20 @@
             var requestDao = getAddRequestDao();
             console.log(requestDao);
 
-            httpRequest.onreadystatechange = executeResult;
+            httpRequest.onreadystatechange = addToCartResult;
             httpRequest.open("POST", "/api/cart");
             httpRequest.setRequestHeader("Content-Type", "application/json");
             httpRequest.send(JSON.stringify(requestDao));
 
+        }
+
+        // ============ Get Instance ==============
+        function getHttpInstance() {
+            if(!httpRequest) {
+                httpRequest = new XMLHttpRequest();
+            }
+
+            return httpRequest;
         }
 
         function getAddRequestDao() {
@@ -86,13 +114,60 @@
             return dao;
         }
 
-        function executeResult() {
+        function activeLike(color, count) {
+            likeIcon.style.color = color;
+            likeCount.innerText = parseInt(likeCount.innerText)+count;
+        }
+
+        function requestActiveLike(e, type) {
+            // 서버에 요청을 한다
+            httpRequest = getHttpInstance();
+            // 성공시 색상을 변경한다.
+            httpRequest.onreadystatechange = e;
+            httpRequest.open(type, "/api/like/"+itemId);
+            httpRequest.send();
+        }
+
+        // ================ Event Result Function ===============
+        function addToCartResult() {
             try {
                 if(httpRequest.readyState === XMLHttpRequest.DONE) {
                     if(httpRequest.status === 200) {
                         if(confirm("성공적으로 담았습니다. 장바구니로 이동하시겠습니까?")) {
                             window.location.href = "/mycart";
                         }
+                    } else {
+                        alert(httpRequest.responseText);
+                        return;
+                    }
+                }
+            } catch (e) {
+                alert("Caught : " + e.description);
+            }
+        }
+
+        function addLikeResult() {
+            try {
+                if(httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if(httpRequest.status === 200) {
+                        alert("찜 목록에 추가되었습니다.");
+                        activeLike("red", 1);
+                    } else {
+                        alert(httpRequest.responseText);
+                        return;
+                    }
+                }
+            } catch (e) {
+                alert("Caught : " + e.description);
+            }
+        }
+
+        function deleteLikeResult() {
+            try {
+                if(httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if(httpRequest.status === 200) {
+                        alert("찜 목록에서 삭제하였습니다..");
+                        activeLike("gray", -1);
                     } else {
                         alert(httpRequest.responseText);
                         return;
