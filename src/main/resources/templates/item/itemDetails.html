@@ -56,6 +56,16 @@
 <script th:inline="javascript">
     window.onload = function() {
 
+        (function () {
+            console.log("closer...");
+
+            var isLike = [[${liked}]];
+
+            if(isLike) {
+                document.getElementById("likeIcon").style.color = "red";
+            }
+        })();
+
         // Button
         let addToCartBtn = document.getElementById("addToCart");
         let likeBtn = document.getElementById("likeBtn");
@@ -150,7 +160,6 @@
             try {
                 if(httpRequest.readyState === XMLHttpRequest.DONE) {
                     if(httpRequest.status === 200) {
-                        alert("찜 목록에 추가되었습니다.");
                         activeLike("red", 1);
                     } else {
                         alert(httpRequest.responseText);
@@ -166,7 +175,6 @@
             try {
                 if(httpRequest.readyState === XMLHttpRequest.DONE) {
                     if(httpRequest.status === 200) {
-                        alert("찜 목록에서 삭제하였습니다..");
                         activeLike("gray", -1);
                     } else {
                         alert(httpRequest.responseText);

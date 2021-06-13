@@ -5,6 +5,7 @@ import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.repository.MemberRepository;
 import com.awse.commerce.domains.util.pagination.PageRequestDto;
 import lombok.extern.log4j.Log4j2;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,4 +52,15 @@ public class LikeServiceTests {
 
         log.info(likeService.getMyLikeList( 1L, new PageRequestDto()).getDtoList());
     }
+
+    @DisplayName("찜 여부 확인")
+    @Test
+    public void isEnabledLikeTest() {
+        Member member = memberRepository.findById(1L).get();
+
+        boolean isLike = likeService.isEnabledLike(member, 101L);
+
+        Assertions.assertThat(isLike).isTrue();
+    }
+
 }
