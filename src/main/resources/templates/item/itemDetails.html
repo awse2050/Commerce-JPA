@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{fragment/fragment.html :: setBody(~{ :: body})}">
     <th:block th:fragment="body">
 
@@ -57,14 +58,14 @@
     window.onload = function() {
 
         (function () {
-            console.log("closer...");
-
             var isLike = [[${liked}]];
 
             if(isLike) {
                 document.getElementById("likeIcon").style.color = "red";
             }
         })();
+        // 로그인 사용자
+        let loginMember = [[${loginMember}]];
 
         // Button
         let addToCartBtn = document.getElementById("addToCart");
@@ -81,7 +82,14 @@
         // ========= Event Generate ==========
         function clickLike(e) {
             e.preventDefault();
-            // 색상으로 구분?
+
+            if(!isEnabledLogin()) {
+                console.log(Boolean(loginMember));
+                console.log("like1");
+                return false;
+            }
+            console.log(Boolean(loginMember));
+            console.log("like2");
             likeIcon = document.getElementById("likeIcon");
 
             if(likeIcon.style.color === "gray") {
@@ -94,6 +102,13 @@
         }
 
         function addToCart() {
+            if(!isEnabledLogin()) {
+                console.log(Boolean(loginMember));
+                console.log("add");
+                return false;
+            }
+            console.log(Boolean(loginMember));
+            console.log("add2");
             httpRequest = new XMLHttpRequest();
 
             var requestDao = getAddRequestDao();
@@ -184,6 +199,14 @@
             } catch (e) {
                 alert("Caught : " + e.description);
             }
+        }
+
+        function isEnabledLogin() {
+            if(!loginMember) {
+                alert("로그인이 필요합니다.");
+                return false;
+            }
+            return true;
         }
     }
 
