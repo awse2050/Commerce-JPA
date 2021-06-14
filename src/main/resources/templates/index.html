@@ -17,7 +17,7 @@
                         <ul class="pagination" style="float: right; font-size: 12px;">
                             <li class="page-item" th:if="${pageResult.prev}">
                                 <a class="page-link" th:href="@{/(page=${pageResult.start - 1},
-                            size=${pageResult.size}, keyword=${keyword})}">prev</a>
+                            size=${pageResult.size}, keyword=${keyword})}">이전</a>
                             </li>
                             <li th:class=" 'page-item ' + ${pageResult.page == page ? 'active' : ''} " th:each="page: ${pageResult.pageList}">
                                 <a class="page-link" th:href="@{/(page = ${page},
@@ -26,7 +26,7 @@
                                 </a>
                             <li class="page-item" th:if="${pageResult.next}">
                                 <a class="page-link" th:href="@{/(page=${pageResult.end + 1},
-                            size=${pageResult.size}, keyword=${keyword})}">next</a>
+                            size=${pageResult.size}, keyword=${keyword})}">다음</a>
                             </li>
                         </ul>
                     </h2>
@@ -37,7 +37,7 @@
                             <div class="card text-center card-product">
                                 <div class="card-product__img">
                                     <a th:href="@{/item/{itemId}(itemId=${item.itemId})}" style="width: 100%;">
-                                        <img class="card-img" src="/img/cart.jpg">
+                                        <img class="card-img" src="/img/bolpen.jpg">
                                     </a>
                                 </div>
                                 <div class="card-body">

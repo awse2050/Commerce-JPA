@@ -11,46 +11,46 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th scope="col">
+                                    <th scope="col" style="padding-right: 0px;">
                                         <input type="checkbox" id="allCheck" checked="checked">
                                     </th>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">options</th>
+                                    <th scope="col" style="text-align: center;">Product</th>
+                                    <th scope="col" style="text-align: center;">Price</th>
+                                    <th scope="col" style="text-align: center;">Quantity</th>
+                                    <th scope="col" style="text-align: center;">Total</th>
+                                    <th scope="col"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <th:block th:each="cart : ${cartList.cartItemDetailsDtoList}">
                                 <tr th:value="${cart.itemId}">
-                                    <td>
+                                    <td style="padding-right: 0px;">
                                         <input type="checkbox" name="itemCheck" checked="checked">
                                     </td>
                                     <td>
-                                        <div class="media">
+                                        <div class="media" style="padding-left: 0px;">
                                             <div class="d-flex">
-                                                <img src="/img/noimage.jpg" width="150" height="100">
+                                                <img src="/img/bolpen.jpg" width="150" height="100">
                                             </div>
                                             <div class="media-body">
                                                 <p name="itemName">[[${cart.itemName}]]</p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td style="text-align: center;">
                                         <h5 name="itemAmount">[[${cart.itemAmount}]] 원</h5>
                                     </td>
-                                    <td>
+                                    <td style="text-align: center;">
                                         <div class="product_count">
                                             <input type="text" name="orderCount" th:value="${cart.orderCount}"
                                                    class="input-text qty"/>개
                                             <button name="modCountBtn">수량변경</button>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td style="text-align: center;">
                                         <h5 name="calTotalCount">[[${cart.calTotalAmount()}]] 원</h5>
                                     </td>
-                                    <td>
+                                    <td style="text-align: center;">
                                         <button name="remove" style="border: 1px solid #dddddd;
                                         background: #fff;
                                         color: #000;
@@ -77,10 +77,14 @@
                                     </td>
                                 </tr>
                                 <tr class="out_button_area">
-                                    <td class="d-none-l">
+                                    <td class="d-none-l" style="padding-right: 0px;">
+                                        <button id="selRemove" style="border: 1px solid #000;
+                                        background: #fff;
+                                        color: #000;
+                                        font-weight: bold;
+                                        font-size: 14px;">선택삭제</button>
                                     </td>
                                     <td class="">
-                                        <button id="selRemove">선택삭제</button>
                                     </td>
                                     <td>
                                     </td>
@@ -89,8 +93,7 @@
                                     <td>
                                     </td>
                                     <td>
-                                        <div class="checkout_btn_inner d-flex align-items-center">
-                                            <a class="gray_btn" href="/">Continue Shopping</a>
+                                        <div class="checkout_btn_inner d-flex align-items-center" style="justify-content: flex-end;">
                                             <button id="checkout" style="margin: 0 1px; border: 1px solid #000000; background-color: #000000; min-width: 290px; height: 60px; line-height: 54px; padding-top: 4px; font-size: 20px; color: #ffffff;">주문하기</button>
                                         </div>
                                     </td>
