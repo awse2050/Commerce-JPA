@@ -21,10 +21,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/mypage/**", "/api/**", "/mylike/**", "/mycart/**", "/checkout", "/order/**")
+                .antMatchers("/mypage/**", "/mylike/**", "/mycart/**", "/checkout", "/order/**")
                 .authenticated();
 
-        http.authorizeRequests().antMatchers("/", "/index", "/item/**").permitAll();
+        http.authorizeRequests().antMatchers("/", "/index", "/item/**", "/api/**").permitAll();
 
         http.formLogin().loginPage("/login").usernameParameter("email").passwordParameter("password");
         http.logout().logoutSuccessUrl("/");
