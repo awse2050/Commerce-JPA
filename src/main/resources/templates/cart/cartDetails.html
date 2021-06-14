@@ -22,82 +22,93 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <th:block th:each="cart : ${cartList.cartItemDetailsDtoList}">
-                                <tr th:value="${cart.itemId}">
-                                    <td style="padding-right: 0px;">
-                                        <input type="checkbox" name="itemCheck" checked="checked">
-                                    </td>
-                                    <td>
-                                        <div class="media" style="padding-left: 0px;">
-                                            <div class="d-flex">
-                                                <img src="/img/bolpen.jpg" width="150" height="100">
-                                            </div>
-                                            <div class="media-body">
-                                                <p name="itemName">[[${cart.itemName}]]</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <h5 name="itemAmount">[[${cart.itemAmount}]] 원</h5>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <div class="product_count">
-                                            <input type="text" name="orderCount" th:value="${cart.orderCount}"
-                                                   class="input-text qty"/>개
-                                            <button name="modCountBtn">수량변경</button>
-                                        </div>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <h5 name="calTotalCount">[[${cart.calTotalAmount()}]] 원</h5>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <button name="remove" style="border: 1px solid #dddddd;
-                                        background: #fff;
-                                        color: #000;
-                                        font-weight: bold;
-                                        font-size: 14px;">삭제</button>
-                                    </td>
-                                </tr>
+                                <th:block th:if="${cartList != null}">
+                                    <th:block th:each="cart : ${cartList.cartItemDetailsDtoList}">
+                                        <tr th:value="${cart.itemId}">
+                                            <td style="padding-right: 0px;">
+                                                <input type="checkbox" name="itemCheck" checked="checked">
+                                            </td>
+                                            <td>
+                                                <div class="media" style="padding-left: 0px;">
+                                                    <div class="d-flex">
+                                                        <img src="/img/bolpen.jpg" width="150" height="100">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <p name="itemName">[[${cart.itemName}]]</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <h5 name="itemAmount">[[${cart.itemAmount}]] 원</h5>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <div class="product_count">
+                                                    <input type="text" name="orderCount" th:value="${cart.orderCount}"
+                                                           class="input-text qty"/>개
+                                                    <button name="modCountBtn">수량변경</button>
+                                                </div>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <h5 name="calTotalCount">[[${cart.calTotalAmount()}]] 원</h5>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <button name="remove" style="border: 1px solid #dddddd;
+                                                background: #fff;
+                                                color: #000;
+                                                font-weight: bold;
+                                                font-size: 14px;">삭제</button>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                        <tr th:if="${cartList.cartTotal == 0}">
+                                            <td colspan="6">
+                                                <p style="line-height: 200px; text-align: center; border-bottom: 1px solid #f5f5f5;">
+                                                    장바구니에 담은 상품이 없습니다.
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <!-- ./ Cart List Table -->
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <h5>Subtotal</h5>
+                                            </td>
+                                            <td>
+                                                <h5 name="totalAmount">
+                                                    <span>[[${cartList.totalAmount}]] 원</span>
+                                                </h5>
+                                            </td>
+                                        </tr>
+                                        <tr class="out_button_area">
+                                            <td class="d-none-l" style="padding-right: 0px;">
+                                                <button id="selRemove" style="border: 1px solid #000;
+                                                background: #fff;
+                                                color: #000;
+                                                font-weight: bold;
+                                                font-size: 14px;">선택삭제</button>
+                                            </td>
+                                            <td class="">
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <div class="checkout_btn_inner d-flex align-items-center" style="justify-content: flex-end;">
+                                                    <button id="checkout" style="margin: 0 1px; border: 1px solid #000000; background-color: #000000; min-width: 290px; height: 60px; line-height: 54px; padding-top: 4px; font-size: 20px; color: #ffffff;">주문하기</button>
+                                                </div>
+                                            </td>
+                                        </tr>
                                 </th:block>
-                                <!-- ./ Cart List Table -->
-                                <tr>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <h5>Subtotal</h5>
-                                    </td>
-                                    <td>
-                                        <h5 name="totalAmount">[[${cartList.totalAmount}]] 원</h5>
-                                    </td>
-                                </tr>
-                                <tr class="out_button_area">
-                                    <td class="d-none-l" style="padding-right: 0px;">
-                                        <button id="selRemove" style="border: 1px solid #000;
-                                        background: #fff;
-                                        color: #000;
-                                        font-weight: bold;
-                                        font-size: 14px;">선택삭제</button>
-                                    </td>
-                                    <td class="">
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <div class="checkout_btn_inner d-flex align-items-center" style="justify-content: flex-end;">
-                                            <button id="checkout" style="margin: 0 1px; border: 1px solid #000000; background-color: #000000; min-width: 290px; height: 60px; line-height: 54px; padding-top: 4px; font-size: 20px; color: #ffffff;">주문하기</button>
-                                        </div>
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>

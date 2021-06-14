@@ -1,5 +1,6 @@
 package com.awse.commerce.domains.member.service;
 
+import com.awse.commerce.domains.cart.service.CartService;
 import com.awse.commerce.domains.member.dto.MemberDto;
 import com.awse.commerce.domains.member.dto.OAuth2Attribute;
 import com.awse.commerce.domains.member.entity.Member;
@@ -23,6 +24,7 @@ import java.util.Optional;
 public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberRepository memberRepository;
+    private final CartService cartService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -35,12 +37,12 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
-                            .getUserInfoEndpoint().getUserNameAttributeName();
+                .getUserInfoEndpoint().getUserNameAttributeName();
 
         OAuth2Attribute attributes = OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         Member member = saveOrUpdate(attributes);
-        log.info("saveOrUpdate..");
+
         log.info(member);
 
         MemberDto oAuth2Member = new MemberDto(member, attributes.getAttributes());
@@ -50,11 +52,12 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
     }
 
     private Member saveOrUpdate(OAuth2Attribute attribute) {
+        log.info("saveOrUpdate..");
         String oAuth2Email = attribute.getEmail();
 
         Optional<Member> member = memberRepository.findByEmail(oAuth2Email);
 
-        if(!member.isPresent()) {
+        if (!member.isPresent()) {
             return createDefaultMember(attribute);
         }
 
@@ -62,7 +65,8 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
     }
 
     private Member createDefaultMember(OAuth2Attribute attribute) {
-       Member member = Member.builder()
+
+        Member member = Member.builder()
                 .name(attribute.getName())
                 .email(attribute.getEmail())
                 .password("")
@@ -71,7 +75,14 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
                 .role(MemberRole.USER)
                 .build();
 
-       return memberRepository.save(member);
+        Long defaultMemberId = memberRepository.save(member).getId();
+
+        createCartByDefaultMember(defaultMemberId);
+
+        return member;
     }
 
+    private void createCartByDefaultMember(Long memberId) {
+        cartService.createCart(memberId);
+    }
 }
