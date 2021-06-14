@@ -30,7 +30,7 @@ public class ItemController {
                 model.addAttribute("liked", isLike);
             }
         }
-
+        model.addAttribute("loginMember", currentMember);
         model.addAttribute("item", itemService.findItem(itemId));
 
         return "item/itemDetails";

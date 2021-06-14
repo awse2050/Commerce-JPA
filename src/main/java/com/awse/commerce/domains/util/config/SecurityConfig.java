@@ -20,8 +20,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/index").permitAll();
-        http.authorizeRequests().antMatchers("/").permitAll();
+        http.authorizeRequests()
+                .antMatchers("/mypage/**", "/api/**", "/mylike/**", "/mycart/**", "/checkout", "/order/**")
+                .authenticated();
+
+        http.authorizeRequests().antMatchers("/", "/index", "/item/**").permitAll();
+
         http.formLogin().loginPage("/login").usernameParameter("email").passwordParameter("password");
         http.logout().logoutSuccessUrl("/");
 

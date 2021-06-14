@@ -193,7 +193,21 @@
             }
         }
 
+        function checkCartList() {
+            let cartCount = [[${cartList.cartTotal}]];
+
+            if(!cartCount) {
+                alert("주문할 상품이 없습니다.");
+                return false;
+            }
+            return true;
+        }
+
         function checkoutRequest() {
+            if(!checkCartList()) {
+                return false;
+            }
+
             // 체크박스가 선택된 tr을 찾는다.
             let targetArray = {
                 daoList: [],
