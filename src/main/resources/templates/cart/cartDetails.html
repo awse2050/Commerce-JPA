@@ -229,13 +229,7 @@
 
             console.log(targetArray);
 
-            // 서버로 데이터를 보낸다.
-            httpRequest = getHttpInstance();
-
-            httpRequest.onreadystatechange = checkoutLogic;
-            httpRequest.open('POST', '/checkout');
-            httpRequest.setRequestHeader("Content-Type", "application/json")
-            httpRequest.send(JSON.stringify(targetArray));
+            requestAPI(checkoutLogic, 'POST', '/checkout', targetArray);
         }
 
         // 선택삭제
@@ -267,12 +261,7 @@
                 return;
             }
 
-            httpRequest = getHttpInstance();
-
-            httpRequest.onreadystatechange = alertContents;
-            httpRequest.open('DELETE', '/api/cart');
-            httpRequest.setRequestHeader("Content-Type", "application/json")
-            httpRequest.send(JSON.stringify(itemIdArray));
+            requestAPI(resultLogic, 'DELETE', '/api/cart', itemIdArray);
         }
 
         function removeRequest() {
@@ -282,18 +271,11 @@
             }
             var itemId = parseInt(this.closest("tr").attributes[0].value);
 
-            httpRequest = getHttpInstance();
-
-            httpRequest.onreadystatechange = alertContents;
-            httpRequest.open('DELETE', '/api/cart/'+itemId);
-            httpRequest.setRequestHeader("Content-Type", "application/json")
-            httpRequest.send();
+            requestAPI(resultLogic, 'DELETE', '/api/cart/'+itemId, null);
 
         }
 
         function orderCountModifyRequest() {
-            httpRequest = getHttpInstance();
-
             let targetTr = this.closest("tr");
 
             // 데이터 수집
@@ -303,14 +285,18 @@
             }
             console.log(data);
 
-            if(!httpRequest) {
-                alert('XMLHTTP 인스턴스를 만들 수가 없어요 ㅠㅠ');
-                return false;
-            }
-            httpRequest.onreadystatechange = alertContents;
-            httpRequest.open('put', '/api/cart/'+data.itemId);
+            requestAPI(resultLogic, 'PUT', '/api/cart/'+data.itemId, data);
+        }
+
+        function requestAPI(e, type, url, data) {
+            const jsonParsedData = data ? JSON.stringify(data) : null;
+
+            httpRequest = getHttpInstance();
+
+            httpRequest.onreadystatechange = e;
+            httpRequest.open(type, url);
             httpRequest.setRequestHeader("Content-Type", "application/json")
-            httpRequest.send(JSON.stringify(data));
+            httpRequest.send(jsonParsedData);
         }
 
         function getHttpInstance() {
@@ -321,13 +307,14 @@
             return httpRequest;
         }
 
-        function alertContents() {
+        function resultLogic() {
             try {
                 if (httpRequest.readyState === XMLHttpRequest.DONE) {
                     if (httpRequest.status === 200) {
                         window.location.href = "/mycart";
                     } else {
-                        alert('There was a problem with the request.');
+                        alert(httpRequest.responseText);
+                        return;
                     }
                 }
             }
@@ -355,7 +342,6 @@
     })();
 
 </script>
-
 
 </body>
 </html>
