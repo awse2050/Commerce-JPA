@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{fragment/fragment :: setBody(~{ :: body})}">
+    <th:block th:fragment="body">
+        <main class="site-main">
+            <section class="login_box_area" style="padding-top: 55px;">
+                <div class="container" style="text-align: center;">
+                    <img src="/img/warning.png">
+
+                    <div style="font-size: 18px; font-weight: 700;">
+                        <div style="padding-top: 7px;">[[${errorMsg}]]</div>
+
+                        <a href="/" role="button" style="width: 150px; padding: 10px 0px; margin-top: 10px; background: #000; color: white; border-radius: 10px;">홈으로 가기</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </th:block>
+</th:block>
+
+</body>
+</html>
