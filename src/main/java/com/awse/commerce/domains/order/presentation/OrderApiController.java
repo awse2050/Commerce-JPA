@@ -4,7 +4,7 @@ import com.awse.commerce.bootpay.BootpayApi;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.order.dao.OrderRequestDao;
 import com.awse.commerce.domains.order.service.OrderService;
-import com.awse.commerce.domains.util.config.CurrentUser;
+import com.awse.commerce.domains.util.config.security.CurrentUser;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;

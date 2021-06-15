@@ -2,7 +2,7 @@ package com.awse.commerce.presentation;
 
 import com.awse.commerce.domains.item.service.ItemService;
 import com.awse.commerce.domains.member.entity.Member;
-import com.awse.commerce.domains.util.config.CurrentUser;
+import com.awse.commerce.domains.util.config.security.CurrentUser;
 import com.awse.commerce.domains.util.pagination.PageRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

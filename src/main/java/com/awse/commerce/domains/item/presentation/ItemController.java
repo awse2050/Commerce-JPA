@@ -3,7 +3,7 @@ package com.awse.commerce.domains.item.presentation;
 import com.awse.commerce.domains.item.service.ItemService;
 import com.awse.commerce.domains.like.service.LikeService;
 import com.awse.commerce.domains.member.entity.Member;
-import com.awse.commerce.domains.util.config.CurrentUser;
+import com.awse.commerce.domains.util.config.security.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

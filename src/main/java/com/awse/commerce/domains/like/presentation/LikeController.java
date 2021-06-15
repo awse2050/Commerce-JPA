@@ -4,7 +4,7 @@ import com.awse.commerce.domains.like.dto.LikedItemDetails;
 import com.awse.commerce.domains.like.dto.PageResultLikedItemDto;
 import com.awse.commerce.domains.like.service.LikeService;
 import com.awse.commerce.domains.member.entity.Member;
-import com.awse.commerce.domains.util.config.CurrentUser;
+import com.awse.commerce.domains.util.config.security.CurrentUser;
 import com.awse.commerce.domains.util.pagination.PageRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

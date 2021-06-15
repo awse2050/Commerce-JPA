@@ -1,4 +1,4 @@
-package com.awse.commerce.domains.util.config;
+package com.awse.commerce.domains.util.config.security;
 
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
