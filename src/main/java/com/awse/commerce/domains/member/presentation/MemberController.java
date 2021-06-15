@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,8 +25,11 @@ public class MemberController {
 
     // 로그인 페이지
     @GetMapping("/login")
-    public String login() {
+    public String login(String error, Model model) {
         log.info("get Login Page");
+        if(error != null) {
+            model.addAttribute("errorMsg", "fail" );
+        }
         return "login";
     }
 

@@ -34,5 +34,16 @@
     </th:block>
 </th:block>
 
+<script th:inline="javascript">
+    window.onload = function () {
+        let errorMsg = [[${errorMsg}]];
+        console.log(errorMsg);
+
+        if(errorMsg) {
+            alert("이메일 또는 패스워드를 확인해주세요.");
+        }
+    }
+</script>
+
 </body>
 </html>
