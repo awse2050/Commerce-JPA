@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 @Log4j2
 public class ExceptionHandleController implements ErrorController {
 
-    private final String ERROR_404_URI = "/error/404";
-    private final String ERROR_500_URI = "/error/500";
+    private final String ERROR_404_URI = "error/404";
+    private final String ERROR_500_URI = "error/500";
 
     @GetMapping("/error")
     public String errorHandle(HttpServletRequest request, Model model) {
@@ -46,6 +46,6 @@ public class ExceptionHandleController implements ErrorController {
 
     @Override
     public String getErrorPath() {
-        return "/error";
+        return "error";
     }
 }
