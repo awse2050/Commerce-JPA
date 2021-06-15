@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="mypage-menu">
+    <div style="float: left; width: 15%; font-size: 16px; line-height: 20px; margin: 54px 40px 0 0;">
+        <dl class="mypage-menu" style="margin-top: -11px; font-size: 16px; line-height: 20px;">
+            <dt style="font-size: 20px; line-height: 40px; margin: 28px 0 2px 0;">나의 쇼핑 활동</dt>
+            <dd style="display: block; color: #AAAAAA; line-height: 40px;">
+                <a href="#" style="display: block; color: #aaaaaa; line-height: 30px;">주문내역 조회</a>
+            </dd>
+            <dd style="display: block; color: #AAAAAA; line-height: 40px;">
+                <a href="#" style="display: block; color: #aaaaaa; line-height: 30px;">장바구니 조회</a>
+            </dd>
+            <dd style="display: block; color: #AAAAAA; line-height: 40px;">
+                <a href="#" style="display: block; color: #aaaaaa; line-height: 30px;">좋아요</a>
+            </dd>
+            <dt style="font-size: 20px; line-height: 40px; margin: 28px 0 2px 0;">개인정보 관련</dt>
+            <dd style="display: block; color: #AAAAAA; line-height: 40px;">
+                <a href="#" style="display: block; color: #aaaaaa; line-height: 30px;">회원정보 변경</a>
+            </dd>
+        </dl>
+    </div>
+</th:block>
+</body>
+</html>
