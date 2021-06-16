@@ -3,6 +3,7 @@ package com.awse.commerce.domains.like.presentation;
 import com.awse.commerce.domains.like.service.LikeService;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.util.config.security.CurrentUser;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ public class LikeApiController {
     private static final String API_URI = "/api/like";
 
     // 찜 추가
+    @ApiOperation(value = "찜 추가", notes = "상품 찜하기")
     @PostMapping(API_URI+"/{itemId}")
     public ResponseEntity<String> addLike(@PathVariable("itemId") Long itemId,
                                   @CurrentUser Member currentMember) {
@@ -37,6 +39,7 @@ public class LikeApiController {
     }
 
     // 찜 삭제
+    @ApiOperation(value = "찜 삭제", notes = "상품 찜 취소하기")
     @DeleteMapping(API_URI+"/{itemId}")
     public ResponseEntity<String> cancelLike(@PathVariable("itemId")Long itemId,
                            @CurrentUser Member currentMember) {
