@@ -7,6 +7,7 @@ import com.awse.commerce.domains.order.service.OrderService;
 import com.awse.commerce.domains.util.config.security.CurrentUser;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.IOUtils;
@@ -34,6 +35,7 @@ public class OrderApiController {
 
     private final OrderService orderService;
 
+    @ApiOperation(value = "주문하기", notes = "주문 -> 결제 이후 결과 도출.")
     @PostMapping("/api/order")
     public ResponseEntity<String> orderRequest(@RequestBody OrderRequestDao orderDao,
                                                @CurrentUser Member currentMember) throws Exception {
@@ -51,6 +53,7 @@ public class OrderApiController {
         return new ResponseEntity<>(paymentResult, HttpStatus.OK);
     }
 
+    // NOTE : to Modify Service Layer's Method
     private String verifyPayment(String receiptId, int price) throws Exception {
         String result = "";
 

@@ -4,6 +4,7 @@ import com.awse.commerce.domains.cart.service.CartService;
 import com.awse.commerce.domains.member.dto.SignUpRequest;
 import com.awse.commerce.domains.member.service.MemberService;
 import com.awse.commerce.domains.member.validator.SignUpValidator;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ public class MemberApiController {
     }
 
     // 회원등록
+    @ApiOperation(value = "회원가입", notes = "회원가입하기")
     @PostMapping(API_URI)
     public ResponseEntity<String> signUpRequest(@RequestBody @Valid SignUpRequest signup,
                                               Errors errors) {

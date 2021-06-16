@@ -6,6 +6,8 @@ import com.awse.commerce.domains.cart.dao.RemoveItemDao;
 import com.awse.commerce.domains.cart.service.CartService;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.util.config.security.CurrentUser;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ public class CartApiController {
     private static final String API_URI = "/api/cart";
 
     // 장바구니 상품 수정하기
+    @ApiOperation(value = "장바구니의 한개의 상품 개수 변경", notes = "장바구니 상품 개수 변경하기")
     @PutMapping(API_URI+"/{itemId}")
     public ResponseEntity<Long> modifyitemCountInCart(@PathVariable("itemId")Long itemId,
                                                       @RequestBody @Valid ModifyRequestItemDao dao, // 추후 @Valid 적용시키기
@@ -37,6 +40,7 @@ public class CartApiController {
     }
 
     // 상세페이지에서 장바구니로 담기
+    @ApiOperation(value = "장바구니에 상품 담기", notes = "장바구니에 상품 담기")
     @PostMapping(API_URI)
     public ResponseEntity<String> addToCart(@RequestBody @Valid AddRequestItemDao dao,
                                           @CurrentUser Member currentMember) {
@@ -53,6 +57,7 @@ public class CartApiController {
     }
 
     // 장바구니에서 상품하나 삭제하기
+    @ApiOperation(value = "장바구니 상품 한개 삭제", notes = "장바구니 상품 하나 삭제하기 - 버튼식")
     @DeleteMapping(API_URI+"/{itemId}")
     public ResponseEntity<String> removeItemInCart(@PathVariable("itemId") Long itemId,
                                     @CurrentUser Member currentMember) {
@@ -70,6 +75,7 @@ public class CartApiController {
     }
 
     // 장바구니 선택 및 전체삭제
+    @ApiOperation(value = "장바구니 선택 & 전체삭제", notes = "장바구니 상품 선택삭제버튼")
     @DeleteMapping(API_URI)
     public ResponseEntity<String> selectRemoveItemsInCart(@RequestBody RemoveItemDao dao,
                                                           @CurrentUser Member currentMember) {
@@ -89,6 +95,7 @@ public class CartApiController {
     }
 
     // 장바구니 아이템 전체 삭제
+    @ApiOperation(value = "전체삭제 (사용 X)")
     @DeleteMapping(API_URI+"/all")
     public ResponseEntity<String> allRemoveItemsInCart(@CurrentUser Member currentMember) {
 
