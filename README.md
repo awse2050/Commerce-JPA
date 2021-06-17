@@ -58,8 +58,14 @@
 8. EC2 서버 배포
 + Amazon Linux 2
 
-### TO-DO List (6.12)
+9. 상품리뷰 (TO-DO)
++ 리뷰 작성
++ 리뷰 삭제
++ 리뷰 수정
+
+### TO-DO List (Update. 6.17)
 + 화면단 CSS 작성
 + README.md 프로젝트 사진첨부
 + HTTPS 재설정
 + 리팩토링
++ 상품리뷰 Entity 추가
