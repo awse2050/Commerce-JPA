@@ -5,11 +5,11 @@
         <main class="site-main">
 
             <section style="margin: 10px 0px; background: #000000;">
-                <div class="semi-header" style="max-width: 1880px; margin: 0 auto; padding: 95px 0 50px 290px; box-sizing: border-box; position: relative; overflow: hidden;">
-                    <h1 style="font-size: 24px; color: #ffffff; font-weight: normal; line-height: 30px; position: absolute; left: 40px; top: 20px;">
-                        MyPage
-                    </h1>
-                </div>
+<!--                <div class="semi-header" style="max-width: 1880px; margin: 0 auto; padding: 95px 0 50px 290px; box-sizing: border-box; position: relative; overflow: hidden;">-->
+<!--                    <h1 style="font-size: 24px; color: #ffffff; font-weight: normal; line-height: 30px; position: absolute; left: 40px; top: 20px;">-->
+<!--                        MyPage-->
+<!--                    </h1>-->
+<!--                </div>-->
             </section>
         </main>
         <main class="site-main" style="padding: 50px 40px;">
@@ -40,7 +40,7 @@
                                         <tr>
                                             <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
                                                 <div style="margin: 10px 0px; display: table; table-layout: fixed; width: 100%; min-height: 96px; line-height: 1.5; font-size: 14px; text-align: left; position: relative;">
-                                                    <a href="#" style="display: table-cell; width: 50%; vertical-align: middle;">
+                                                    <a th:href="@{/item/{itemId}(itemId=${order.representativeItemId})}" style="display: table-cell; width: 50%; vertical-align: middle;">
                                                         <img src="/img/bolpen.jpg" style="max-width: 100px;">
                                                     </a>
                                                     <ul style="width: 50%; display: table-cell; padding-left: 10px; vertical-align: middle;">
@@ -48,7 +48,9 @@
             <!--                                                <a href="#">브랜드이름</a>-->
             <!--                                            </li>-->
                                                         <li style="max-height: 44px; font-weight: bold; overflow: hidden; font-size: 14px; line-height: 22px;">
-                                                            <a href="#">[[${order.representativeItemName}]]</a>
+                                                            <a th:href="@{/item/{itemId}(itemId=${order.representativeItemId})}">
+                                                                [[${order.representativeItemName}]]
+                                                            </a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -109,7 +111,7 @@
                                         </td>
                                         <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
                                             <div style="margin: 10px 0px; display: table; table-layout: fixed; width: 100%; min-height: 96px; line-height: 1.5; font-size: 14px; text-align: left; position: relative;">
-                                                <a href="#" style="display: table-cell; width: 50%; vertical-align: middle;">
+                                                <a th:href="@{/item/{itemId}(itemId=${cart.itemId})}" style="display: table-cell; width: 50%; vertical-align: middle;">
                                                     <img src="/img/bolpen.jpg" style="max-width: 100px;">
                                                 </a>
                                                 <ul style="width: 50%; display: table-cell; padding-left: 10px; vertical-align: middle;">
@@ -155,7 +157,7 @@
                             <th:block th:each="like : ${like.dtoList}">
                                 <ul>
                                     <li style="width: 33%; box-sizing: border-box; margin-top: 32px; float: left; display: table; table-layout: fixed; min-height: 96px; line-height: 1.5; font-size: 14px; text-align: left; position: relative;">
-                                        <a href="#" style="display: table-cell; width: 50%; padding-top: 96px; vertical-align: middle;">
+                                        <a th:href="@{/item/{itemId}(itemId=${like.likedItemId})}" style="display: table-cell; width: 50%; padding-top: 96px; vertical-align: middle;">
                                             <img src="/img/bolpen.jpg" style="position: absolute; left: 0; top: 0; max-width: 100px;">
                                         </a>
                                         <ul style="display: table-cell;  width: 50%; padding-left: 10px; vertical-align: middle;">
