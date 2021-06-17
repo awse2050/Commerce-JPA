@@ -29,7 +29,7 @@ public class LikeController {
 
         model.addAttribute("pageResult", pageList);
 
-        return "/like/likeDetails";
+        return "like/likeDetails";
     }
 
 }

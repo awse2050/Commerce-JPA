@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
 @Getter
 @ToString
 public class MyOrderDto {
-    // 주문번호 주문날짜, 대표이미지, 대표이미지이름, 총액, 주문상태
+    // 주문번호 주문날짜, 대표이미지, 대표이미지이름, 총액, 주문상태, 대표 상품번호
     private Long orderId;
+    private Long representativeItemId;
     private String representativeImgPath;
     private String representativeItemName;
     private int totalAmount;
@@ -28,6 +29,7 @@ public class MyOrderDto {
                 .map(o -> MyOrderDto.builder()
                         .orderId(o.getOrderId())
                         .orderStatus(o.getOrderStatus().name())
+                        .representativeItemId(o.getOrderItemList().get(0).getItem().getItemId())
                         .representativeImgPath(o.getOrderItemList().get(0).getItem().getImgPath())
                         .representativeItemName(o.getOrderItemList().get(0).getItem().getName())
                         .orderCount(o.getOrderItemList().size())
