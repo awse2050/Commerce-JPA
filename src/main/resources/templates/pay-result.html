@@ -3,13 +3,26 @@
 <th:block th:replace="~{fragment/fragment :: setBody(~{ :: body})}">
     <th:block th:fragment="body">
 
-        <!-- NOTE : must be CSS -->
-        <th:block th:if="${result} == 'OK'">
-            <div>결제를 성공하였습니다.</div>
-        </th:block>
-        <th:block th:unless="${result} == 'OK'">
-            <div>결제를 실패하였습니다.</div>
-        </th:block>
+        <main class="site-main">
+            <section class="login_box_area" style="padding-top: 55px;">
+                <div class="container" style="text-align: center;">
+                    <img src="/img/warning.png">
+
+                    <div style="font-size: 18px; font-weight: 700;">
+                        <!-- NOTE : must be CSS -->
+                        <th:block th:if="${result} == 'OK'">
+                            <div style="padding-top: 7px;">결제를 성공하였습니다.</div>
+                        </th:block>
+                        <th:block th:unless="${result} == 'OK'">
+                            <div style="padding-top: 7px;">결제를 실패하였습니다.</div>
+<!--                         결제내역의 에러에 대한 메세지 표시 처리가 필요하다.   -->
+                        </th:block>
+
+                        <a href="/" role="button" style="width: 150px; padding: 10px 0px; margin-top: 10px; background: #000; color: white; border-radius: 10px;">홈으로 가기</a>
+                    </div>
+                </div>
+            </section>
+        </main>
 
     </th:block>
 </th:block>
