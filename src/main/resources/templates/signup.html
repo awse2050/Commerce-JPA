@@ -60,6 +60,7 @@
         let extraAddress = document.getElementById("extraAddress");
 
         let httpRequest;
+        let signupRequestData;
 
         // add Event to Button
         setPostBtn.addEventListener("click", openAddressSearchWindow);
@@ -69,15 +70,25 @@
 
         // API Submit
         function signupRequest() {
-            httpRequest = new XMLHttpRequest();
+            signupRequestData = getSignUpRequestDto();
 
-            var signupRequestData = getSignUpRequestDto();
-            console.log(signupRequestData);
+            if(!verifyName(signupRequestData.name)) {
+                return false;
+            }
 
-            httpRequest.onreadystatechange = executeResult;
-            httpRequest.open("POST", "/api/member");
-            httpRequest.setRequestHeader("Content-Type", "application/json");
-            httpRequest.send(JSON.stringify(signupRequestData));
+            requestAPI(signupResult, "POST", "/api/member", signupRequestData);
+        }
+
+        function verifyName(str){
+            var regex = /^[가-힣]*$/ // 한글만 검증
+            // 한글만 있으면
+            if(regex.test(str)){
+                // 한글만 있다면 통과
+                return true;
+            } else {
+                alert("이름은 한글만 가능합니다.");
+                return false;
+            }
         }
 
         // SignupRequest Data
@@ -96,7 +107,26 @@
             return signupRequest;
         }
 
-        function executeResult() {
+        function getHttpInstance() {
+            if(!httpRequest) {
+                httpRequest = new XMLHttpRequest();
+            }
+
+            return httpRequest;
+        }
+
+        function requestAPI(e, type, url, data) {
+            const jsonParsedData = data ? JSON.stringify(data) : null;
+
+            httpRequest = getHttpInstance();
+
+            httpRequest.onreadystatechange = e;
+            httpRequest.open(type, url);
+            httpRequest.setRequestHeader("Content-Type", "application/json")
+            httpRequest.send(jsonParsedData);
+        }
+
+        function signupResult() {
             try {
                 if (httpRequest.readyState === XMLHttpRequest.DONE) {
                     if (httpRequest.status === 200) {
