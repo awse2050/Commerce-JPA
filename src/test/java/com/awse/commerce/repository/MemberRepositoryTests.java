@@ -1,5 +1,6 @@
 package com.awse.commerce.repository;
 
+import com.awse.commerce.domains.member.dto.ModifyMemberDto;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.repository.MemberRepository;
 import com.awse.commerce.domains.order.entity.Order;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Commit;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
@@ -21,7 +23,6 @@ import java.util.Optional;
 
 @SpringBootTest
 @Log4j2
-@Disabled
 public class MemberRepositoryTests {
 
     @Autowired
@@ -32,6 +33,7 @@ public class MemberRepositoryTests {
 
     @DisplayName("회원 추가 테스트")
     @Test
+    @Disabled
     public void insertMemberTest() {
         for(int i = 1; i <= 10; i++) {
 
@@ -64,27 +66,42 @@ public class MemberRepositoryTests {
         });
     }
 
-    // Member 뿐만 아니라 Order 데이터를 가져오고싶을떄 쓴다.
-    // Object 형태로 들어와있기 떄문에 형변환을 통해서 해당 객체의 데이터를 가져온다.
-    @Transactional
-    @DisplayName("회원과 주문조회")
-    @Test
-    public void findMemberWithOrderTest() {
-        List<Object[]> list = memberRepository.getMemberWithOrder();
-
-        for(Object[] object : list) {
-            log.info(Arrays.toString(object));
-        }
-    }
 
     @DisplayName("이메일로 찾기")
     @Test
     public void findyByEmail() {
-        Optional<Member> list = memberRepository.findByEmail("user3@aaa.com");
+        Optional<Member> list = memberRepository.findByEmail("user1@aaa.com");
 
         Member member = list.get();
 
         Assertions.assertThat(member).isNotNull();
         log.info(member);
+    }
+
+    @DisplayName("회원정보 수정하기")
+    @Test
+    @Transactional
+    @Commit
+    public void modifyMemberData() {
+
+        ModifyMemberDto memberDto = ModifyMemberDto.builder()
+                .name("하")
+                .email("dfkdk@naver.com")
+                .password(pwEncoder.encode("20202020"))
+                .phone("01031943333")
+                .zipcode("19483")
+                .extraAddress("허허허허")
+                .detailsAddress("하하호")
+                .build();
+
+        Long memberId = 5L;
+
+        Member member = memberRepository.findById(memberId).get();
+
+        member.updateMemberInfo(memberDto);
+
+        memberRepository.save(member);
+
+        Assertions.assertThat(member.getName()).isEqualTo(memberDto.getName());
     }
 }

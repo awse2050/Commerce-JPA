@@ -1,5 +1,6 @@
 package com.awse.commerce.domains.member.service;
 
+import com.awse.commerce.domains.member.dto.ModifyMemberDto;
 import com.awse.commerce.domains.member.dto.SignUpRequest;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.repository.MemberRepository;
@@ -28,6 +29,23 @@ public class MemberService {
         Long resultId = memberRepository.save(member).getId();
 
         return resultId;
+    }
+
+    // 회원 수정
+    // 1. 컨트롤러로 ModifyMemberDto로 받는다.
+    public void modifyMemberInfo(Long memberId, ModifyMemberDto modifyMemberDto) {
+
+    // 4. 해당 데이터를 member에 저장한다.
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+    // 2. 서비스로 해당 데이터를 던져준다.
+    // 3. 패스워드를 인코딩 시킨다.
+        modifyMemberDto.setPassword(encode(modifyMemberDto.getPassword()));
+
+        member.updateMemberInfo(modifyMemberDto);
+
+        memberRepository.save(member);
+
     }
 
     // DTO -> Entity
