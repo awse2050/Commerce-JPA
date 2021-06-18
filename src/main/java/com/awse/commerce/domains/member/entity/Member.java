@@ -1,5 +1,6 @@
 package com.awse.commerce.domains.member.entity;
 
+import com.awse.commerce.domains.member.dto.ModifyMemberDto;
 import com.awse.commerce.domains.util.embedded.Address;
 import com.awse.commerce.domains.util.entity.BaseEntity;
 import com.awse.commerce.domains.util.enums.MemberRole;
@@ -41,5 +42,15 @@ public class Member extends BaseEntity {
 
     public String getRoleKey() {
         return this.role.getKey();
+    }
+
+    // 회원 수정
+    public void updateMemberInfo(ModifyMemberDto modifyDto) {
+
+        this.password = modifyDto.getPassword();
+        this.name = modifyDto.getName();
+        this.phone = modifyDto.getPhone();
+        this.address = new Address(modifyDto);
+
     }
 }

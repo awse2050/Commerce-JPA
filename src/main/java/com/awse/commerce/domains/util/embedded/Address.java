@@ -1,5 +1,6 @@
 package com.awse.commerce.domains.util.embedded;
 
+import com.awse.commerce.domains.member.dto.ModifyMemberDto;
 import com.awse.commerce.domains.member.dto.SignUpRequest;
 import lombok.*;
 
@@ -22,5 +23,12 @@ public class Address {
         this.zipcode = dto.getZipcode();
         this.extraAddress = dto.getExtraAddress();
         this.detailsAddress = dto.getDetailsAddress();
+    }
+
+    public Address(ModifyMemberDto dto) {
+        this.zipcode = dto.getZipcode();
+        this.extraAddress = dto.getExtraAddress();
+        this.detailsAddress = dto.getDetailsAddress();
+
     }
 }
