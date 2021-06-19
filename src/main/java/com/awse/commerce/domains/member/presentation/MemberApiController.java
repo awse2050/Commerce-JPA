@@ -1,9 +1,12 @@
 package com.awse.commerce.domains.member.presentation;
 
 import com.awse.commerce.domains.cart.service.CartService;
+import com.awse.commerce.domains.member.dto.ModifyMemberDto;
 import com.awse.commerce.domains.member.dto.SignUpRequest;
+import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.service.MemberService;
 import com.awse.commerce.domains.member.validator.SignUpValidator;
+import com.awse.commerce.domains.util.config.security.CurrentUser;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -11,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -49,6 +49,22 @@ public class MemberApiController {
         cartService.createCart(memberId);
         
        return new ResponseEntity<>("회원가입이 정상적으로 완료되었습니다.", HttpStatus.OK);
+    }
+
+    // 회원수정
+    @ApiOperation(value = "회원수정", notes = "회원 정보 변경하기")
+    @PutMapping(API_URI)
+    public ResponseEntity<String> modifyRequest(@RequestBody ModifyMemberDto modifyMemberDto,
+                              @CurrentUser Member currentMember) {
+
+        if(currentMember == null) {
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.",HttpStatus.BAD_REQUEST);
+        }
+        Long memberId = currentMember.getId();
+
+        memberService.modifyMemberInfo(memberId, modifyMemberDto);
+
+        return new ResponseEntity<>("회원정보 변경 완료",  HttpStatus.OK);
     }
 
 }
