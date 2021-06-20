@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:replace="~{fragment/fragment :: setBody(~{ :: body})}">
+    <th:block th:fragment="body">
+
+        <main class="site-main" style="padding: 50px 40px;">
+            <section style="display: flex; margin-bottom: 100px;">
+                <th:block th:replace="fragment/mypage-menu :: mypage-menu">
+                </th:block>
+                <div style="float: right; width: 85%;">
+                    <section>
+                        <div style="display: flex; align-items: center; border-bottom: 3px solid #000000; padding-bottom: 14px; margin-top: 48px; font-size: 14px; position: relative; line-height: 1.5;">
+                            <h1 style="display: inline-block; font-size: 24px;">기본 회원정보</h1>
+                        </div>
+                        <table style="width: 100%; line-height: 1.5; font-size: 14px; border-collapse: collapse; table-layout: fixed;">
+                            <tbody>
+                                <tr>
+                                    <th style="text-align: left; font-weight: normal; vertical-align: top; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px;">
+                                        이메일(아이디)
+                                    </th>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+                                        <strong style="vertical-align: middle">[[${member.email}]]</strong>
+                                    </td>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left; font-weight: normal; vertical-align: top; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px;">
+                                        이름
+                                    </th>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+                                        <input type="text" style="vertical-align: middle" th:value="${member.name}">
+                                    </td>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left; font-weight: normal; vertical-align: top; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px;">
+                                        비밀번호
+                                    </th>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+                                        <input type="password" style="vertical-align: middle" th:value="${member.password.substring(0,8)}">
+                                    </td>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left; font-weight: normal; vertical-align: top; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px;">
+                                        핸드폰 번호
+                                    </th>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+                                        <input type="text" style="vertical-align: middle" th:value="${member.phone}">
+                                    </td>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </section>
+                    <section>
+                        <div style="display: flex; align-items: center; border-bottom: 3px solid #000000; padding-bottom: 14px; margin-top: 48px; font-size: 14px; position: relative; line-height: 1.5;">
+                            <h1 style="display: inline-block; font-size: 24px;">
+                                배송지 설정
+                            </h1>
+                            <button style="margin: -5px 5px; min-width: 100px; border: 1.5px solid #e5e5e5; background-color: #000000; color: #e8e8e8;">
+                                주소찾기
+                            </button>
+                        </div>
+                        <table style="width: 100%; line-height: 1.5; font-size: 14px; border-collapse: collapse; table-layout: fixed;">
+                            <tbody>
+                                <tr>
+                                    <th style="text-align: left; font-weight: normal; vertical-align: top; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px;">
+                                        우편번호
+                                    </th>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+                                        <input type="text" style="vertical-align: middle" th:value="${member.address.zipcode}" disabled>
+                                    </td>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left; font-weight: normal; vertical-align: top; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px;">
+                                        도로명 주소
+                                    </th>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+                                        <input type="text" style="vertical-align: middle" th:value="${member.address.extraAddress}" disabled>
+                                    </td>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left; font-weight: normal; vertical-align: top; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px;">
+                                        상세주소
+                                    </th>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+                                        <input type="text" style="vertical-align: middle" th:value="${member.address.detailsAddress}">
+                                    </td>
+                                    <td style="vertical-align: middle; height: auto; padding:15px 0; box-sizing: border-box; border-top: 1px solid #f1f1f1; border-bottom: none; font-size: 14px; text-align: left;">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section style="text-align: center; margin-top: 45px;">
+                        <div>
+                            <button style="margin: 0 1px; border: 1px solid #000000; background-color: #000000; min-width: 290px; height: 60px; line-height: 54px; padding-top: 4px; font-size: 20px; color: #ffffff;">
+                                변경하기
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </main>
+
+    </th:block>
+</th:block>
+
+</body>
+</html>
