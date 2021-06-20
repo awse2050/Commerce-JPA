@@ -41,6 +41,15 @@ public class MemberController {
         return "signup";
     }
 
+    // 회원수정 페이지
+    @GetMapping("/myinfo")
+    public String myinfo(@CurrentUser Member currentMember, Model model) {
+
+        model.addAttribute("member", currentMember);
+
+        return "myinfo";
+    }
+
     // 마이페이지
     // 주문조회내역, 장바구니, 찜리스트 모든 데이터를 전달한다.
     @GetMapping("/mypage")
