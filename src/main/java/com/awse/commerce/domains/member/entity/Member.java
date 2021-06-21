@@ -47,7 +47,6 @@ public class Member extends BaseEntity {
     // 회원 수정
     public void updateMemberInfo(ModifyMemberDto modifyDto) {
 
-        this.password = modifyDto.getPassword();
         this.name = modifyDto.getName();
         this.phone = modifyDto.getPhone();
         this.address = new Address(modifyDto);

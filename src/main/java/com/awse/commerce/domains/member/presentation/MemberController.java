@@ -3,6 +3,7 @@ package com.awse.commerce.domains.member.presentation;
 import com.awse.commerce.domains.cart.service.CartService;
 import com.awse.commerce.domains.like.service.LikeService;
 import com.awse.commerce.domains.member.entity.Member;
+import com.awse.commerce.domains.member.service.MemberService;
 import com.awse.commerce.domains.order.service.MyOrderService;
 import com.awse.commerce.domains.util.config.security.CurrentUser;
 import com.awse.commerce.domains.util.pagination.PageRequestDto;
@@ -22,6 +23,7 @@ public class MemberController {
     private final CartService cartService;
     private final MyOrderService myOrderService;
     private final LikeService likeService;
+    private final MemberService memberService;
 
     // 로그인 페이지
     @GetMapping("/login")
@@ -45,7 +47,7 @@ public class MemberController {
     @GetMapping("/myinfo")
     public String myinfo(@CurrentUser Member currentMember, Model model) {
 
-        model.addAttribute("member", currentMember);
+        model.addAttribute("member", memberService.getMember(currentMember.getId()));
 
         return "myinfo";
     }

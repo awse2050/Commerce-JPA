@@ -54,7 +54,7 @@ public class MemberApiController {
     // 회원수정
     @ApiOperation(value = "회원수정", notes = "회원 정보 변경하기")
     @PutMapping(API_URI)
-    public ResponseEntity<String> modifyRequest(@RequestBody ModifyMemberDto modifyMemberDto,
+    public ResponseEntity<String> modifyRequest(@RequestBody @Valid ModifyMemberDto modifyMemberDto,
                               @CurrentUser Member currentMember) {
 
         if(currentMember == null) {
