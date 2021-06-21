@@ -1,6 +1,7 @@
 package com.awse.commerce.service;
 
 import com.awse.commerce.domains.member.dto.ModifyMemberDto;
+import com.awse.commerce.domains.member.dto.ModifyPasswordDto;
 import com.awse.commerce.domains.member.dto.SignUpRequest;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.repository.MemberRepository;
@@ -54,7 +55,7 @@ public class MemberServiceTests {
         Assertions.assertThat(result).isNotNull();
     }
 
-    @DisplayName("회원 수정하기 - 패스워드 정상변경.")
+    @DisplayName("회원 수정하기 ")
     @Test
     @Commit
     public void modifyMemberTest() {
@@ -80,5 +81,18 @@ public class MemberServiceTests {
         // 바뀌었다면
         Assertions.assertThat(result).isTrue();
 
+    }
+
+    @DisplayName("패스워드 변경 - 실패")
+    @Test
+    @Commit
+    public void modifyPassword() {
+        ModifyPasswordDto dto = new ModifyPasswordDto("22222222", "3333333", "33333333" );
+
+        memberService.changePassword(3L, dto);
+
+        Member member2 = memberRepository.findById(3L).get();
+
+        Assertions.assertThat(encoder.matches(dto.getToModifyPassword(), member2.getPassword())).isFalse();
     }
 }

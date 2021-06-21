@@ -2,6 +2,7 @@ package com.awse.commerce.domains.member.presentation;
 
 import com.awse.commerce.domains.cart.service.CartService;
 import com.awse.commerce.domains.member.dto.ModifyMemberDto;
+import com.awse.commerce.domains.member.dto.ModifyPasswordDto;
 import com.awse.commerce.domains.member.dto.SignUpRequest;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.service.MemberService;
@@ -67,4 +68,23 @@ public class MemberApiController {
         return new ResponseEntity<>("회원정보 변경 완료",  HttpStatus.OK);
     }
 
+    @ApiOperation(value = "패스워드 변경")
+    @PatchMapping(API_URI)
+    public ResponseEntity<String> modifyPasswordRequest(@RequestBody ModifyPasswordDto passwordDto,
+                                                        @CurrentUser Member currentMember) {
+        if(currentMember == null) {
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.",HttpStatus.BAD_REQUEST);
+        }
+
+        Long memberId = currentMember.getId();
+
+        boolean result = memberService.changePassword(memberId, passwordDto);
+
+        if(!result) {
+            return new ResponseEntity<>("비밀번호를 확인해 주세요.", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>("패스워드 변경 완료",  HttpStatus.OK);
+
+    }
 }

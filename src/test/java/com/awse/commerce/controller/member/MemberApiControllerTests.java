@@ -3,6 +3,7 @@ package com.awse.commerce.controller.member;
 import com.awse.commerce.domains.cart.entity.Cart;
 import com.awse.commerce.domains.cart.repository.CartRepository;
 import com.awse.commerce.domains.member.dto.ModifyMemberDto;
+import com.awse.commerce.domains.member.dto.ModifyPasswordDto;
 import com.awse.commerce.domains.member.dto.SignUpRequest;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.repository.MemberRepository;
@@ -95,6 +96,23 @@ public class MemberApiControllerTests {
                 .andDo(MockMvcResultHandlers.print()); // 테스트 이후 실행
     }
 
+    @DisplayName("패스워드 수정")
+    @WithMockCustomUser // 2 - user1@aaa.com
+    @Test
+    public void modifyPasswordTest() throws Exception {
+
+        ModifyPasswordDto dto = getPasswordDto();
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .patch(API_URI)
+                        .content(objectMapper.writeValueAsString(dto))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        )
+                .andExpect(status().is2xxSuccessful()) // 테스트시 원하는 기대값
+                .andDo(MockMvcResultHandlers.print()); // 테스트 이후 실행
+    }
+
 
     private SignUpRequest getSignUpRequest() {
         return SignUpRequest.builder()
@@ -119,5 +137,13 @@ public class MemberApiControllerTests {
                 .detailsAddress("하하호")
                 .build();
 
+    }
+
+    private ModifyPasswordDto getPasswordDto() {
+        return ModifyPasswordDto.builder()
+                .currentPassword("20202020")
+                .toModifyPassword("55555555")
+                .confirmPassword("55555555")
+                .build();
     }
 }

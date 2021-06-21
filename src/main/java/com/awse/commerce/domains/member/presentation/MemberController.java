@@ -52,6 +52,13 @@ public class MemberController {
         return "myinfo";
     }
 
+    // 비밀번호 변경 페이지
+    @GetMapping("/myinfo/pwd")
+    public String modifyPwd() {
+
+        return "myinfo/mod-pwd";
+    }
+
     // 마이페이지
     // 주문조회내역, 장바구니, 찜리스트 모든 데이터를 전달한다.
     @GetMapping("/mypage")
