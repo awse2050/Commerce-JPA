@@ -1,6 +1,7 @@
 package com.awse.commerce.domains.member.service;
 
 import com.awse.commerce.domains.member.dto.ModifyMemberDto;
+import com.awse.commerce.domains.member.dto.ModifyPasswordDto;
 import com.awse.commerce.domains.member.dto.SignUpRequest;
 import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.repository.MemberRepository;
@@ -52,6 +53,25 @@ public class MemberService {
         return memberRepository.findById(memberId).get();
     }
 
+    // 비밀번호 수정
+    public boolean changePassword(Long memberId, ModifyPasswordDto passwordDto) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        boolean isEqualResult =  isEqualsPassword(passwordDto.getCurrentPassword(), member.getPassword());
+        boolean equalsToModifyPassword = equalsToModifyPassword(passwordDto.getToModifyPassword(), passwordDto.getConfirmPassword());
+
+        log.warn(isEqualResult);
+        log.warn(equalsToModifyPassword);
+        if(isEqualResult && equalsToModifyPassword) {
+            member.changePassword(encode(passwordDto.getToModifyPassword()));
+            memberRepository.save(member);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // DTO -> Entity
     private Member bindToEntity(SignUpRequest dto) {
 
@@ -69,4 +89,11 @@ public class MemberService {
         return pwEncoder.encode(password);
     }
 
+    private boolean isEqualsPassword(String requestPwd, String initPwd) {
+        return pwEncoder.matches(requestPwd, initPwd);
+    }
+
+    private boolean equalsToModifyPassword(String toModPwd, String confirmPwd) {
+        return toModPwd.equals(confirmPwd);
+    }
 }

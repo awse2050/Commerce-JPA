@@ -1,6 +1,7 @@
 package com.awse.commerce.domains.member.entity;
 
 import com.awse.commerce.domains.member.dto.ModifyMemberDto;
+import com.awse.commerce.domains.member.dto.ModifyPasswordDto;
 import com.awse.commerce.domains.util.embedded.Address;
 import com.awse.commerce.domains.util.entity.BaseEntity;
 import com.awse.commerce.domains.util.enums.MemberRole;
@@ -52,4 +53,10 @@ public class Member extends BaseEntity {
         this.address = new Address(modifyDto);
 
     }
+
+    // 패스워드 수정
+    public void changePassword(String toModifyPassword) {
+        this.password = toModifyPassword;
+    }
+
 }
