@@ -111,9 +111,8 @@ public class MemberApiControllerTests {
 
     private ModifyMemberDto getModifyMemberDto() {
         return ModifyMemberDto.builder()
-                .name("하")
+                .name("김씨")
                 .email("dfkdk@naver.com")
-                .password("20202020")
                 .phone("01031943333")
                 .zipcode("19483")
                 .extraAddress("허허허허")

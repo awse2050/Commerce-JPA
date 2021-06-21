@@ -62,7 +62,6 @@ public class MemberServiceTests {
         ModifyMemberDto memberDto = ModifyMemberDto.builder()
                 .name("하하44")
                 .email("dfkdk@naver.com")
-                .password("20202020")
                 .phone("01031943333")
                 .zipcode("19483")
                 .extraAddress("허허허허")

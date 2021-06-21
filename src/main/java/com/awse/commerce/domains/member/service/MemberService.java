@@ -10,10 +10,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Log4j2
 @RequiredArgsConstructor
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -38,14 +40,16 @@ public class MemberService {
     // 4. 해당 데이터를 member에 저장한다.
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
-    // 2. 서비스로 해당 데이터를 던져준다.
-    // 3. 패스워드를 인코딩 시킨다.
-        modifyMemberDto.setPassword(encode(modifyMemberDto.getPassword()));
 
         member.updateMemberInfo(modifyMemberDto);
 
         memberRepository.save(member);
 
+    }
+
+    // 회원 찾기 ( myinfo )
+    public Member getMember(Long memberId) {
+        return memberRepository.findById(memberId).get();
     }
 
     // DTO -> Entity
