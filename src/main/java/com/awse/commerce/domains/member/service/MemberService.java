@@ -4,6 +4,7 @@ import com.awse.commerce.domains.member.dto.ModifyMemberDto;
 import com.awse.commerce.domains.member.dto.ModifyPasswordDto;
 import com.awse.commerce.domains.member.dto.SignUpRequest;
 import com.awse.commerce.domains.member.entity.Member;
+import com.awse.commerce.domains.member.exception.MemberBadRequestException;
 import com.awse.commerce.domains.member.repository.MemberRepository;
 import com.awse.commerce.domains.util.embedded.Address;
 import com.awse.commerce.domains.util.enums.MemberRole;
@@ -38,9 +39,7 @@ public class MemberService {
     // 1. 컨트롤러로 ModifyMemberDto로 받는다.
     public void modifyMemberInfo(Long memberId, ModifyMemberDto modifyMemberDto) {
 
-    // 4. 해당 데이터를 member에 저장한다.
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+        Member member =  findMemberEntity(memberId);
 
         member.updateMemberInfo(modifyMemberDto);
 
@@ -50,25 +49,23 @@ public class MemberService {
 
     // 회원 찾기 ( myinfo )
     public Member getMember(Long memberId) {
-        return memberRepository.findById(memberId).get();
+        return findMemberEntity(memberId);
     }
 
     // 비밀번호 수정
-    public boolean changePassword(Long memberId, ModifyPasswordDto passwordDto) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+    public void changePassword(Long memberId, ModifyPasswordDto passwordDto) {
+        Member member = findMemberEntity(memberId);
 
         boolean isEqualResult =  isEqualsPassword(passwordDto.getCurrentPassword(), member.getPassword());
         boolean equalsToModifyPassword = equalsToModifyPassword(passwordDto.getToModifyPassword(), passwordDto.getConfirmPassword());
 
-        log.warn(isEqualResult);
-        log.warn(equalsToModifyPassword);
         if(isEqualResult && equalsToModifyPassword) {
             member.changePassword(encode(passwordDto.getToModifyPassword()));
             memberRepository.save(member);
-            return true;
-        } else {
-            return false;
+        } else if(!isEqualResult) {
+            throw new MemberBadRequestException("현재 비밀번호가 일치하지 않습니다.");
+        } else if(!equalsToModifyPassword) {
+            throw new MemberBadRequestException("변경 할 비밀번호가 서로 일치하지 않습니다.");
         }
     }
 
@@ -95,5 +92,10 @@ public class MemberService {
 
     private boolean equalsToModifyPassword(String toModPwd, String confirmPwd) {
         return toModPwd.equals(confirmPwd);
+    }
+
+    private Member findMemberEntity(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberBadRequestException("존재하지 않는 사용자입니다."));
     }
 }

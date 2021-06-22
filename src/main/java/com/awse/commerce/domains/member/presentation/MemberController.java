@@ -67,18 +67,11 @@ public class MemberController {
                          Model model) {
         log.info("get My Page");
         // 로그인한 사용자면 해당 아이디값으로 주문내역, 장바구니, 찜목록 등을 보내준다.
-        if(currentMember != null) {
-            Long memberId = currentMember.getId();
+        Long memberId = currentMember.getId();
 
-            model.addAttribute("cart", cartService.getListInCart(memberId));
-            // Pageable을 받고 있는 상태
-            model.addAttribute("orderList", myOrderService.getMyOrderList(memberId, requestDto.getPageable("orderId")));
-            model.addAttribute("like", likeService.getMyLikeList(memberId, requestDto));
-        } else {
-            model.addAttribute("cart", null);
-            model.addAttribute("orderList", null);
-            model.addAttribute("like", null);
-        }
+        model.addAttribute("cart", cartService.getListInCart(memberId));
+        model.addAttribute("orderList", myOrderService.getMyOrderList(memberId, requestDto.getPageable("orderId")));
+        model.addAttribute("like", likeService.getMyLikeList(memberId, requestDto));
 
         return "mypage";
     }

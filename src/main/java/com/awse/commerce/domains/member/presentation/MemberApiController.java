@@ -78,11 +78,7 @@ public class MemberApiController {
 
         Long memberId = currentMember.getId();
 
-        boolean result = memberService.changePassword(memberId, passwordDto);
-
-        if(!result) {
-            return new ResponseEntity<>("비밀번호를 확인해 주세요.", HttpStatus.BAD_REQUEST);
-        }
+        memberService.changePassword(memberId, passwordDto);
 
         return new ResponseEntity<>("패스워드 변경 완료",  HttpStatus.OK);
 
