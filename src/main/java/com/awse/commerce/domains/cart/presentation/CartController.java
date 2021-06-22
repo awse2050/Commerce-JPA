@@ -21,12 +21,9 @@ public class CartController {
     public String myCart(@CurrentUser Member currentMember,
                          Model model) {
 
-        if(currentMember != null) {
-            Long memberId = currentMember.getId();
-            model.addAttribute("cartList", cartService.getListInCart(memberId));
-        } else {
-            model.addAttribute("cartList", null);
-        }
+        Long memberId = currentMember.getId();
+
+        model.addAttribute("cartList", cartService.getListInCart(memberId));
 
         return "cart/cartDetails";
     }

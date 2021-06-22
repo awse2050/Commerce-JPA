@@ -2,6 +2,7 @@ package com.awse.commerce.domains.order.entity;
 
 import com.awse.commerce.domains.delivery.entity.Delivery;
 import com.awse.commerce.domains.member.entity.Member;
+import com.awse.commerce.domains.order.exception.OrderBadRequestException;
 import com.awse.commerce.domains.util.entity.BaseEntity;
 import com.awse.commerce.domains.util.enums.DeliveryStatus;
 import com.awse.commerce.domains.util.enums.OrderStatus;
@@ -64,7 +65,7 @@ public class Order extends BaseEntity {
     public void cancel() {
         // 주문상태 또는 배송상태가 ORDERED가 아니거나 READY가 아니면 에러발생
         if(this.deliveryInfo.getDeliveryStatus() != DeliveryStatus.READY) {
-            throw new IllegalStateException("배송중이거나 완료된 주문은 취소할 수 없습니다.");
+            throw new OrderBadRequestException("배송중이거나 완료된 주문은 취소할 수 없습니다.");
         }
         // 재고계산
         this.orderItemList.stream().forEach(orderItem -> orderItem.cancel());

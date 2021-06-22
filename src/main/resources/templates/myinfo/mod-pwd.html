@@ -70,7 +70,6 @@
 
         let modifyBtn = document.getElementById("modify");
 
-
         var httpRequest;
 
         modifyBtn.addEventListener("click", modifyPasswordRequest);
@@ -78,23 +77,8 @@
         function modifyPasswordRequest() {
             let passwordDto = getPasswordDto();
 
-            if(!verifyPwd(passwordDto.toModifyPassword, passwordDto.confirmPassword)) {
-                alert("변경 할 비밀번호가 일치하지 않습니다.")
-                return false;
-            }
-
             requestAPI(modifyResult, "PATCH", "/api/member", passwordDto);
         }
-
-        function verifyPwd(toModPwd, confirmPwd) {
-            if(toModPwd === confirmPwd) {
-                console.log("true")
-                return true;
-            }
-            console.log("false");
-            return false;
-        }
-
 
         function requestAPI(e, type, url, data) {
             const jsonParsedData = data ? JSON.stringify(data) : null;
@@ -107,15 +91,12 @@
             httpRequest.send(jsonParsedData);
         }
 
-
         function getPasswordDto() {
             var obj = {
                 currentPassword : document.getElementById("initPwd").value,
                 toModifyPassword : document.getElementById("toModPwd").value,
                 confirmPassword : document.getElementById("confirmToPwd").value,
             }
-            console.log(obj);
-
             return obj;
         }
 
@@ -143,8 +124,6 @@
                 alert('Caught Exception: ' + e.description);
             }
         }
-
-
     }
 </script>
 
