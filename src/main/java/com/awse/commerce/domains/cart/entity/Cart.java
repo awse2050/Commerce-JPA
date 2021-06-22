@@ -1,5 +1,6 @@
 package com.awse.commerce.domains.cart.entity;
 
+import com.awse.commerce.domains.item.exception.ItemBadRequestException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -69,7 +70,7 @@ public class Cart {
     // 상품 재고량 계산
     private void isEnoughStockQuantity(int stockQuantity, int requestQuantity) {
         if (stockQuantity < requestQuantity) {
-            throw new IllegalStateException("재고가 부족합니다.");
+            throw new ItemBadRequestException("입력하신 수량보다 재고가 부족합니다.");
         }
     }
 }

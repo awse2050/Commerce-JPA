@@ -4,6 +4,7 @@ import com.awse.commerce.domains.item.dto.ItemDetailsDto;
 import com.awse.commerce.domains.item.dto.ItemRequestDto;
 import com.awse.commerce.domains.item.dto.PageResultItemDto;
 import com.awse.commerce.domains.item.entity.Item;
+import com.awse.commerce.domains.item.exception.ItemBadRequestException;
 import com.awse.commerce.domains.item.repository.ItemQueryRepository;
 import com.awse.commerce.domains.item.repository.ItemRepository;
 import com.awse.commerce.domains.util.pagination.PageRequestDto;
@@ -37,7 +38,7 @@ public class ItemService {
     // 상품 조회
     public ItemDetailsDto findItem(Long itemId) {
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+                .orElseThrow(() -> new ItemBadRequestException());
 
         return new ItemDetailsDto(item);
     }
