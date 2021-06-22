@@ -1,10 +1,12 @@
 package com.awse.commerce.domains.like.service;
 
 import com.awse.commerce.domains.item.entity.Item;
+import com.awse.commerce.domains.item.exception.ItemBadRequestException;
 import com.awse.commerce.domains.item.repository.ItemRepository;
 import com.awse.commerce.domains.like.dto.LikedItemDetails;
 import com.awse.commerce.domains.like.dto.PageResultLikedItemDto;
 import com.awse.commerce.domains.like.entity.Like;
+import com.awse.commerce.domains.like.exception.LikeBadRequestException;
 import com.awse.commerce.domains.like.repository.LikeQueryRepository;
 import com.awse.commerce.domains.like.repository.LikeRepository;
 import com.awse.commerce.domains.member.entity.Member;
@@ -27,7 +29,7 @@ public class LikeService {
     // 좋아요 추가하기
     public boolean addLike(Member member, Long itemId) {
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품 입니다."));
+                .orElseThrow(() -> new ItemBadRequestException());
 
         if (isAlreadyLike(member, item)) {
             return false;
@@ -43,9 +45,10 @@ public class LikeService {
     // 좋아요 취소하기
     public void cancelLike(Member member, Long itemId) {
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품 입니다."));
+                .orElseThrow(() -> new ItemBadRequestException());
 
-        Like like = likeRepository.findByMemberAndItem(member, item).get();
+        Like like = likeRepository.findByMemberAndItem(member, item)
+                .orElseThrow(() -> new LikeBadRequestException());
 
         likeRepository.delete(like);
     }
@@ -60,7 +63,7 @@ public class LikeService {
     // NOTE : use other Controller
     public boolean isEnabledLike(Member member, Long itemId) {
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품 입니다."));
+                .orElseThrow(() -> new ItemBadRequestException());
 
         return likeRepository.findByMemberAndItem(member, item).isPresent();
     }
