@@ -215,7 +215,9 @@
         const allCheckBtn = document.getElementById("allCheck");
         const itemCheckBtn = document.getElementsByName("itemCheck");
         const selRemoveBtn = document.getElementById("selRemove");
+        const checkoutBtn = document.getElementById("checkout");
 
+        checkoutBtn.addEventListener('click', checkoutRequest);
         selRemoveBtn.addEventListener('click', selectRemoveRequest);
         allCheckBtn.addEventListener('click', isBoxChecked);
 
@@ -312,6 +314,45 @@
             }
         }
 
+        function checkCartList() {
+            let cartCount = [[${cart.cartTotal}]];
+
+            if(!cartCount) {
+                alert("주문할 상품이 없습니다.");
+                return false;
+            }
+            return true;
+        }
+
+        function checkoutRequest() {
+            if(!checkCartList()) {
+                return false;
+            }
+
+            // 체크박스가 선택된 tr을 찾는다.
+            let targetArray = {
+                daoList: [],
+            };
+            // 객체로 변환시킨다.
+            document.getElementsByName("itemCheck").forEach(box => {
+                if(box.checked) {
+
+                    let targetTr = box.closest("tr");
+                    console.log(targetTr);
+                    targetArray.daoList.push(
+                        {
+                            itemId: parseInt(targetTr.attributes[0].value),
+                            orderCount: parseInt(targetTr.querySelector("input[name='orderCount']").value),
+                        }
+                    )
+                }
+            })
+
+            console.log(targetArray);
+
+            requestAPI(checkoutLogic, 'POST', '/checkout', targetArray);
+        }
+
         // 선택삭제
         function selectRemoveRequest() {
             const checkBoxElem = document.getElementsByName("itemCheck");
@@ -385,6 +426,22 @@
                 if (httpRequest.readyState === XMLHttpRequest.DONE) {
                     if (httpRequest.status === 200) {
                         window.location.reload();
+                    } else {
+                        alert(httpRequest.responseText);
+                        return;
+                    }
+                }
+            }
+            catch( e ) {
+                alert('Caught Exception: ' + e.description);
+            }
+        }
+
+        function checkoutLogic() {
+            try {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        window.location.href = httpRequest.responseText;
                     } else {
                         alert(httpRequest.responseText);
                         return;
