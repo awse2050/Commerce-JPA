@@ -105,9 +105,9 @@
                             <tbody>
                             <th:block th:if="${cart != null}">
                                 <th:block th:each="cart : ${cart.cartItemDetailsDtoList}">
-                                    <tr>
+                                    <tr th:value="${cart.itemId}">
                                         <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
-                                            <input type="checkbox" id="">
+                                            <input type="checkbox" name="itemCheck" >
                                         </td>
                                         <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
                                             <div style="margin: 10px 0px; display: table; table-layout: fixed; width: 100%; min-height: 96px; line-height: 1.5; font-size: 14px; text-align: left; position: relative;">
@@ -128,8 +128,12 @@
                                             [[${cart.itemAmount}]] 원
                                         </td>
                                         <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
-                                            <!-- 추후 input -->
-                                            [[${cart.orderCount}]] 개
+                                            <div style="position: relative; display: inline-block;">
+                                                <!-- 추후 input -->
+                                                <button name="modQty" data-oper="sub" style="display: block; width: 30px; border: 0; background: #eee; padding: 5px; position: relative; float: left;">-</button>
+                                                <input name="orderCount" disabled style="width: 32px; height: 30px; border: 1px solid #eee; text-align: center; color: #000000; float: left;" th:value="${cart.orderCount}">
+                                                <button name="modQty" data-oper="add" style="display: block; width: 30px; border: 0; background: #eee; padding: 5px; position: relative; float: left;">+</button>
+                                            </div>
                                         </td>
                                         <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
                                             [[${cart.calTotalAmount()}]] 원
@@ -144,6 +148,18 @@
                                 장바구니에 담긴 상품이 없습니다.
                             </p>
                         </th:block>
+                        <div style="clear: both; position: relative; text-align: center; padding-top: 20px; min-height: 32px;">
+                            <div style="left: 0; float: none; position: absolute; top: 20px; z-index: 1;">
+                                <button id="selRemove" style="border: 1px solid #000;
+                                                background: #fff;
+                                                color: #000;
+                                                font-weight: bold;
+                                                font-size: 14px;">선택삭제</button>
+                            </div>
+                            <button id="checkout" style="margin: 0 1px; border: 1px solid #000000; background-color: #000000; min-width: 290px; height: 60px; line-height: 54px; padding-top: 4px; font-size: 20px; color: #ffffff;">
+                                주문하기
+                            </button>
+                        </div>
                     </div>
                     </section>
                     <section>
@@ -188,6 +204,95 @@
 
     </th:block>
 </th:block>
+
+<script th:inline="javascript">
+
+    window.onload = function () {
+
+        var httpRequest;
+
+        const modQtyBtn = document.getElementsByName("modQty");
+
+        modQtyBtn.forEach(btn => {
+            btn.addEventListener('click', modQuantityRequest);
+        })
+
+        function modQuantityRequest() {
+            let targetTr = this.closest("tr");
+            let targetOrderCount = targetTr.querySelector("input[name='orderCount']").value;
+            let btnType = this.dataset.oper;
+
+            const addQty = 1;
+            const subQty = -1;
+
+            if(btnType === "add") {
+                // 추가 이벤트
+                modQtyRequest(targetTr, addQty);
+            } else if (btnType === "sub") {
+                // 빼기 이벤트
+                if(parseInt(targetOrderCount) === 1) {
+                    alert("최소 1개 이상 필요합니다.");
+                    return false;
+                }
+                modQtyRequest(targetTr, subQty);
+            }
+        }
+
+        // 수량추가
+        function modQtyRequest(targetTr, count) {
+            let targetItemId = parseInt(targetTr.attributes[0].value);
+            let targetOrderCount = targetTr.querySelector("input[name='orderCount']").value;
+
+            // 데이터 수집
+            const data = {
+                itemId: targetItemId,
+                orderCount: parseInt(targetOrderCount)+count,
+            }
+            console.log(data);
+
+            requestAPI(modifyOrderCountResultLogic, 'PUT', '/api/cart/'+data.itemId, data);
+            // 완료 후 화면의 개수 변경
+            targetTr.querySelector("input[name='orderCount']").value = parseInt(targetOrderCount)+count;
+        }
+
+        function getHttpInstance() {
+            if(!httpRequest) {
+                httpRequest = new XMLHttpRequest();
+            }
+
+            return httpRequest;
+        }
+
+        function requestAPI(e, type, url, data) {
+            const jsonParsedData = data ? JSON.stringify(data) : null;
+
+            httpRequest = getHttpInstance();
+
+            httpRequest.onreadystatechange = e;
+            httpRequest.open(type, url);
+            httpRequest.setRequestHeader("Content-Type", "application/json")
+            httpRequest.send(jsonParsedData);
+        }
+
+        function modifyOrderCountResultLogic() {
+            try {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        alert("수량 변경이 완료되었습니다.")
+                        window.location.reload();
+                    } else {
+                        alert(httpRequest.responseText);
+                        return;
+                    }
+                }
+            }
+            catch( e ) {
+                alert('Caught Exception: ' + e.description);
+            }
+        }
+    }
+
+</script>
 
 </body>
 </html>
