@@ -16,6 +16,7 @@ import com.awse.commerce.domains.item.entity.Item;
 import com.awse.commerce.domains.item.exception.ItemBadRequestException;
 import com.awse.commerce.domains.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -114,7 +115,7 @@ public class CartService {
     }
 
     private Cart findCartEntity(Long memberId) {
-        return cartRepository.findById(memberId).
+        return cartRepository.findByMemberId(memberId).
                 orElseThrow(() -> new CartNotFoundException());
     }
 
