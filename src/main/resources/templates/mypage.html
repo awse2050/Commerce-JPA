@@ -128,8 +128,12 @@
                                             [[${cart.itemAmount}]] 원
                                         </td>
                                         <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
-                                            <!-- 추후 input -->
-                                            [[${cart.orderCount}]] 개
+                                            <div style="position: relative; display: inline-block;">
+                                                <!-- 추후 input -->
+                                                <button style="display: block; width: 30px; border: 0; background: #eee; padding: 5px; position: relative; float: left;">-</button>
+                                                <input disabled style="width: 32px; height: 30px; border: 1px solid #eee; text-align: center; color: #000000; float: left;" th:value="${cart.orderCount}">
+                                                <button style="display: block; width: 30px; border: 0; background: #eee; padding: 5px; position: relative; float: left;">+</button>
+                                            </div>
                                         </td>
                                         <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
                                             [[${cart.calTotalAmount()}]] 원
@@ -144,6 +148,18 @@
                                 장바구니에 담긴 상품이 없습니다.
                             </p>
                         </th:block>
+                        <div style="clear: both; position: relative; text-align: center; padding-top: 20px; min-height: 32px;">
+                            <div style="left: 0; float: none; position: absolute; top: 20px; z-index: 1;">
+                                <button style="border: 1px solid #000;
+                                                background: #fff;
+                                                color: #000;
+                                                font-weight: bold;
+                                                font-size: 14px;">선택삭제</button>
+                            </div>
+                            <button style="margin: 0 1px; border: 1px solid #000000; background-color: #000000; min-width: 290px; height: 60px; line-height: 54px; padding-top: 4px; font-size: 20px; color: #ffffff;">
+                                주문하기
+                            </button>
+                        </div>
                     </div>
                     </section>
                     <section>
