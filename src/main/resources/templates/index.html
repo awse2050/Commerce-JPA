@@ -37,7 +37,7 @@
                             <div class="card text-center card-product">
                                 <div class="card-product__img">
                                     <a th:href="@{/item/{itemId}(itemId=${item.itemId})}" style="width: 100%;">
-                                        <img class="card-img" src="/img/bolpen.jpg">
+                                        <img class="card-img" th:src="${item.imgPath}" style="max-height: 290px; max-width: 290px;">
                                     </a>
                                 </div>
                                 <div class="card-body">
