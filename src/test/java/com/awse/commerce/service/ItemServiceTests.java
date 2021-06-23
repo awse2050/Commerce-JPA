@@ -37,9 +37,9 @@ public class ItemServiceTests {
 
         ItemRequestDto dto = ItemRequestDto.builder()
                 .itemAmount(1500)
-                .imgPath(s3UploadService.getThumbnailPath("sida.jfif"))
-                .itemName("사이다")
-                .stockQuantity(20)
+                .imgPath(s3UploadService.getThumbnailPath("bolpen.jpg"))
+                .itemName("볼펜")
+                .stockQuantity(10)
                 .build();
 
         Long result = itemService.saveItem(dto);
