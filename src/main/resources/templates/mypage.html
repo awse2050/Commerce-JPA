@@ -165,7 +165,7 @@
                     <section>
                     <div style="border-bottom: 3px solid #000000; padding-bottom: 14px; line-height: 1.5; font-size: 14px; position: relative;">
                         <h2 style="font-size: 24px; display: inline-block; font-weight: normal;">
-                            찜 목록
+                            좋아요 목록
                         </h2>
                     </div>
                     <div>
@@ -212,6 +212,16 @@
         var httpRequest;
 
         const modQtyBtn = document.getElementsByName("modQty");
+        const allCheckBtn = document.getElementById("allCheck");
+        const itemCheckBtn = document.getElementsByName("itemCheck");
+        const selRemoveBtn = document.getElementById("selRemove");
+
+        selRemoveBtn.addEventListener('click', selectRemoveRequest);
+        allCheckBtn.addEventListener('click', isBoxChecked);
+
+        itemCheckBtn.forEach(checkbox => {
+            checkbox.addEventListener('change', checkState);
+        })
 
         modQtyBtn.forEach(btn => {
             btn.addEventListener('click', modQuantityRequest);
@@ -230,15 +240,10 @@
                 modQtyRequest(targetTr, addQty);
             } else if (btnType === "sub") {
                 // 빼기 이벤트
-                if(parseInt(targetOrderCount) === 1) {
-                    alert("최소 1개 이상 필요합니다.");
-                    return false;
-                }
                 modQtyRequest(targetTr, subQty);
             }
         }
 
-        // 수량추가
         function modQtyRequest(targetTr, count) {
             let targetItemId = parseInt(targetTr.attributes[0].value);
             let targetOrderCount = targetTr.querySelector("input[name='orderCount']").value;
@@ -252,7 +257,91 @@
 
             requestAPI(modifyOrderCountResultLogic, 'PUT', '/api/cart/'+data.itemId, data);
             // 완료 후 화면의 개수 변경
+            if(count === -1) {
+                return false;
+            }
             targetTr.querySelector("input[name='orderCount']").value = parseInt(targetOrderCount)+count;
+        }
+
+        //선택박스가 다 체크됐거나 하나라도 미체크되어 있는 경우
+        function isBoxChecked() {
+            const checkBoxElem = document.getElementsByName("itemCheck");
+
+            if(this.checked) {
+                checkAll(checkBoxElem);
+            } else {
+                nonCheckAll(checkBoxElem);
+            }
+        }
+
+        function checkAll(elem) {
+            elem.forEach( box => {
+                box.checked = true;
+            })
+        }
+
+        function nonCheckAll(elem) {
+            elem.forEach( box => {
+                box.checked = false;
+            })
+        }
+
+        function confirmRemove(msg) {
+            if (confirm(msg)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function checkState() {
+
+            const allCheckBtn = document.getElementById("allCheck");
+            const checkBoxElem = document.getElementsByName("itemCheck");
+
+            let checkArray = [];
+
+            checkBoxElem.forEach(elem => {
+                checkArray.push(elem.checked);
+            })
+
+            if(checkArray.includes(false)) {
+                allCheckBtn.checked = false;
+            } else {
+                allCheckBtn.checked = true;
+            }
+        }
+
+        // 선택삭제
+        function selectRemoveRequest() {
+            const checkBoxElem = document.getElementsByName("itemCheck");
+            // 빈 배열 생성
+            var itemIdArray = {
+                itemIdList: [],
+            };
+            // 노드를 하나씩 집어넣고
+            // 만든 배열로 하나씩 빼면서 check된것을 확인해서 그 값의 value를 뽑아낸다.
+            console.log(checkBoxElem);
+            checkBoxElem.forEach(elem => {
+                if(elem.checked == true) {
+                    itemIdArray.itemIdList.push(parseInt(elem.closest("tr").attributes[0].value));
+                }
+            })
+
+            console.log(itemIdArray);
+
+            if(!confirmRemove("장바구니에서 삭제하시겠습니까?")) {
+                console.log("삭제취소");
+                return;
+            }
+
+            if(itemIdArray.itemIdList.length === 0) {
+                console.log("미선택");
+                alert("삭제할 상품을 선택하세요.");
+                return;
+            }
+
+            requestAPI(selectRemoveResultLogic, 'DELETE', '/api/cart', itemIdArray);
         }
 
         function getHttpInstance() {
@@ -279,6 +368,22 @@
                 if (httpRequest.readyState === XMLHttpRequest.DONE) {
                     if (httpRequest.status === 200) {
                         alert("수량 변경이 완료되었습니다.")
+                        window.location.reload();
+                    } else {
+                        alert(httpRequest.responseText);
+                        return false;
+                    }
+                }
+            }
+            catch( e ) {
+                alert('Caught Exception: ' + e.description);
+            }
+        }
+
+        function selectRemoveResultLogic() {
+            try {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
                         window.location.reload();
                     } else {
                         alert(httpRequest.responseText);
