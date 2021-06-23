@@ -18,7 +18,7 @@
                             <th:block th:each="like : ${pageResult.dtoList}">
                                 <li style="width: 25%; box-sizing: border-box; margin-top: 32px; float: left; display: table; table-layout: fixed; min-height: 96px; line-height: 1.5; font-size: 14px; text-align: left; position: relative;">
                                     <a th:href="@{/item/{itemId}(itemId=${like.likedItemId})}" style="display: table-cell; width: 50%; padding-top: 96px; vertical-align: middle;">
-                                        <img src="/img/bolpen.jpg" style="position: absolute; left: 0; top: 0; max-width: 100px;">
+                                        <img th:src="${like.likedItemImgPath}" style="position: absolute; left: 0; top: 0; max-width: 100px;">
                                     </a>
                                     <ul style="display: table-cell;  width: 50%; padding-left: 10px; vertical-align: middle;">
                                         <li style="max-height: 44px; font-weight: bold; overflow: hidden; font-size: 14px; line-height: 22px;">

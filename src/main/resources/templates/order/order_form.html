@@ -25,10 +25,10 @@
                             </div>
                             <div style="margin-bottom: 10px; display: table; width: 100%;">
                                 <div style="border-left: 1px solid #ddd; border-top: 1px solid #ddd; display: table-cell; box-sizing: border-box;">
-                                    <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
-                                        <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">배송지 선택</li>
-                                        <li style="color: #000; display: table-cell; padding: 10px 10px 10px 0;"></li>
-                                    </ul>
+<!--                                    <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">-->
+<!--                                        <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">배송지 선택</li>-->
+<!--                                        <li style="color: #000; display: table-cell; padding: 10px 10px 10px 0;"></li>-->
+<!--                                    </ul>-->
                                     <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
                                         <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">수령인</li>
                                         <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">
@@ -38,7 +38,7 @@
                                     <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
                                         <li style="display: table-cell; width: 190px; padding: 10px 0 10px 10px; font-weight: bold;">전화번호</li>
                                         <li style="color: #000; display: table-cell; vertical-align: middle; padding: 5px 10px 6px 0;">
-
+                                            [[${member.phone}]]
                                         </li>
                                     </ul>
                                     <ul style="display: table; width: 100%; line-height: 24px; border-bottom: 1px solid #ddd;">
@@ -76,7 +76,7 @@
                                     <tr th:value="${item.itemId}" style="border: 1px solid #ddd;">
                                         <td style="padding: 15px 10px; vertical-align: middle; border: 1px solid #ddd; line-height: 16.8px;">
                                             <div class="connect_img" style="overflow: hidden; position: relative; float: left">
-                                                <img src="/img/bolpen.jpg" style="max-width: 100px;">
+                                                <img th:src="${item.imgPath}" style="max-width: 100px;">
                                             </div>
                                             <div style="position: relative; width: auto; margin-left: 70px; line-height: 100px;">
                                                 <div style="padding-bottom: 8px; text-align: left;">

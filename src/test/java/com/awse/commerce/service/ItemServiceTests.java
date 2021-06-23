@@ -5,6 +5,7 @@ import com.awse.commerce.domains.item.dto.ItemRequestDto;
 import com.awse.commerce.domains.item.dto.PageResultItemDto;
 import com.awse.commerce.domains.item.service.ItemService;
 import com.awse.commerce.domains.util.pagination.PageRequestDto;
+import com.awse.commerce.domains.util.s3.S3UploadService;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -22,6 +23,9 @@ public class ItemServiceTests {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private S3UploadService s3UploadService;
+
     @DisplayName("상품등록 테스트")
     @Test
     @Transactional
@@ -29,17 +33,17 @@ public class ItemServiceTests {
     @Disabled
     public void itemSaveTest() {
 
-        for(int i=0; i < 101; i++) {
+//        for(int i=0; i < 101; i++) {
 
         ItemRequestDto dto = ItemRequestDto.builder()
-                .itemAmount(50+i)
-                .imgPath("none")
-                .itemName("볼펜"+i)
-                .stockQuantity(1+i)
+                .itemAmount(1500)
+                .imgPath(s3UploadService.getThumbnailPath("sida.jfif"))
+                .itemName("사이다")
+                .stockQuantity(20)
                 .build();
 
         Long result = itemService.saveItem(dto);
-        }
+//        }
 
  //     Assertions.assertThat(result).isNotEqualTo(null);
     }
@@ -48,7 +52,7 @@ public class ItemServiceTests {
     @Transactional
     @Test
     public void findItemTest() {
-        ItemDetailsDto dto = itemService.findItem(21L);
+        ItemDetailsDto dto = itemService.findItem(1L);
 
         Assertions.assertThat(dto).isNotNull();
     }
@@ -57,7 +61,7 @@ public class ItemServiceTests {
     @Test
     public void pagingTest() {
 
-        PageRequestDto pageRequestDto = new PageRequestDto(2,10);
+        PageRequestDto pageRequestDto = new PageRequestDto(1,10);
 
         PageResultItemDto<ItemDetailsDto> list = itemService.findAll(pageRequestDto, null);
 
