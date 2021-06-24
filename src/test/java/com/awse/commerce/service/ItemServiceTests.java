@@ -52,7 +52,7 @@ public class ItemServiceTests {
     @Transactional
     @Test
     public void findItemTest() {
-        ItemDetailsDto dto = itemService.findItem(1L);
+        ItemDetailsDto dto = itemService.findItem(102L);
 
         Assertions.assertThat(dto).isNotNull();
     }
