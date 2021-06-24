@@ -67,6 +67,23 @@
                                 </th:block>
                                 </tbody>
                             </table>
+                            <div th:if="${pageResult.dtoList != null}" style="position: relative; clear: both; padding-top: 22px;">
+                                <ul class="pagination" style="justify-content: center;">
+                                    <li class="page-item" th:if="${pageResult.prev}" style="display: inline-block; width: 28px; line-height: 22px; font-size: 16px; color: #dadada; vertical-align: top; margin: 5px 0px; background: none;">
+                                        <a class="page-link" th:href="@{/order/order_list(page=${pageResult.start - 1},
+                                size=${pageResult.size}, keyword=${keyword})}">이전</a>
+                                    </li>
+                                    <li th:class=" 'page-item ' + ${pageResult.page == page ? 'active' : ''} " th:each="page: ${pageResult.pageList}">
+                                        <a  class="page-link" th:href="@{/order/order_list(page = ${page},
+                                size=${pageResult.size}, keyword=${keyword})}">
+                                            [[${page}]]
+                                        </a>
+                                    <li class="page-item"  th:if="${pageResult.next}">
+                                        <a class="page-link" th:href="@{/order/order_list(page=${pageResult.end + 1},
+                                size=${pageResult.size}, keyword=${keyword})}">다음</a>
+                                    </li>
+                                </ul>
+                            </div>
                             <th:block th:if="${pageResult.dtoList == null || pageResult.dtoList.size() == 0}">
                                 <p style="line-height: 200px; text-align: center; border-bottom: 1px solid #f5f5f5;">
                                     주문하신 내역이 없습니다.

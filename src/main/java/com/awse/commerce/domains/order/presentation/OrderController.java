@@ -76,6 +76,7 @@ public class OrderController {
         Long memberId = currentMember.getId();
 
         model.addAttribute("pageResult", myOrderService.getMyOrderWithPaging(memberId, requestDto, keyword));
+        model.addAttribute("keyword", keyword);
 
         return "order/order_list";
     }
