@@ -1,7 +1,9 @@
 package com.awse.commerce.controller.order;
 
+import com.awse.commerce.controller.member.WithMockCustomUser;
 import com.awse.commerce.domains.cart.dao.CheckoutDao;
 import com.awse.commerce.domains.cart.dto.CheckoutDaoListDto;
+import com.awse.commerce.domains.util.pagination.PageRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +21,6 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Disabled
 public class OrderController {
 
     @Autowired
@@ -30,6 +31,7 @@ public class OrderController {
 
     @DisplayName("체크아웃")
     @Test
+    @Disabled
     public void checkoutTest() throws Exception{
 
         List<CheckoutDao> daoList = new ArrayList<>();
@@ -45,6 +47,17 @@ public class OrderController {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
 
+    }
+
+    @DisplayName("페이징 + 주문내역조회")
+    @Test
+    @WithMockCustomUser
+    public void getOrderListWithPaging() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/order/order_list")
+        ).andExpect(MockMvcResultMatchers.model().attributeExists("pageResult"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
     }
 
 }

@@ -4,7 +4,9 @@ import com.awse.commerce.domains.cart.dto.CheckoutDaoListDto;
 import com.awse.commerce.domains.cart.dto.CheckoutItemListDto;
 import com.awse.commerce.domains.cart.service.CartService;
 import com.awse.commerce.domains.member.entity.Member;
+import com.awse.commerce.domains.order.service.MyOrderService;
 import com.awse.commerce.domains.util.config.security.CurrentUser;
+import com.awse.commerce.domains.util.pagination.PageRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class OrderController {
 
     private final CartService cartService;
+
+    private final MyOrderService myOrderService;
 
     private static CheckoutDaoListDto daoList;
 
@@ -60,5 +64,19 @@ public class OrderController {
         model.addAttribute("applicationId", application_id);
 
         return "order/order_form";
+    }
+
+    // 전체 주문내역 조회 페이지
+    @GetMapping("/order/order_list")
+    public String orderListPage(@CurrentUser Member currentMember,
+                                PageRequestDto requestDto,
+                                String keyword,
+                                Model model) {
+
+        Long memberId = currentMember.getId();
+
+        model.addAttribute("pageResult", myOrderService.getMyOrderWithPaging(memberId, requestDto, keyword));
+
+        return "order/order_list";
     }
 }

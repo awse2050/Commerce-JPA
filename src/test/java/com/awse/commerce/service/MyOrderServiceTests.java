@@ -19,7 +19,6 @@ import org.springframework.data.domain.Sort;
 
 @SpringBootTest
 @Log4j2
-@Disabled
 public class MyOrderServiceTests {
 
     @Autowired
@@ -29,25 +28,19 @@ public class MyOrderServiceTests {
     @Test
     public void getMyOrderListTest() {
         MyOrderSummaryDto summaryDto =
-                myOrderService.getMyOrderList(1L, PageRequest.of(0,10, Sort.by("orderId").descending()));
+                myOrderService.getMyOrderList(12L, PageRequest.of(0,10, Sort.by("orderId").descending()));
 
         summaryDto.getMyOrderDtoList().stream().forEach(i -> log.info( i.getOrderId()));
+        log.info(summaryDto.getMyOrderDtoList());
     }
 
-    @DisplayName("특정 주문의 정보 조회")
-    @Test
-    public void getMyOrderDetailsTest() {
-        MyOrderDetailsDto myOrderDetailsDto = myOrderService.getMyOrderDetails(7L);
-
-        Assertions.assertThat(myOrderDetailsDto.getOrderId()).isEqualTo(7L);
-    }
 
     @DisplayName("나의 주문 조회 테스트 + 페이징")
     @Test
     public void myOrderFindandPaging() {
         PageRequestDto pageRequestDto = new PageRequestDto();
 
-        PageResultOrderDto<MyOrderDto, Order> list = myOrderService.getMyOrderWithPaging(1L, pageRequestDto);
+        PageResultOrderDto<MyOrderDto, Order> list = myOrderService.getMyOrderWithPaging(12L, pageRequestDto, null);
 
         Assertions.assertThat(list).isNotNull();
         list.getDtoList().forEach(i -> {

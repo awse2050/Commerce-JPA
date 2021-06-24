@@ -26,7 +26,7 @@ public class MyOrderService {
     // 마이페이지에서 보여줄 목록
     public MyOrderSummaryDto getMyOrderList(Long memberId, Pageable pageable) {
         // 사용자를 검색한다.
-        Page<Order> orderList = orderQueryRepository.getMyOrders(memberId,pageable);
+        Page<Order> orderList = orderQueryRepository.getMyOrders(memberId, pageable ,null);
 
         List<MyOrderDto> myOrderDtoList = MyOrderDto.from(orderList);
 
@@ -36,7 +36,19 @@ public class MyOrderService {
         return new MyOrderSummaryDto(myOrderDtoList, total);
     }
 
-    // 나의 특정 주문의 정보.
+    // 나의 주문목록 + 페이징
+    // 주문내역조회 페이지에서 보여줄 목록
+    public PageResultOrderDto<MyOrderDto, Order> getMyOrderWithPaging(Long memberId, PageRequestDto requestDto, String keyword) {
+        // 사용자를 검색한다.
+        Page<Order> orderList = orderQueryRepository.getMyOrders(memberId, requestDto.getPageable("orderId"), keyword);
+
+        List<MyOrderDto> myOrderDtoList = MyOrderDto.from(orderList);
+
+        // 변환시킨 정보를 전달한다.
+        return new PageResultOrderDto<>(myOrderDtoList, orderList);
+    }
+
+    // 나의 특정 주문의 정보. ( 현재 미사용 )
     public MyOrderDetailsDto getMyOrderDetails(Long orderId) {
         // 주문찾기
         Order entity = orderQueryRepository.getMyOrderDetails(orderId)
@@ -56,18 +68,4 @@ public class MyOrderService {
 
         return myOrderDetailsDto;
     }
-
-    // 나의 주문목록 + 페이징
-    // 주문내역조회 페이지에서 보여줄 목록
-    public PageResultOrderDto<MyOrderDto, Order> getMyOrderWithPaging(Long memberId, PageRequestDto requestDto) {
-        // 사용자를 검색한다.
-        Page<Order> orderList = orderQueryRepository.getMyOrders(memberId, requestDto.getPageable("orderId"));
-
-        List<MyOrderDto> myOrderDtoList = MyOrderDto.from(orderList);
-
-        // 변환시킨 정보를 전달한다.
-        return new PageResultOrderDto<>(myOrderDtoList, orderList);
-    }
-
-
 }

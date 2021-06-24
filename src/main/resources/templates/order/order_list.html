@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{fragment/fragment :: setBody(~{ :: body})}">
+    <th:block th:fragment="body">
+
+        <main class="site-main" style="padding: 50px 40px;">
+            <section style="display: flex; margin-bottom: 100px;">
+                <th:block th:replace="fragment/mypage-menu :: mypage-menu">
+                </th:block>
+                <div style="float: right; width: 85%;">
+                    <section>
+                        <div style="border-bottom: 3px solid #000000; padding-bottom: 14px; line-height: 1.5; font-size: 14px; position: relative;">
+                            <h2 style="font-size: 24px; display: inline-block; font-weight: normal;">
+                                주문내역 조회
+                            </h2>
+                        </div>
+                        <div class="orderListTable" style="margin-bottom: 100px;">
+                            <table style="border-top: none; border-bottom: 1px solid #e8e8e8; width: 100%; line-height: 1.5; font-size: 14px; border-collapse: collapse;table-layout: fixed;">
+                                <thead>
+                                <tr>
+                                    <th style="width:30%; text-align: center; border-bottom: 1px solid #e8e8e8; padding: 10px 0px;">상품 정보</th>
+                                    <th style="text-align: center; border-bottom: 1px solid #e8e8e8; padding: 10px 0px;">주문 일자</th>
+                                    <th style="text-align: center; border-bottom: 1px solid #e8e8e8; padding: 10px 0px;">주문 번호</th>
+                                    <th style="text-align: center; border-bottom: 1px solid #e8e8e8; padding: 10px 0px;">주문 총 금액(수량)</th>
+                                    <th style="text-align: center; border-bottom: 1px solid #e8e8e8; padding: 10px 0px;">주문 상태</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:if="${pageResult.dtoList != null}">
+                                    <th:block th:each="order : ${pageResult.dtoList}">
+                                        <tr>
+                                            <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
+                                                <div style="margin: 10px 0px; display: table; table-layout: fixed; width: 100%; min-height: 96px; line-height: 1.5; font-size: 14px; text-align: left; position: relative;">
+                                                    <a th:href="@{/item/{itemId}(itemId=${order.representativeItemId})}" style="display: table-cell; width: 50%; vertical-align: middle;">
+                                                        <img th:src="${order.representativeImgPath}" style="max-width: 100px;">
+                                                    </a>
+                                                    <ul style="width: 50%; display: table-cell; padding-left: 10px; vertical-align: middle;">
+                                                        <!-- <li style="font-weight: 300; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 14px; line-height: 22px;">-->
+                                                        <!-- <a href="#">브랜드이름</a>-->
+                                                        <!-- </li>-->
+                                                        <li style="max-height: 44px; font-weight: bold; overflow: hidden; font-size: 14px; line-height: 22px;">
+                                                            <a th:href="@{/item/{itemId}(itemId=${order.representativeItemId})}">
+                                                                [[${order.representativeItemName}]]
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                            <td th:text="${#temporals.format(order.orderedDate, 'yyyy-MM-dd')}" style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
+
+                                            </td>
+                                            <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
+                                                <a href="#">[[${order.orderId}]]</a>
+                                            </td>
+                                            <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
+                                                [[${order.totalAmount}]] 원
+                                                <br>
+                                                <span style="vertical-align: middle; color: #777777;">
+                                                    [[${order.orderCount}]] 개
+                                                </span>
+                                            </td>
+                                            <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
+                                                [[${order.orderStatus}]]
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                </th:block>
+                                </tbody>
+                            </table>
+                            <th:block th:if="${pageResult.dtoList == null || pageResult.dtoList.size() == 0}">
+                                <p style="line-height: 200px; text-align: center; border-bottom: 1px solid #f5f5f5;">
+                                    주문하신 내역이 없습니다.
+                                </p>
+                            </th:block>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </main>
+    </th:block>
+</th:block>
+
+</body>
+</html>
