@@ -8,6 +8,7 @@ import com.awse.commerce.domains.cart.repository.CartRepository;
 import com.awse.commerce.domains.item.entity.Item;
 import com.awse.commerce.domains.item.repository.ItemRepository;
 import lombok.extern.log4j.Log4j2;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,6 @@ import java.util.stream.Collectors;
 
 @SpringBootTest
 @Log4j2
-@Disabled
 public class CartRepositoryTests {
 
     @Autowired
@@ -36,8 +36,7 @@ public class CartRepositoryTests {
         Optional<Cart> result = cartRepository.findByMemberId(1L);
 
         log.info(result.get());
-//        log.info(result.get().getCartMap().get(1L).getItemId());
-//        log.info(result.get().getCartMap().get(2L).getItemId());
+        Assertions.assertThat(result.isPresent()).isTrue();
 
     }
 
@@ -50,7 +49,7 @@ public class CartRepositoryTests {
          // 상품번호와 주문개수를 받는다.
         List<CheckoutDao> list = new ArrayList<>();
         list.add(new CheckoutDao(2L, 1));
-        list.add(new CheckoutDao(8L, 1));
+        list.add(new CheckoutDao(3L, 1));
 
          // 해당 객체를 돌려서 itemId로 상품을 찾고
         CheckoutItemListDto itemListDto = new CheckoutItemListDto();

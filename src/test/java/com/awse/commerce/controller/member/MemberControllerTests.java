@@ -42,12 +42,13 @@ public class MemberControllerTests {
     @DisplayName("마이페이지")
     @WithMockCustomUser
     @Test
-    @Disabled
     public void getMyPage() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/mypage")
         )
-                .andExpect(MockMvcResultMatchers.model().attributeExists("memberId"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("cart"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("orderList"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("like"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
 

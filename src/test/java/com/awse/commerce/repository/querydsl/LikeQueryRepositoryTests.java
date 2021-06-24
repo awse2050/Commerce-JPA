@@ -3,6 +3,7 @@ package com.awse.commerce.repository.querydsl;
 import com.awse.commerce.domains.like.dto.LikedItemDetails;
 import com.awse.commerce.domains.like.repository.LikeQueryRepository;
 import lombok.extern.log4j.Log4j2;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,13 @@ public class LikeQueryRepositoryTests {
        Page<LikedItemDetails> pageList =
                likeQueryRepository.getLikeList(1L, PageRequest.of(0, 10, Sort.by("id").descending()));
 
-       pageList.getContent().forEach(i -> {
-           log.info(i);
-       });
+       if(pageList.toList().size() == 0) {
+           log.info("pageList's size? -> 0 ");
+           Assertions.assertThat(pageList.toList().size()).isEqualTo(0);
+       } else {
+           log.info("pageList's size? ->  greater than 0 ");
+           Assertions.assertThat(pageList.toList().size()).isGreaterThan(0);
+       }
 
     }
 }

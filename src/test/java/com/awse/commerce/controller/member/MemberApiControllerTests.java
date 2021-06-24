@@ -116,7 +116,7 @@ public class MemberApiControllerTests {
 
     private SignUpRequest getSignUpRequest() {
         return SignUpRequest.builder()
-                .email("aaa334@naver.com")
+                .email("user1@aaa.com")
                 .name("김모씨")
                 .password("111111111")
                 .confirmPassword("111111111")
@@ -142,8 +142,8 @@ public class MemberApiControllerTests {
     private ModifyPasswordDto getPasswordDto() {
         return ModifyPasswordDto.builder()
                 .currentPassword("20202020")
-                .toModifyPassword("55555555")
-                .confirmPassword("55555555")
+                .toModifyPassword("20202020")
+                .confirmPassword("20202020")
                 .build();
     }
 }

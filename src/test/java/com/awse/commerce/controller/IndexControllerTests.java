@@ -23,7 +23,7 @@ public class IndexControllerTests {
     @DisplayName("index 페이지 조인시 상품목록 확인")
     @Test
     public void indexPageTest() throws Exception{
-        log.info(mockMvc);
+
         mockMvc.perform(
                 MockMvcRequestBuilders
                 .get("/")

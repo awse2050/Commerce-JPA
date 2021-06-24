@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Disabled
 public class LikeControllerTests {
 
     @Autowired
@@ -23,7 +22,7 @@ public class LikeControllerTests {
     @DisplayName("찜 목록 전체 조회")
     @WithMockCustomUser
     @Test
-    public void getLikedList() throws Exception{
+    public void getLikedList() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/mylike")
 

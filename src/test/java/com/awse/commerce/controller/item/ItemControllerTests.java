@@ -23,7 +23,7 @@ public class ItemControllerTests {
 
         String itemId = "1";
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/item/"+itemId))
+        mockMvc.perform(MockMvcRequestBuilders.get("/item/" + itemId))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("item"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("item/itemDetails"))

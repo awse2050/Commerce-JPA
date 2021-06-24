@@ -8,9 +8,7 @@ import com.awse.commerce.domains.member.entity.Member;
 import com.awse.commerce.domains.member.repository.MemberRepository;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
@@ -20,7 +18,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @Log4j2
-@Disabled
+@TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 public class LikeRepositoryTests {
 
     @Autowired
@@ -36,11 +34,12 @@ public class LikeRepositoryTests {
     @Test
     @Commit
     @Transactional
+    @Order(1)
     public void addLikeTest() {
         // 사용자 하나 찾고
-        Member member = memberRepository.findById(2L).get();
+        Member member = memberRepository.findById(3L).get();
         // 아이템 하나 찾고
-        Item item = itemRepository.findById(464L).get();
+        Item item = itemRepository.findById(4L).get();
         // 추가하기
         Like like = new Like(member,item);
 
@@ -53,27 +52,29 @@ public class LikeRepositoryTests {
     @DisplayName("좋아요 찾기")
     @Transactional
     @Test
+    @Order(2)
     public void findByMemberAndItemTest() {
         // 사용자 하나 찾고
-        Member member = memberRepository.findById(2L).get();
+        Member member = memberRepository.findById(3L).get();
         // 아이템 하나 찾고
-        Item item = itemRepository.findById(2L).get();
+        Item item = itemRepository.findById(4L).get();
 
         Optional<Like> like = likeRepository.findByMemberAndItem(member, item);
 
         log.info(like.isPresent());
-        Assertions.assertThat(like).isNotNull();
+        Assertions.assertThat(like.isPresent()).isTrue();
     }
 
     @DisplayName("좋아요 삭제(취소)")
     @Test
     @Commit
     @Transactional
+    @Order(3)
     public void cancelLikeTest() {
         // 사용자 하나 찾고
-        Member member = memberRepository.findById(2L).get();
+        Member member = memberRepository.findById(3L).get();
         // 아이템 하나 찾고
-        Item item = itemRepository.findById(2L).get();
+        Item item = itemRepository.findById(4L).get();
 
         Like like = likeRepository.findByMemberAndItem(member, item).get();
 

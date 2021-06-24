@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Log4j2
-@Disabled
 public class ItemRepositoryTests {
 
     @Autowired
@@ -21,6 +20,7 @@ public class ItemRepositoryTests {
 
     @DisplayName("상품 목록 추가")
     @Test
+    @Disabled
     public void insertItemsTest() {
         String[] strArr = {"연필", "지우개", "샤프심"};
         for(int i = 0; i < 20; i++) {
@@ -42,10 +42,12 @@ public class ItemRepositoryTests {
     @Transactional
     @Test
     public void findTests() {
-        Item item = itemRepository.findById(2L).get();
+        Item item = itemRepository.findById(1L).get();
         log.info(item);
 
         item.getLikes().forEach(i -> log.info(i));
 
+        Assertions.assertThat(item).isNotNull();
+        Assertions.assertThat(item.getLikes()).isNotNull();
     }
 }

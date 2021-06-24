@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Disabled
 public class CartControllerTests {
 
     @Autowired
@@ -27,8 +26,7 @@ public class CartControllerTests {
     @Transactional
     public void findCart() throws Exception {
 
-        Long memberId = 1L;
-        mockMvc.perform(MockMvcRequestBuilders.get("/cart/user/"+memberId)
+        mockMvc.perform(MockMvcRequestBuilders.get("/mycart")
         )
                 .andExpect(MockMvcResultMatchers.model().attributeExists("cartList"))
                 .andExpect(MockMvcResultMatchers.status().isOk())

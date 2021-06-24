@@ -92,11 +92,12 @@ public class OrderRepositoryTests {
         list.stream().forEach( order -> {
             log.info(order);
         });
+
+        Assertions.assertThat(list).isNotNull();
     }
 
-    // 모든 주문 조회
     @Transactional
-    @DisplayName("모든 주문 조회")
+    @DisplayName("특정 사용자의 모든 주문 조회")
     @Test
     public void findOrderByNameTest() {
         List<Order> list = orderRepository.findAllByName("일반회원2");
@@ -104,6 +105,8 @@ public class OrderRepositoryTests {
         list.stream().forEach( order -> {
             log.info(order);
         });
+
+        Assertions.assertThat(list).isNotNull();
     }
 
     @Transactional
@@ -145,6 +148,7 @@ public class OrderRepositoryTests {
         orderRepository.save(order);
     }
 
+    @DisplayName("findByTest")
     @Test
     public void findByIdTest() {
         Optional<Order> result = orderRepository.findById(5L);

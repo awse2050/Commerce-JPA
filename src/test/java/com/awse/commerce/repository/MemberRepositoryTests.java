@@ -2,15 +2,13 @@ package com.awse.commerce.repository;
 
 import com.awse.commerce.domains.member.dto.ModifyMemberDto;
 import com.awse.commerce.domains.member.entity.Member;
+import com.awse.commerce.domains.member.exception.MemberBadRequestException;
 import com.awse.commerce.domains.member.repository.MemberRepository;
-import com.awse.commerce.domains.order.entity.Order;
 import com.awse.commerce.domains.util.embedded.Address;
 import com.awse.commerce.domains.util.enums.MemberRole;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +21,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @Log4j2
+@TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 public class MemberRepositoryTests {
 
     @Autowired
@@ -33,44 +32,41 @@ public class MemberRepositoryTests {
 
     @DisplayName("회원 추가 테스트")
     @Test
-    @Disabled
+    @Order(1)
     public void insertMemberTest() {
-        for(int i = 1; i <= 10; i++) {
 
-            Address address = Address.builder().zipcode("146"+i).extraAddress("시흥시 은계남로 "+i).detailsAddress("904동 10"+i+"호").build();
+        Address address = Address.builder().zipcode("146").extraAddress("시흥시 은계남로 ").detailsAddress("904동 10" +  "호").build();
 
-            Member member = Member.builder()
-                    .email("user"+i+"@aaa.com")
-                    .name("일반회원"+i)
-                    .password(pwEncoder.encode("pw"+i))
-                    .phone("010324533"+i)
-                    .address(address)
-                    .role(MemberRole.USER)
-                    .build();
+        Member member = Member.builder()
+                .email("test1234@aaa.com")
+                .name("일반회원" )
+                .password(pwEncoder.encode("pw"))
+                .phone("010324533")
+                .address(address)
+                .role(MemberRole.USER)
+                .build();
 
-            memberRepository.save(member);
-        }
+        memberRepository.save(member);
 
-        Assertions.assertThat(memberRepository.count()).isEqualTo(11);
+        Assertions.assertThat(memberRepository.findByEmail("test1234@aaa.com").isPresent()).isTrue();
     }
 
     // Member + Address 데이터가 나타난다.
     @DisplayName("전체 사용자 조회")
     @Test
+    @Order(2)
     public void allSelectTest() {
         List<Member> memberList = memberRepository.findAll();
 
-        memberList.stream().forEach(member -> {
-            log.info(member);
-            log.info(member.getAddress());
-        });
+        Assertions.assertThat(memberList.size()).isGreaterThan(0);
     }
 
 
     @DisplayName("이메일로 찾기")
     @Test
+    @Order(3)
     public void findyByEmail() {
-        Optional<Member> list = memberRepository.findByEmail("user1@aaa.com");
+        Optional<Member> list = memberRepository.findByEmail("test1234@aaa.com");
 
         Member member = list.get();
 
@@ -82,25 +78,43 @@ public class MemberRepositoryTests {
     @Test
     @Transactional
     @Commit
+    @Order(4)
     public void modifyMemberData() {
 
         ModifyMemberDto memberDto = ModifyMemberDto.builder()
                 .name("하")
-                .email("dfkdk@naver.com")
+                .email("test1234@aaa.com")
                 .phone("01031943333")
                 .zipcode("19483")
                 .extraAddress("허허허허")
                 .detailsAddress("하하호")
                 .build();
 
-        Long memberId = 5L;
+        Long memberId = memberRepository.findByEmail("test1234@aaa.com").
+                orElseThrow(() -> new MemberBadRequestException()).getId();
 
-        Member member = memberRepository.findById(memberId).get();
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberBadRequestException());
 
         member.updateMemberInfo(memberDto);
 
         memberRepository.save(member);
 
         Assertions.assertThat(member.getName()).isEqualTo(memberDto.getName());
+        Assertions.assertThat(member.getPhone()).isEqualTo(memberDto.getPhone());
+    }
+
+    @DisplayName("회원 삭제")
+    @Test
+    @Commit
+    @Order(5)
+    public void deleteMemberTest() {
+        Member member = memberRepository.findByEmail("test1234@aaa.com").
+                orElseThrow(() -> new MemberBadRequestException());
+
+        Long memberId = member.getId();
+
+        memberRepository.deleteById(memberId);
+
+        Assertions.assertThat(memberRepository.findById(memberId).isPresent()).isFalse();
     }
 }

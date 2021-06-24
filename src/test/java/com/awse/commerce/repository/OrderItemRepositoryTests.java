@@ -15,7 +15,6 @@ import javax.transaction.Transactional;
 
 @SpringBootTest
 @Log4j2
-@Disabled
 public class OrderItemRepositoryTests {
 
     @Autowired
@@ -26,6 +25,7 @@ public class OrderItemRepositoryTests {
     // 로직상 먼저 추가되므로 먼저 진행.
     @DisplayName("주문상품 추가")
     @Test
+    @Disabled
     public void insertOrderItemTest() {
         Item item = Item.builder().itemId(2L).build();
 
@@ -47,6 +47,8 @@ public class OrderItemRepositoryTests {
             log.info(ol);
             log.info(ol.getItem());
         });
+
+        Assertions.assertThat(orderItemRepository.findAll()).isNotNull();
     }
 
     @Transactional
@@ -57,5 +59,7 @@ public class OrderItemRepositoryTests {
             log.info(i);
             log.info(i.getItem());
         });
+
+        Assertions.assertThat(orderItemRepository.findAllJoinFetch()).isNotNull();
     }
 }
