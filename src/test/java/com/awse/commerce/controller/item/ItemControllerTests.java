@@ -20,8 +20,8 @@ public class ItemControllerTests {
     @DisplayName("상품 조회 테스트")
     @Test
     public void findItemWithItemIdTest() throws Exception {
-
-        String itemId = "1";
+        // local - 1 , EC2 - 102
+        String itemId = "102";
 
         mockMvc.perform(MockMvcRequestBuilders.get("/item/" + itemId))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("item"))

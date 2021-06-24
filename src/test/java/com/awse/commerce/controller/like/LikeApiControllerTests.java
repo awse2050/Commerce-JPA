@@ -19,13 +19,16 @@ public class LikeApiControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
+    // local - 1, EC2 - 102
+    private final String itemId = "102";
+
     @DisplayName("찜 추가하기 API 테스트")
     @Test
     @WithMockCustomUser
     @Order(1)
     public void addLikeAPITest() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/like/3")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/like/"+itemId)
         )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
@@ -38,7 +41,7 @@ public class LikeApiControllerTests {
     @Order(2)
     public void cancelLikeAPITest() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/like/3")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/like/"+itemId)
         )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());

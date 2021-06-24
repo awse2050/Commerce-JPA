@@ -48,8 +48,8 @@ public class CartRepositoryTests {
         Cart cart = cartRepository.findByMemberId(1L).get();
          // 상품번호와 주문개수를 받는다.
         List<CheckoutDao> list = new ArrayList<>();
-        list.add(new CheckoutDao(2L, 1));
-        list.add(new CheckoutDao(3L, 1));
+        // local - 1L , EC2 - 102L
+        list.add(new CheckoutDao(102L, 1));
 
          // 해당 객체를 돌려서 itemId로 상품을 찾고
         CheckoutItemListDto itemListDto = new CheckoutItemListDto();

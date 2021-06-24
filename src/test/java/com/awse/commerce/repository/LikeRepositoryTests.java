@@ -30,6 +30,9 @@ public class LikeRepositoryTests {
     @Autowired
     private ItemRepository itemRepository;
 
+    // local - 4L , EC2 - 104L
+    private final Long itemId = 104L;
+
     @DisplayName("좋아요 추가")
     @Test
     @Commit
@@ -39,7 +42,7 @@ public class LikeRepositoryTests {
         // 사용자 하나 찾고
         Member member = memberRepository.findById(3L).get();
         // 아이템 하나 찾고
-        Item item = itemRepository.findById(4L).get();
+        Item item = itemRepository.findById(itemId).get();
         // 추가하기
         Like like = new Like(member,item);
 
@@ -57,7 +60,7 @@ public class LikeRepositoryTests {
         // 사용자 하나 찾고
         Member member = memberRepository.findById(3L).get();
         // 아이템 하나 찾고
-        Item item = itemRepository.findById(4L).get();
+        Item item = itemRepository.findById(itemId).get();
 
         Optional<Like> like = likeRepository.findByMemberAndItem(member, item);
 
@@ -74,7 +77,7 @@ public class LikeRepositoryTests {
         // 사용자 하나 찾고
         Member member = memberRepository.findById(3L).get();
         // 아이템 하나 찾고
-        Item item = itemRepository.findById(4L).get();
+        Item item = itemRepository.findById(itemId).get();
 
         Like like = likeRepository.findByMemberAndItem(member, item).get();
 

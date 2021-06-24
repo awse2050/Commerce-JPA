@@ -26,6 +26,9 @@ public class LikeServiceTests {
 
     private final Long memberId = 1L;
 
+    //local - 3L , EC2 - 103L;
+    private final Long itemId = 103L;
+
     @DisplayName("좋아요 추가성공")
     @Test
     @Commit
@@ -33,7 +36,7 @@ public class LikeServiceTests {
     public void addLikeTests() {
         Member member = memberRepository.findById(memberId).get();
 
-        likeService.addLike(member, 3L);
+        likeService.addLike(member, itemId);
 
     }
 
@@ -44,7 +47,7 @@ public class LikeServiceTests {
     public void cancelLikeTests() {
         Member member = memberRepository.findById(memberId).get();
 
-        likeService.cancelLike(member, 3L);
+        likeService.cancelLike(member, itemId);
     }
 
     @DisplayName("페이징 + 찜 목록 조회 테스트")
@@ -74,7 +77,7 @@ public class LikeServiceTests {
     public void isEnabledLikeTest() {
         Member member = memberRepository.findById(memberId).get();
 
-        boolean isLike = likeService.isEnabledLike(member, 3L);
+        boolean isLike = likeService.isEnabledLike(member, itemId);
 
         Assertions.assertThat(isLike).isTrue();
     }

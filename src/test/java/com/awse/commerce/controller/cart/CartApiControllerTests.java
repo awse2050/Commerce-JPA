@@ -24,13 +24,16 @@ public class CartApiControllerTests {
     @Autowired
     private ObjectMapper objectMapper;
 
+    // local - 1L, EC2 - 102L
+    private final Long itemId = 102L;
+
     @DisplayName("장바구니 담기 유효성 검사 - 결과(성공)")
     @WithMockCustomUser
     @Test
     @Order(1)
     public void validateTestAddToCart2() throws Exception {
 
-        AddRequestItemDao addRequestItemDao = new AddRequestItemDao(1L, 1);
+        AddRequestItemDao addRequestItemDao = new AddRequestItemDao(itemId, 1);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/cart")
                 .contentType("application/json")
@@ -47,8 +50,6 @@ public class CartApiControllerTests {
     @Disabled
     public void removeItemInCartSuccessTest() throws Exception {
 
-        Long itemId = 113L;
-
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/cart/" + itemId)
                 .contentType("application/json")
         )
@@ -64,7 +65,7 @@ public class CartApiControllerTests {
     public void selectRemoveItemTest() throws Exception {
 
         RemoveItemDao dao = new RemoveItemDao();
-        dao.getItemIdList().add(1L);
+        dao.getItemIdList().add(itemId);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/cart")
                 .contentType("application/json")

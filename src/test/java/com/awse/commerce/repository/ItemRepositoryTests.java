@@ -18,6 +18,9 @@ public class ItemRepositoryTests {
     @Autowired
     private ItemRepository itemRepository;
 
+    // local - 1L , EC2 - 102L
+    private final Long itemId = 102L;
+
     @DisplayName("상품 목록 추가")
     @Test
     @Disabled
@@ -42,7 +45,7 @@ public class ItemRepositoryTests {
     @Transactional
     @Test
     public void findTests() {
-        Item item = itemRepository.findById(1L).get();
+        Item item = itemRepository.findById(itemId).get();
         log.info(item);
 
         item.getLikes().forEach(i -> log.info(i));

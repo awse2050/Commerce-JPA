@@ -50,9 +50,9 @@ public class CartServiceTests {
     @Commit
     @Order(1)
     public void addToCartTest1() {
-        cartService.addToCart(memberId, new AddRequestItemDao(2L, 1));
-        cartService.addToCart(memberId, new AddRequestItemDao(3L, 1));
-        cartService.addToCart(memberId, new AddRequestItemDao(4L, 1));
+        cartService.addToCart(memberId, new AddRequestItemDao(102L, 1));
+        cartService.addToCart(memberId, new AddRequestItemDao(103L, 1));
+        cartService.addToCart(memberId, new AddRequestItemDao(104L, 1));
 
         Assertions.assertThat(cartRepository.findByMemberId(memberId).
                 orElseThrow(() -> new CartNotFoundException()).getCartMap().size()).isEqualTo(3);
@@ -64,10 +64,10 @@ public class CartServiceTests {
     @Commit
     @Order(2)
     public void addToCartTest2() {
-        cartService.addToCart(memberId, new AddRequestItemDao(3L, 1));
+        cartService.addToCart(memberId, new AddRequestItemDao(103L, 1));
 
         Assertions.assertThat(cartRepository.findByMemberId(memberId).
-                orElseThrow(() -> new CartNotFoundException()).getCartMap().get(3L).getOrderCount()).isEqualTo(2);
+                orElseThrow(() -> new CartNotFoundException()).getCartMap().get(103L).getOrderCount()).isEqualTo(2);
 
     }
 
@@ -78,10 +78,10 @@ public class CartServiceTests {
     public void modifyItemInCartTest() {
 
 
-        cartService.modifyItemInCart(memberId, new ModifyRequestItemDao(4L, 5));
+        cartService.modifyItemInCart(memberId, new ModifyRequestItemDao(104L, 5));
 
         Assertions.assertThat(cartRepository.findByMemberId(memberId).
-                orElseThrow(() -> new CartNotFoundException()).getCartMap().get(4L).getOrderCount()).isEqualTo(5);
+                orElseThrow(() -> new CartNotFoundException()).getCartMap().get(104L).getOrderCount()).isEqualTo(5);
 
     }
 
@@ -101,7 +101,7 @@ public class CartServiceTests {
     @Order(5)
     public void selectRemoveTest() {
         RemoveItemDao dao = new RemoveItemDao();
-        dao.getItemIdList().add(2L);
+        dao.getItemIdList().add(102L);
 
         cartService.selectRemoveItemsInCart(memberId, dao);
 
