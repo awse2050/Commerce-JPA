@@ -172,9 +172,10 @@
 
 <script th:inline="javascript">
 
-    console.log([[${checkoutItemList}]])
-
     window.onload = function() {
+
+        alert("시험용 alert창 입니다. 테스트결제로 결제시 3시간 이내로 자동환입됩니다.")
+
         const backBtn = document.getElementById("back").addEventListener('click', backRequest);
         const paymentBtn = document.getElementById("payment").addEventListener('click', paymentRequest);
         const paymentPrice = parseInt(document.getElementById("paymentPrice").innerText); // 실제 결제해야 할 금액

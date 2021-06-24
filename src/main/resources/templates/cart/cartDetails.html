@@ -49,7 +49,7 @@
                                                 </div>
                                             </td>
                                             <td style="text-align: center;">
-                                                <h5 name="calTotalCount">[[${cart.calTotalAmount()}]] 원</h5>
+                                                <h5 name="calTotalAmount" style="display: inline;">[[${cart.calTotalAmount()}]]</h5><span> 원</span>
                                             </td>
                                             <td style="text-align: center;">
                                                 <button name="remove" style="border: 1px solid #dddddd;
@@ -81,8 +81,8 @@
                                                 <h5>Subtotal</h5>
                                             </td>
                                             <td>
-                                                <h5 name="totalAmount">
-                                                    <span>[[${cartList.totalAmount}]] 원</span>
+                                                <h5 style="text-align: center;">
+                                                    <span id="totalAmount">[[${cartList.totalAmount}]]</span><span> 원</span>
                                                 </h5>
                                             </td>
                                         </tr>
@@ -156,32 +156,56 @@
         // 선택박스 상태 변경시
         // NOTE : subtotal 값 변경하기
         function checkState() {
-
+            // checkbox
             const allCheckBtn = document.getElementById("allCheck");
             const checkBoxElem = document.getElementsByName("itemCheck");
 
             let checkArray = [];
+            // calTotalAmount
+            let targetTr = this.closest("tr");
+            let totalAmount = parseInt(document.getElementById("totalAmount").innerText);
+            let targetTotalAmount = parseInt(targetTr.querySelector("h5[name='calTotalAmount']").innerText);
 
             checkBoxElem.forEach(elem => {
                 checkArray.push(elem.checked);
             })
-
+            // Update CheckBox
             if(checkArray.includes(false)) {
                 allCheckBtn.checked = false;
             } else {
                 allCheckBtn.checked = true;
             }
+            // Update totalAmount
+            if(this.checked) {
+                calSubTotalAmount(totalAmount, targetTotalAmount);
+            } else {
+                calSubTotalAmount(totalAmount, -targetTotalAmount);
+            }
+        }
+
+        function calSubTotalAmount(totalAmount, targetTotalAmount) {
+            document.getElementById("totalAmount").innerText = totalAmount + targetTotalAmount;
         }
 
         function checkAll(elem) {
+
+            const totalAmountsElem = document.getElementsByName("calTotalAmount");
+            let modifyTotalAmount = 0;
+
+            totalAmountsElem.forEach(amount => {
+                modifyTotalAmount = modifyTotalAmount + parseInt(amount.innerText);
+            })
+
             elem.forEach( box => {
                 box.checked = true;
+                document.getElementById("totalAmount").innerText = modifyTotalAmount;
             })
         }
 
         function nonCheckAll(elem) {
             elem.forEach( box => {
                 box.checked = false;
+                document.getElementById("totalAmount").innerText = 0;
             })
         }
 
@@ -194,10 +218,10 @@
         }
 
         function checkCartList() {
-            let cartCount = [[${cartList.cartTotal}]];
+            let subtotalAmount = parseInt(document.getElementById("totalAmount").innerText);
 
-            if(!cartCount) {
-                alert("주문할 상품이 없습니다.");
+            if(!subtotalAmount) {
+                alert("주문하려는 상품이 없습니다.");
                 return false;
             }
             return true;
