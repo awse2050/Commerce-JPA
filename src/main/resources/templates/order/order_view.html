@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{fragment/fragment :: setBody(~{ :: body})}">
+    <th:block th:fragment="body">
+
+        <main class="site-main" style="padding: 50px 40px;">
+            <section style="display: flex; margin-bottom: 100px;">
+                <th:block th:replace="fragment/mypage-menu :: mypage-menu">
+                </th:block>
+                <div style="float: right; width: 85%;">
+                    <section>
+                        <div style="border-bottom: 3px solid #000000; padding-bottom: 14px; line-height: 1.5; font-size: 14px; position: relative;">
+                            <h2 style="font-size: 24px; display: inline-block; font-weight: normal;">
+                                주문 상세 내역
+                            </h2>
+                            <dl style="overflow: hidden; padding: 12px 0 6px 0;">
+                                <dt style="float:left; font-weight: normal;">주문번호</dt>
+                                <dd style="font-weight: bold; margin:0 30px 0 6px; float:left;">
+                                    437847853354
+                                </dd>
+                                <dt style="float:left; font-weight: normal;">주문일자</dt>
+                                <dd style="font-weight: bold; margin:0 30px 0 6px; float:left;">
+                                    0202.34.34 23:23
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="orderViewTable" style="margin-bottom: 100px;">
+                            <table style="border-top: none; border-bottom: 1px solid #e8e8e8; width: 100%; line-height: 1.5; font-size: 14px; border-collapse: collapse;table-layout: fixed;">
+                                <thead>
+                                <tr>
+                                    <th style="width:30%; text-align: center; border-bottom: 1px solid #e8e8e8; padding: 10px 0px;">상품 정보</th>
+                                    <th style="text-align: center; border-bottom: 1px solid #e8e8e8; padding: 10px 0px;">쿠폰 할인</th>
+                                    <th style="text-align: center; border-bottom: 1px solid #e8e8e8; padding: 10px 0px;">적립금</th>
+                                    <th style="text-align: center; border-bottom: 1px solid #e8e8e8; padding: 10px 0px;">주문 총 금액(수량)</th>
+                                    <th style="text-align: center; border-bottom: 1px solid #e8e8e8; padding: 10px 0px;">주문 상태</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </main>
+    </th:block>
+</th:block>
+
+</body>
+</html>

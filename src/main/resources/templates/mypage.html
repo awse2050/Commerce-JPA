@@ -59,7 +59,9 @@
 
                                             </td>
                                             <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
-                                                <a href="#">[[${order.orderId}]]</a>
+                                                <a th:href="@{/order/order_view/orderId/{orderId}(orderId=${order.orderId})}">
+                                                    [[${order.orderId}]]
+                                                </a>
                                             </td>
                                             <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
                                                 [[${order.totalAmount}]] 원

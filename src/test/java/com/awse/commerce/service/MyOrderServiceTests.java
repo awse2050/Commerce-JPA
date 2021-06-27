@@ -43,4 +43,15 @@ public class MyOrderServiceTests {
 
         Assertions.assertThat(list.getDtoList().size()).isEqualTo(0);
     }
+
+    @DisplayName("주문상세 내역 조회")
+    @Test
+    public void getMyOrderDetailsTest() {
+        MyOrderDetailsDto dto = myOrderService.getMyOrderDetails(2L);
+        log.info(dto);
+        dto.getOrderedItemList().forEach(i -> {
+            log.info(i);
+        });
+
+    }
 }

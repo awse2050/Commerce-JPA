@@ -15,10 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,12 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @PropertySource("classpath:application-pay.properties")
 public class OrderController {
 
-    private final CartService cartService;
-
-    private final MyOrderService myOrderService;
-
     private static CheckoutDaoListDto daoList;
-
+    private final CartService cartService;
+    private final MyOrderService myOrderService;
     @Value("${bootpay.application.id}")
     private String application_id;
 
@@ -41,7 +35,7 @@ public class OrderController {
     public ResponseEntity<String> orderFormPage(@RequestBody CheckoutDaoListDto daoListDto,
                                                 @CurrentUser Member currentMember) {
         // 로그인이 끝났거나 아닐경우
-        if(currentMember == null) {
+        if (currentMember == null) {
             return new ResponseEntity<>("로그인이 필요한 서비스 입니다.", HttpStatus.BAD_REQUEST);
         }
         // 화면에서 주문하려고 선택한 데이터를 받아온다.
@@ -54,7 +48,7 @@ public class OrderController {
 
     // 주문 및 결제 페이지
     @GetMapping("/order/order_form")
-    public String orderFormPage(@CurrentUser Member currentMember ,Model model) {
+    public String orderFormPage(@CurrentUser Member currentMember, Model model) {
         log.warn(daoList);
         // 체크아웃 상품목록
         CheckoutItemListDto checkoutItemList = cartService.getCheckoutItems(currentMember.getId(), daoList);
@@ -80,4 +74,14 @@ public class OrderController {
 
         return "order/order_list";
     }
+
+    @GetMapping("/order/order_view/orderId/{orderId}")
+    public String orderViewPage(@PathVariable Long orderId,
+                                @CurrentUser Member currentMember,
+                                Model model) {
+
+
+        return "order/order_view";
+    }
+
 }
