@@ -1,15 +1,11 @@
 package com.awse.commerce.service;
 
-import com.awse.commerce.domains.order.dto.MyOrderDetailsDto;
-import com.awse.commerce.domains.order.dto.MyOrderDto;
-import com.awse.commerce.domains.order.dto.MyOrderSummaryDto;
-import com.awse.commerce.domains.order.dto.PageResultOrderDto;
+import com.awse.commerce.domains.order.dto.*;
 import com.awse.commerce.domains.order.entity.Order;
 import com.awse.commerce.domains.order.service.MyOrderService;
 import com.awse.commerce.domains.util.pagination.PageRequestDto;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +38,18 @@ public class MyOrderServiceTests {
         PageResultOrderDto<MyOrderDto, Order> list = myOrderService.getMyOrderWithPaging(1L, pageRequestDto, null);
 
         Assertions.assertThat(list.getDtoList().size()).isEqualTo(0);
+    }
+
+    @DisplayName("주문상세 내역 조회")
+    @Test
+    public void getMyOrderDetailsTest() {
+        MyOrderViewDto dto = myOrderService.getMyOrderViewDetails(3L);
+        log.info(dto);
+
+        dto.getViewDtoList().forEach(i -> {
+            log.info(i);
+        });
+
+        Assertions.assertThat(dto.getViewDtoList().size()).isNotEqualTo(0);
     }
 }

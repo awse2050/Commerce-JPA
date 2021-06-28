@@ -65,6 +65,7 @@ public class OrderQueryRepository extends QuerydslRepositorySupport {
                 .from(order)
                 .leftJoin(order.orderer, member).fetchJoin()
                 .leftJoin(order.deliveryInfo, delivery).fetchJoin()
+                .leftJoin(order.orderItemList, orderItem).fetchJoin()
                 .where(order.orderId.eq(orderId))
                 .fetchOne();
 

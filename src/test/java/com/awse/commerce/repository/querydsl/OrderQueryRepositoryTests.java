@@ -41,4 +41,21 @@ public class OrderQueryRepositoryTests {
 
     }
 
+    @DisplayName("주문상세 내역 조회")
+    @Transactional
+    @Test
+    public void getMyOrderDetailsTest() {
+        Optional<Order> optionalOrder = orderQueryRepository.getMyOrderDetails(2L);
+
+        Order order = optionalOrder.get();
+        log.info(order);
+        log.info(order.getOrderStatus());
+        log.info(order.getDeliveryInfo());
+
+        order.getOrderItemList().forEach(i -> {
+            log.info(i.getOrderItemId());
+            log.info(i.getItem());
+        });
+    }
+
 }
