@@ -4,6 +4,7 @@ import com.awse.commerce.domains.cart.dto.CheckoutDaoListDto;
 import com.awse.commerce.domains.cart.dto.CheckoutItemListDto;
 import com.awse.commerce.domains.cart.service.CartService;
 import com.awse.commerce.domains.member.entity.Member;
+import com.awse.commerce.domains.order.dto.MyOrderViewDto;
 import com.awse.commerce.domains.order.service.MyOrderService;
 import com.awse.commerce.domains.util.config.security.CurrentUser;
 import com.awse.commerce.domains.util.pagination.PageRequestDto;
@@ -26,6 +27,7 @@ public class OrderController {
     private static CheckoutDaoListDto daoList;
     private final CartService cartService;
     private final MyOrderService myOrderService;
+
     @Value("${bootpay.application.id}")
     private String application_id;
 
@@ -79,7 +81,11 @@ public class OrderController {
     public String orderViewPage(@PathVariable Long orderId,
                                 @CurrentUser Member currentMember,
                                 Model model) {
+        log.info("orderID : "+orderId);
 
+        MyOrderViewDto myOrderViewDto = myOrderService.getMyOrderViewDetails(orderId);
+
+        model.addAttribute("viewDto", myOrderViewDto);
 
         return "order/order_view";
     }

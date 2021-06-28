@@ -60,5 +60,16 @@ public class OrderController {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+    @DisplayName("주문 상세 내역 조회 테스트")
+    @Test
+    @WithMockCustomUser
+    public void getViewOrderList() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/order/order_view/orderId/3")
+        ).andExpect(MockMvcResultMatchers.model().attributeExists("viewDto"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
 }
 

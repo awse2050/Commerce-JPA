@@ -16,11 +16,11 @@
                             <dl style="overflow: hidden; padding: 12px 0 6px 0;">
                                 <dt style="float:left; font-weight: normal;">주문번호</dt>
                                 <dd style="font-weight: bold; margin:0 30px 0 6px; float:left;">
-                                    437847853354
+                                    [[${viewDto.orderId}]]
                                 </dd>
                                 <dt style="float:left; font-weight: normal;">주문일자</dt>
-                                <dd style="font-weight: bold; margin:0 30px 0 6px; float:left;">
-                                    0202.34.34 23:23
+                                <dd th:text="${#temporals.format(viewDto.orderedDate, 'yyyy-MM-dd HH:mm:ss')}" style="font-weight: bold; margin:0 30px 0 6px; float:left;">
+
                                 </dd>
                             </dl>
                         </div>
@@ -36,12 +36,128 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                    <th:block th:each="detail : ${viewDto.viewDtoList}">
+                                        <tr>
+                                            <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
+                                                <div style="margin: 10px 0px; display: table; table-layout: fixed; width: 100%; min-height: 96px; line-height: 1.5; font-size: 14px; text-align: left; position: relative;">
+                                                    <a th:href="@{/item/{itemId}(itemId=${detail.itemId})}" style="display: table-cell; width: 50%; vertical-align: middle;">
+                                                        <img th:src="${detail.itemImg}" style="max-width: 100px;">
+                                                    </a>
+                                                    <ul style="width: 50%; display: table-cell; padding-left: 10px; vertical-align: middle;">
+                                                        <!-- <li style="font-weight: 300; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 14px; line-height: 22px;">-->
+                                                        <!-- <a href="#">브랜드이름</a>-->
+                                                        <!-- </li>-->
+                                                        <li style="max-height: 44px; font-weight: bold; overflow: hidden; font-size: 14px; line-height: 22px;">
+                                                            <a th:href="@{/item/{itemId}(itemId=${detail.itemId})}">
+                                                                [[${detail.itemName}]]
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                            <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
+                                                -0원
+                                            </td>
+                                            <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
+                                                0원
+                                            </td>
+                                            <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
+                                                [[${detail.itemTotalAmount}]] 원
+                                                <br>
+                                                <span style="vertical-align: middle; color: #777777;">
+                                                    [[${detail.orderCount}]] 개
+                                                </span>
+                                            </td>
+                                            <td style="height: 70px; padding: 10px; box-sizing: border-box; border-bottom: 1px solid #f5f5f5; text-align: center; vertical-align: middle; word-break: break-all;">
+                                                [[${detail.orderStatus}]]
+                                            </td>
+                                        </tr>
+                                    </th:block>
 
                                 </tbody>
                             </table>
 
                         </div>
                     </section>
+                    <!--배송지 정보-->
+                    <section>
+                        <div style="color: #000000; font-size: 18px; margin-top: 80px; padding-bottom: 10px; border-bottom: 1px solid #000000">
+                            배송지 정보
+                        </div>
+                        <table style="width: 100%; line-height: 1.5; font-size: 14px; border-collapse: collapse; table-layout: fixed;">
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #e8e8e8;">
+                                    <th style="border-top: none; text-align: left; font-weight: normal; width: 20%;">
+                                        이름
+                                    </th>
+                                    <td style="border-top: none; word-break: break-all; vertical-align: middle; height: auto; padding: 15px 0; box-sizing: border-box; border-bottom: none; font-size: 14px; text-align: left;">
+                                        [[${viewDto.orderer}]]
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #e8e8e8;">
+                                    <th style="border-top: none; text-align: left; font-weight: normal; width: 20%;">
+                                        연락처
+                                    </th>
+                                    <td style="border-top: none; word-break: break-all; vertical-align: middle; height: auto; padding: 15px 0; box-sizing: border-box; border-bottom: none; font-size: 14px; text-align: left;">
+                                        [[${viewDto.phone}]]
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #e8e8e8;">
+                                    <th style="border-top: none; text-align: left; font-weight: normal; width: 20%;">
+                                        배송지 주소
+                                    </th>
+                                    <td style="border-top: none; word-break: break-all; vertical-align: middle; height: auto; padding: 15px 0; box-sizing: border-box; border-bottom: none; font-size: 14px; text-align: left;">
+                                        [[${viewDto.deliveryAddress}]]
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <!-- 최종결제 정보-->
+                    <section>
+                        <div style="color: #000000; font-size: 18px; margin-top: 80px; padding-bottom: 10px; border-bottom: 1px solid #000000">
+                            최종결제 정보
+                        </div>
+                        <table style="width: 100%; line-height: 1.5; font-size: 14px; border-collapse: collapse; table-layout: fixed;">
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #e8e8e8;">
+                                    <th style="border-top: none; text-align: left; font-weight: normal; width: 20%;">
+                                        상품합계
+                                    </th>
+                                    <td style="border-top: none; word-break: break-all; vertical-align: middle; height: auto; padding: 15px 0; box-sizing: border-box; border-bottom: none; font-size: 14px; text-align: left;">
+                                        [[${viewDto.totalAmount}]] 원
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #e8e8e8;">
+                                    <th style="border-top: none; text-align: left; font-weight: normal; width: 20%;">
+                                        할인 합계
+                                    </th>
+                                    <td style="border-top: none; word-break: break-all; vertical-align: middle; height: auto; padding: 15px 0; box-sizing: border-box; border-bottom: none; font-size: 14px; text-align: left;">
+                                        0원
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #e8e8e8;">
+                                    <th style="border-top: none; text-align: left; font-weight: normal; width: 20%;">
+                                        적립금
+                                    </th>
+                                    <td style="border-top: none; word-break: break-all; vertical-align: middle; height: auto; padding: 15px 0; box-sizing: border-box; border-bottom: none; font-size: 14px; text-align: left;">
+                                        0원
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #e8e8e8;">
+                                    <th style="border-top: none; text-align: left; font-weight: normal; width: 20%;">
+                                        최종 결제 금액
+                                    </th>
+                                    <td style="border-top: none; word-break: break-all; vertical-align: middle; height: auto; padding: 15px 0; box-sizing: border-box; border-bottom: none; font-size: 14px; text-align: left;">
+                                        <strong style="font-size: 20px; font-weight: normal; vertical-align: middle;">
+                                            [[${viewDto.totalAmount}]] 원
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
                 </div>
             </section>
         </main>

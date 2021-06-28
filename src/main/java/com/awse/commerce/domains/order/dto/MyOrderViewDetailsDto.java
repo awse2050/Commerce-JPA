@@ -41,7 +41,7 @@ public class MyOrderViewDetailsDto {
             return MyOrderViewDetailsDto.builder()
                     .itemId(item.getItemId())
                     .itemName(item.getName())
-                    .itemTotalAmount(item.getMoney() * orderItem.getOrderCount())
+                    .itemTotalAmount(orderItem.getOrderItemAmount())
                     .itemImg(item.getImgPath())
                     .orderCount(orderItem.getOrderCount())
                     .orderStatus(entity.getOrderStatus().name())
