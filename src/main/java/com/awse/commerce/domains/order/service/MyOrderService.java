@@ -26,7 +26,7 @@ public class MyOrderService {
     // 마이페이지에서 보여줄 목록
     public MyOrderSummaryDto getMyOrderList(Long memberId, Pageable pageable) {
         // 사용자를 검색한다.
-        Page<Order> orderList = orderQueryRepository.getMyOrders(memberId, pageable ,null);
+        Page<Order> orderList = orderQueryRepository.getMyOrders(memberId, pageable, null);
 
         List<MyOrderDto> myOrderDtoList = MyOrderDto.from(orderList);
 
@@ -49,23 +49,28 @@ public class MyOrderService {
     }
 
     // 나의 특정 주문의 정보. ( 현재 미사용 )
-    public MyOrderDetailsDto getMyOrderDetails(Long orderId) {
+    public MyOrderViewDto getMyOrderViewDetails(Long orderId) {
         // 주문찾기
-        Order entity = orderQueryRepository.getMyOrderDetails(orderId)
+        Order order = orderQueryRepository.getMyOrderDetails(orderId)
                 .orElseThrow(() -> new OrderBadRequestException("존재하지 않는 주문번호입니다."));
+
+//        List<MyOrderViewDetailsDto> viewDtoList = MyOrderViewDetailsDto.from(order);
+
+        MyOrderViewDto myOrderViewDto = new MyOrderViewDto(order);
+
         // 주문상품에 존재하는 상품목록 만들기
-        List<MyOrderDetailsItemDto> myOrderDetailsItemDtoList =
-                MyOrderDetailsItemDto.from(entity.getOrderItemList());
+//        List<MyOrderDetailsItemDto> myOrderDetailsItemDtoList =
+//                MyOrderDetailsItemDto.from(entity.getOrderItemList());
+//
+//        // 변환할 주문에대한 정보 전달하기.
+//        // 주문번호, 주문상태, 주문날짜, 주문 상품의 목록들
+//        MyOrderDetailsDto myOrderDetailsDto = MyOrderDetailsDto.builder()
+//                .orderId(entity.getOrderId())
+//                .orderStatus(entity.getOrderStatus().name())
+//                .orderedItemList(myOrderDetailsItemDtoList)
+//                .regdate(entity.getRegDate())
+//                .build();
 
-        // 변환할 주문에대한 정보 전달하기.
-        // 주문번호, 주문상태, 주문날짜, 주문 상품의 목록들
-        MyOrderDetailsDto myOrderDetailsDto = MyOrderDetailsDto.builder()
-                .orderId(entity.getOrderId())
-                .orderStatus(entity.getOrderStatus().name())
-                .orderedItemList(myOrderDetailsItemDtoList)
-                .regdate(entity.getRegDate())
-                .build();
-
-        return myOrderDetailsDto;
+        return myOrderViewDto;
     }
 }

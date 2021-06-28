@@ -35,4 +35,11 @@ public class Delivery extends BaseEntity {
     public void changeDeliveryStatus(DeliveryStatus deliveryStatus) {
         this.deliveryStatus = deliveryStatus;
     }
+
+    // 주문상세 내역용 배송지
+    public String getDeliveryAddress() {
+        return this.address.getZipcode() + " "
+                + this.address.getExtraAddress() + " "
+                + this.address.getDetailsAddress();
+    }
 }
