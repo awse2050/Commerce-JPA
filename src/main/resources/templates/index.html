@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:replace="~{fragment/fragment :: setBody(~{ :: body})}">
     <th:block th:fragment="body">
@@ -10,7 +9,19 @@
         <section class="section-margin calc-60px">
             <div class="container">
                 <div class="section-intro pb-60px">
-                    <p>Popular Item in the market</p>
+                    <div style="float: right; height: 25px;">
+                        <form action="/index">
+                            <input type="text" name="keyword" style="width: 150px; height: 25px;">
+                            <input type="hidden" name="page" th:value="${pageResult.page}">
+                            <input type="hidden" name="size" th:value="${pageResult.size}">
+                            <span>
+                                <button type="submit" style="border: none; background-color: #000;">
+                                    <i class="fas fa-search" style="color: #FFFFFF;"></i>
+                                </button>
+                            </span>
+                        </form>
+                    </div>
+                    <p style="padding-bottom: 7px;">Popular Item in the market</p>
                     <h2>판매 중인
                         <span class="section-intro__style">상품</span>
 
