@@ -1,4 +1,4 @@
-# Commerce-JPA (진행중)
+# Commerce-JPA 
 
 > Spring Boot 및 연관관계 매핑 연습을 위한 프로젝트
 
